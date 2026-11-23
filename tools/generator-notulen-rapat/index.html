@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generator Notulen Rapat Gratis — Tamatech</title>
+<meta name="description" content="Tulis notulen rapat rapi dalam format Markdown — judul, peserta, pembahasan, keputusan, dan action items. Gratis, tanpa daftar.">
+<meta property="og:title" content="Generator Notulen Rapat Gratis — Tamatech">
+<meta property="og:description" content="Tulis notulen rapat rapi dalam format Markdown — judul, peserta, pembahasan, keputusan, dan action items. Gratis, tanpa daftar.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://tamatech.id/tools/generator-notulen-rapat">
+<link rel="stylesheet" href="../../assets/tools.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Apakah notulen yang saya tulis disimpan di server?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tidak. Semua yang kamu ketik hanya diproses di browsermu dan tidak dikirim atau disimpan di mana pun. Tutup halaman, datanya hilang."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Kenapa notulennya berbentuk Markdown?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Supaya gampang disalin ke mana saja — Notion, Google Docs, GitHub, atau grup chat tim — dan tetap rapi tanpa perlu format ulang."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Bagaimana cara membagikan notulen ke tim?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tekan tombol Salin Notulen, lalu tempel di grup chat atau email. Atau unduh file .md-nya dan lampirkan ke email atau arsip rapatmu."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Berapa banyak action item yang bisa ditambahkan?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sampai 10 baris per rapat. Tiap baris berisi tugas, PIC, dan deadline — cukup untuk satu rapat biasa; kalau lebih, buat notulen lanjutannya."
+      }
+    }
+  ]
+}
+</script>
+<style>
+.nt-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin:40px 0;align-items:start}
+.nt-grid>*{min-width:0}
+@media(max-width:900px){.nt-grid{grid-template-columns:1fr}}
+.nt-card{border:1px solid var(--line);border-radius:20px;padding:28px;background:var(--gray);min-width:0}
+.nt-card h3{font-size:20px;margin:26px 0 12px}
+.nt-card h3:first-child{margin-top:0}
+.nt-card p.nt-hint{color:var(--mut);font-size:14px;margin:0 0 20px}
+.nt-card label{display:block;font-weight:600;font-size:14px;margin:0 0 6px}
+.nt-card input[type=text],.nt-card input[type=date],.nt-card textarea{width:100%;min-width:0;border:1px solid var(--line);border-radius:12px;padding:13px 15px;font-family:var(--body);font-size:15.5px;color:#0B2A4A;background:#fff;margin-bottom:14px;box-sizing:border-box}
+.nt-card input:focus,.nt-card textarea:focus{outline:2px solid var(--acc);outline-offset:1px}
+.nt-card textarea{min-height:84px;resize:vertical}
+.nt-frow{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.nt-frow>*{min-width:0}
+.nt-ai-row{display:grid;grid-template-columns:1fr 140px 170px 36px;gap:8px;align-items:start;margin-bottom:8px}
+.nt-ai-row>*{min-width:0}
+.nt-ai-row input{margin-bottom:0}
+.nt-ai-del{border:1px solid var(--line);background:#fff;border-radius:10px;width:36px;height:44px;cursor:pointer;font-size:16px;color:var(--mut)}
+.nt-ai-del:hover{border-color:#d33;color:#d33}
+.nt-add{border:1px dashed var(--acc);background:none;color:var(--acc);border-radius:12px;padding:11px 16px;font-size:14px;font-weight:600;cursor:pointer;width:100%}
+.nt-add:hover{background:var(--acc-soft)}
+.nt-right{position:sticky;top:96px;min-width:0}
+@media(max-width:900px){.nt-right{position:static}}
+.nt-doc{background:#fff;color:#0B2A4A;border:1px solid var(--line);border-radius:6px;box-shadow:0 10px 34px rgba(11,42,91,.12);padding:32px;min-width:0}
+.nt-doc pre{white-space:pre-wrap;overflow-wrap:break-word;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14.5px;line-height:1.7;color:#0B2A4A;margin:0}
+.nt-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.nt-actions .btn,.nt-actions .btn-o{justify-content:center}
+.nt-faq{margin:8px 0 0}
+.nt-faq details{border-bottom:1px solid var(--line);padding:16px 0}
+.nt-faq summary{cursor:pointer;font-weight:600;font-size:17px}
+.nt-faq p{color:var(--mut);margin:10px 0 0}
+@media(max-width:560px){
+  .nt-frow{grid-template-columns:1fr}
+  .nt-ai-row{grid-template-columns:1fr}
+  .nt-ai-del{width:100%}
+  .nt-card{padding:22px 18px}
+  .nt-doc{padding:24px 16px}
+  .nt-actions{flex-direction:column}
+  .nt-actions>*{width:100%;text-align:center}
+}
+</style>
+</head>
+<body>
+<header class="static-head">
+  <div class="static-wrap">
+    <a class="static-logo" href="https://tamatech.id">tama<i>tech</i><sup>&reg;</sup></a>
+    <nav>
+      <a href="https://tamatech.id/">Beranda</a>
+      <a href="https://tamatech.id/tools">Tools Gratis</a>
+      <a href="https://tamatech.id/portfolio">Portofolio</a>
+      <a href="https://tamatech.id/insights">Insights</a>
+      <a href="https://tamatech.id/contact">Kontak</a>
+    </nav>
+  </div>
+</header>
+<main class="static-wrap">
+<!-- PAGE HERO -->
+<section class="p-hero">
+  <div class="wrap">
+    <div class="kick" style="margin-top:22px"><b>( &#10022; )</b> Tools Tamatech</div>
+    <h1>Generator Notulen Rapat</h1>
+    <div class="orb"><svg viewBox="0 0 100 100"><defs><path id="cir" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0"/></defs><text><textPath href="#cir" textLength="236">DESIGN &bull; CODE &bull; DEVELOP &bull; MAINTAIN &bull;</textPath></text></svg><span class="orb-c"><i>&darr;</i></span></div>
+    <p class="intro">Ubah catatan rapat yang berantakan jadi notulen Markdown yang rapi — lengkap dengan keputusan dan action items. Gratis, tanpa daftar, datamu tidak keluar dari browser.</p>
+  </div>
+</section>
+
+<!-- TOOL -->
+<section class="sec" style="padding-top:64px">
+  <div class="wrap">
+    <div class="nt-grid">
+      <div class="nt-card">
+        <h3>Rapatmu</h3>
+        <p class="nt-hint">Isi yang kamu ingat dari rapatnya — pratinjau di sebelah kanan berubah langsung saat kamu mengetik.</p>
+        <label for="ntJudul">Judul rapat</label>
+        <input type="text" id="ntJudul" value="Rapat Mingguan Tim Tamatech" placeholder="cth: Rapat Mingguan Tim Tamatech" autocomplete="off">
+        <label for="ntTanggal">Tanggal rapat</label>
+        <input type="date" id="ntTanggal">
+        <label for="ntPeserta">Peserta (satu nama per baris)</label>
+        <textarea id="ntPeserta">Dicky
+Sinta
+Budi</textarea>
+        <label for="ntPembahasan">Poin pembahasan (satu poin per baris)</label>
+        <textarea id="ntPembahasan">Evaluasi progres website Tamatech
+Rencana konten minggu ini
+Kendala deploy AI-TEAMS</textarea>
+        <label for="ntKeputusan">Keputusan (satu keputusan per baris)</label>
+        <textarea id="ntKeputusan">Konten minggu ini: 5 artikel, berita ditulis H-1
+Deploy AI-TEAMS dijadwalkan ulang ke Rabu</textarea>
+        <h3>Action items</h3>
+        <div id="ntActions"></div>
+        <button class="nt-add" type="button" id="ntTambah">+ Tambah action item</button>
+      </div>
+
+      <div class="nt-right">
+        <div class="nt-doc"><pre id="ntPreview">Isi judul dan poin rapat dulu</pre></div>
+        <div class="nt-actions">
+          <button class="btn" type="button" id="ntSalin">Salin Notulen <span class="arr">→</span></button>
+          <button class="btn-o" type="button" id="ntUnduh">Unduh .md</button>
+        </div>
+        <p style="color:var(--mut);font-size:14px;margin-top:14px">Semua ketikanmu hanya diproses di browser — tidak ada data yang dikirim atau disimpan di mana pun.</p>
+      </div>
+    </div>
+
+    <div class="sec-head" style="margin-top:20px">
+      <h2>Notulen rapi, tindak lanjut jelas</h2>
+      <p>Rapat yang bagus bukan yang lama, tapi yang jelas tindak lanjutnya. Notulen yang rapi mencatat tiga hal: apa yang dibahas, apa yang diputuskan, dan siapa mengerjakan apa sebelum kapan. Tulis selagi masih ingat — begitu rapat selesai, detailnya cepat menguap. Salin notulennya ke grup tim begitu selesai, supaya tidak ada yang lupa janjinya.</p>
+    </div>
+
+    <div class="sec-head" style="margin-top:60px">
+      <h2>Pertanyaan yang sering ditanya</h2>
+    </div>
+    <div class="nt-faq">
+      <details><summary>Apakah notulen yang saya tulis disimpan di server?</summary><p>Tidak. Semua yang kamu ketik hanya diproses di browsermu dan tidak dikirim atau disimpan di mana pun. Tutup halaman, datanya hilang.</p></details>
+      <details><summary>Kenapa notulennya berbentuk Markdown?</summary><p>Supaya gampang disalin ke mana saja — Notion, Google Docs, GitHub, atau grup chat tim — dan tetap rapi tanpa perlu format ulang.</p></details>
+      <details><summary>Bagaimana cara membagikan notulen ke tim?</summary><p>Tekan tombol “Salin Notulen”, lalu tempel di grup chat atau email. Atau unduh file .md-nya dan lampirkan ke email atau arsip rapatmu.</p></details>
+      <details><summary>Berapa banyak action item yang bisa ditambahkan?</summary><p>Sampai 10 baris per rapat. Tiap baris berisi tugas, PIC, dan deadline — cukup untuk satu rapat biasa; kalau lebih, buat notulen lanjutannya.</p></details>
+    </div>
+
+    <p style="color:var(--mut);margin-top:40px">Notulen ini dibuat langsung di browser — bukan dokumen resmi Tamatech. Butuh sistem rapat yang terhubung ke tugas dan tim? <a href="https://tamatech.id/services/custom-it-solutions">Lihat layanan Custom IT →</a></p>
+  </div>
+</section>
+
+
+
+<script>
+(function(){
+  function splitLines(s){
+    return String(s == null ? '' : s).split('\n').map(function(x){ return x.trim(); }).filter(function(x){ return x !== ''; });
+  }
+  function fmtTanggalID(dateStr){
+    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(dateStr == null ? '' : dateStr).trim());
+    if (!m) return '—';
+    var bln = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+    var y = parseInt(m[1], 10), mo = parseInt(m[2], 10), d = parseInt(m[3], 10);
+    if (mo < 1 || mo > 12 || d < 1 || d > 31) return '—';
+    return d + ' ' + bln[mo - 1] + ' ' + y;
+  }
+  function slugFileName(title, dateStr){
+    var t = String(title == null ? '' : title).trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+    var d = /^\d{4}-\d{2}-\d{2}$/.test(String(dateStr == null ? '' : dateStr).trim()) ? String(dateStr).trim() : '';
+    return 'notulen' + (t ? '-' + t : '-rapat') + (d ? '-' + d : '') + '.md';
+  }
+  function buildMinutes(data){
+    data = data || {};
+    var title = String(data.title == null ? '' : data.title).trim();
+    var peserta = data.peserta || [];
+    var pembahasan = data.pembahasan || [];
+    var keputusan = data.keputusan || [];
+    var actions = (data.actions || []).filter(function(a){ return String(a.tugas == null ? '' : a.tugas).trim() !== ''; });
+    if (!title && !peserta.length && !pembahasan.length && !keputusan.length && !actions.length){
+      return 'Isi judul dan poin rapat dulu';
+    }
+    var lines = [];
+    lines.push('# ' + (title || 'Notulen Rapat'));
+    lines.push('');
+    lines.push('**Tanggal:** ' + fmtTanggalID(data.date));
+    if (peserta.length){
+      lines.push('');
+      lines.push('## Peserta');
+      peserta.forEach(function(p){ lines.push('- ' + p); });
+    }
+    if (pembahasan.length){
+      lines.push('');
+      lines.push('## Pembahasan');
+      pembahasan.forEach(function(p){ lines.push('- ' + p); });
+    }
+    if (keputusan.length){
+      lines.push('');
+      lines.push('## Keputusan');
+      keputusan.forEach(function(k){ lines.push('- ' + k); });
+    }
+    if (actions.length){
+      lines.push('');
+      lines.push('## Action Items');
+      actions.forEach(function(a){
+        var t = String(a.tugas == null ? '' : a.tugas).trim();
+        var pic = String(a.pic == null ? '' : a.pic).trim();
+        var dl = fmtTanggalID(a.deadline);
+        var s = '- [ ] ' + t;
+        if (pic) s += ' — ' + pic;
+        if (dl !== '—') s += ' (deadline: ' + dl + ')';
+        lines.push(s);
+      });
+    }
+    return lines.join('\n');
+  }
+  /* ---- Wiring DOM (di bawah ini butuh document) ---- */
+  function $(id){ return document.getElementById(id); }
+  function todayStr(){ var d = new Date(); return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
+  function shiftDate(days){ var d = new Date(); d.setDate(d.getDate() + days); return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
+  var DEFAULT_ACTIONS = [
+    {tugas: 'Siapkan draf 5 artikel', pic: 'Dicky', deadline: shiftDate(1)},
+    {tugas: 'Perbaiki bug Riwayat 403', pic: 'Sinta', deadline: shiftDate(2)}
+  ];
+  function addActionRow(a){
+    var wrap = $('ntActions');
+    if (wrap.children.length >= 10) return;
+    var row = document.createElement('div');
+    row.className = 'nt-ai-row';
+    row.innerHTML = '<input type="text" class="nt-ai-tugas" placeholder="Tugas" aria-label="Tugas" autocomplete="off">'
+      + '<input type="text" class="nt-ai-pic" placeholder="PIC" aria-label="PIC" autocomplete="off">'
+      + '<input type="date" class="nt-ai-deadline" aria-label="Deadline">'
+      + '<button type="button" class="nt-ai-del" aria-label="Hapus baris">×</button>';
+    if (a){
+      row.querySelector('.nt-ai-tugas').value = a.tugas || '';
+      row.querySelector('.nt-ai-pic').value = a.pic || '';
+      if (a.deadline) row.querySelector('.nt-ai-deadline').value = a.deadline;
+    }
+    row.querySelector('.nt-ai-del').addEventListener('click', function(){ if (wrap.children.length > 1) { row.remove(); update(); } });
+    row.querySelectorAll('input').forEach(function(el){
+      el.addEventListener('input', update);
+      el.addEventListener('change', update);
+    });
+    wrap.appendChild(row);
+  }
+  function readData(){
+    var actions = [];
+    document.querySelectorAll('#ntActions .nt-ai-row').forEach(function(row){
+      actions.push({
+        tugas: row.querySelector('.nt-ai-tugas').value,
+        pic: row.querySelector('.nt-ai-pic').value,
+        deadline: row.querySelector('.nt-ai-deadline').value
+      });
+    });
+    return {
+      title: $('ntJudul').value,
+      date: $('ntTanggal').value,
+      peserta: splitLines($('ntPeserta').value),
+      pembahasan: splitLines($('ntPembahasan').value),
+      keputusan: splitLines($('ntKeputusan').value),
+      actions: actions
+    };
+  }
+  function update(){
+    $('ntPreview').textContent = buildMinutes(readData());
+  }
+  ['ntJudul','ntTanggal','ntPeserta','ntPembahasan','ntKeputusan'].forEach(function(id){
+    $(id).addEventListener('input', update);
+    $(id).addEventListener('change', update);
+  });
+  $('ntTambah').addEventListener('click', function(){ addActionRow(null); update(); });
+  $('ntSalin').addEventListener('click', function(){
+    var txt = $('ntPreview').textContent;
+    var done = function(){ var b = $('ntSalin'); var old = 'Salin Notulen '; b.textContent = 'Disalin!'; setTimeout(function(){ b.innerHTML = old + '<span class="arr">→</span>'; }, 1800); };
+    if (navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(done, function(){ fallbackCopy(txt); done(); }); }
+    else { fallbackCopy(txt); done(); }
+  });
+  function fallbackCopy(txt){
+    var ta = document.createElement('textarea');
+    ta.value = txt;
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch(e){}
+    ta.remove();
+  }
+  $('ntUnduh').addEventListener('click', function(){
+    var data = readData();
+    var blob = new Blob([buildMinutes(data)], {type: 'text/markdown;charset=utf-8'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = slugFileName(data.title, data.date);
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 100);
+  });
+  if (!$('ntTanggal').value) $('ntTanggal').value = todayStr();
+  DEFAULT_ACTIONS.forEach(function(a){ addActionRow(a); });
+  update();
+})();
+</script>
+</main>
+<section class="static-cta">
+  <div class="static-wrap">
+    <div class="kick" style="margin-bottom:28px"><b>( 05 )</b> Mulai Proyek</div>
+    <h2>Punya ide?<br><span class="out">Ayo kita bangun.</span></h2>
+    <p>Ceritakan ke mana bisnismu ingin melangkah. Kami akan menganalisis, mengidentifikasi, dan meracik pengalaman digital yang membawamu ke sana.</p>
+    <a class="btn acc" href="https://tamatech.id/contact">Rasakan Pengalaman Digital Terbaik <span class="arr">&rarr;</span></a>
+  </div>
+</section>
+<footer class="static-foot">
+  <div class="static-wrap">
+    <span>&copy; 2026 Tama Technology (Tamatech) &mdash; Tools Bisnis Gratis.</span>
+    <span><a href="https://tamatech.id/tools">Semua tools</a> &middot; <a href="https://tamatech.id">tamatech.id</a></span>
+  </div>
+</footer>
+</body>
+</html>

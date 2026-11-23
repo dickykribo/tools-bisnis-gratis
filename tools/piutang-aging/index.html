@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalkulator Piutang & Aging — Tamatech</title>
+<meta name="description" content="Hitung umur piutang usahamu: mana yang belum jatuh tempo dan mana yang telat 30, 60, sampai 90 hari lebih. Gratis, tanpa daftar.">
+<meta property="og:title" content="Kalkulator Piutang & Aging — Tamatech">
+<meta property="og:description" content="Hitung umur piutang usahamu: mana yang belum jatuh tempo dan mana yang telat 30, 60, sampai 90 hari lebih. Gratis, tanpa daftar.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://tamatech.id/tools/piutang-aging">
+<link rel="stylesheet" href="../../assets/tools.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Apa itu aging piutang?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Pengelompokan piutang berdasarkan sudah berapa lama telat dibayar: belum jatuh tempo, telat 1–30 hari, 31–60 hari, 61–90 hari, dan lebih dari 90 hari. Makin tua kelompoknya, makin besar risikonya — jadi kamu tahu mana yang harus dikejar duluan."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Piutang telat berapa hari yang perlu dikejar duluan?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yang telat lebih dari 90 hari dulu — itu yang paling rawan tidak tertagih. Sesudah itu turun ke 61–90 hari, lalu 31–60 hari. Piutang yang baru telat 1–30 hari biasanya cukup diingatkan lewat pesan sopan."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Kenapa piutang lama susah ditagih?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Karena makin lama menunggak, makin kecil peluang pelanggan masih punya uang atau niat bayar — apalagi kalau usahanya sudah tutup atau kontaknya hilang. Itu sebabnya piutang telat di atas 90 hari sering dicadangkan sebagai kerugian di pembukuan."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah kalkulator ini menyimpan dataku?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tidak. Semua hitungan jalan di browser kamu sendiri — nama pelanggan dan jumlah piutang tidak dikirim ke mana pun."
+      }
+    }
+  ]
+}
+</script>
+<style>
+.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin:40px 0}
+@media(max-width:820px){.calc-grid{grid-template-columns:1fr}}
+.calc-card{border:1px solid var(--line);border-radius:20px;padding:28px;background:var(--gray);min-width:0}
+.calc-card h3{font-size:20px;margin:0 0 6px}
+.calc-card p.hint{color:var(--mut);font-size:14px;margin:0 0 20px}
+.calc-card label{display:block;font-weight:600;font-size:14px;margin:0 0 6px}
+.calc-card input,.calc-card select{width:100%;min-width:0;border:1px solid var(--line);border-radius:12px;padding:13px 15px;font-family:var(--body);font-size:15.5px;color:#0B2A4A;background:#fff;margin-bottom:14px;box-sizing:border-box}
+.calc-card input:focus,.calc-card select:focus{outline:2px solid var(--acc);outline-offset:1px}
+.calc-result{border:1px solid var(--line);border-radius:20px;padding:32px;background:var(--navy);color:#fff;min-width:0}
+.calc-result .lbl{font-size:12px;letter-spacing:.2em;text-transform:uppercase;opacity:.7}
+.calc-result .range{font-family:var(--disp);font-size:clamp(34px,4vw,52px);font-weight:600;line-height:1.05;margin:10px 0 6px}
+.calc-result .note{opacity:.85;font-size:15px}
+.calc-result .src{opacity:.6;font-size:13px;margin-top:18px}
+.calc-table{width:100%;border-collapse:collapse;margin:8px 0 0}
+.calc-table th,.calc-table td{border-bottom:1px solid var(--line);padding:12px 8px;text-align:left;font-size:15px}
+.calc-table th{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.calc-table td:last-child,.calc-table th:last-child{text-align:right;white-space:nowrap}
+.calc-table tr.tot td{font-weight:700}
+.calc-faq{margin:8px 0 0}
+.calc-faq details{border-bottom:1px solid var(--line);padding:16px 0}
+.calc-faq summary{cursor:pointer;font-weight:600;font-size:17px}
+.calc-faq p{color:var(--mut);margin:10px 0 0}
+.ag-row{display:grid;grid-template-columns:1.3fr 1fr 1fr 40px;gap:10px;align-items:start;margin-bottom:12px}
+.ag-row>*{min-width:0}
+.ag-row input{margin-bottom:0}
+.ag-del{width:40px;height:48px;border:1px solid var(--line);border-radius:12px;background:#fff;color:#0B2A4A;font-size:20px;line-height:1;cursor:pointer}
+.ag-del:hover{border-color:#c0392b;color:#c0392b}
+.ag-add{width:100%;border:1px dashed var(--line);border-radius:12px;padding:13px 15px;background:transparent;font-family:var(--body);font-size:15px;font-weight:600;color:#0B2A4A;cursor:pointer}
+.ag-add:disabled{opacity:.45;cursor:default}
+.ag-max{color:var(--mut);font-size:13px;margin:8px 0 0}
+@media(max-width:560px){
+  .calc-card{padding:20px}
+  .calc-result{padding:24px}
+  .ag-row{grid-template-columns:1fr}
+  .ag-del{width:100%}
+  .ag-add{width:100%}
+}
+</style>
+</head>
+<body>
+<header class="static-head">
+  <div class="static-wrap">
+    <a class="static-logo" href="https://tamatech.id">tama<i>tech</i><sup>&reg;</sup></a>
+    <nav>
+      <a href="https://tamatech.id/">Beranda</a>
+      <a href="https://tamatech.id/tools">Tools Gratis</a>
+      <a href="https://tamatech.id/portfolio">Portofolio</a>
+      <a href="https://tamatech.id/insights">Insights</a>
+      <a href="https://tamatech.id/contact">Kontak</a>
+    </nav>
+  </div>
+</header>
+<main class="static-wrap">
+<!-- PAGE HERO -->
+<section class="p-hero">
+  <div class="wrap">
+    <div class="kick" style="margin-top:22px"><b>( &#10022; )</b> Tools Tamatech</div>
+    <h1>Kalkulator Piutang &amp; Aging</h1>
+    <div class="orb"><svg viewBox="0 0 100 100"><defs><path id="cir" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0"/></defs><text><textPath href="#cir" textLength="236">DESIGN &bull; CODE &bull; DEVELOP &bull; MAINTAIN &bull;</textPath></text></svg><span class="orb-c"><i>&darr;</i></span></div>
+    <p class="intro">Kelompokkan piutang pelanggan berdasarkan umur telatnya — dari yang belum jatuh tempo sampai yang telat lebih dari 90 hari — biar tahu mana yang harus dikejar duluan.</p>
+  </div>
+</section>
+
+<!-- CALCULATOR -->
+<section class="sec" style="padding-top:64px">
+  <div class="wrap">
+    <div class="calc-grid">
+      <div class="calc-card">
+        <h3>Piutangmu</h3>
+        <p class="hint">Isi nama pelanggan, jumlah piutang, dan tanggal jatuh temponya. Umur telat dihitung dari tanggal hari ini.</p>
+        <div id="agRows"></div>
+        <button type="button" class="ag-add" id="agAddRow">+ Tambah baris</button>
+        <p class="ag-max" id="agMaxNote"></p>
+      </div>
+      <div>
+        <div class="calc-result" id="calcResult">
+          <div class="lbl">Piutang yang telat</div>
+          <div class="range" id="agOverdue">Rp5.000.000</div>
+          <div class="note" id="agOverdueNote">50% dari total piutang Rp10.000.000 telat dibayar.</div>
+          <div class="src" id="agOverdueSrc">Kejar dulu yang telat 61–90 hari: Rp2.000.000.</div>
+        </div>
+        <div style="margin-top:28px">
+          <h3 style="font-size:20px;margin:0 0 6px">Umur piutangmu</h3>
+          <table class="calc-table">
+            <tr><th>Kelompok</th><th>Jumlah</th></tr>
+            <tr><td>Belum jatuh tempo</td><td id="agB0">Rp5.000.000</td></tr>
+            <tr><td>Telat 1–30 hari</td><td id="agB1">Rp3.000.000</td></tr>
+            <tr><td>Telat 31–60 hari</td><td id="agB2">Rp0</td></tr>
+            <tr><td>Telat 61–90 hari</td><td id="agB3">Rp2.000.000</td></tr>
+            <tr><td>Telat &gt;90 hari</td><td id="agB4">Rp0</td></tr>
+            <tr class="tot"><td>Total piutang</td><td id="agTotal">Rp10.000.000</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-head" style="margin-top:20px">
+      <h2>Piutang tua itu arus kas yang nyangkut</h2>
+      <p>Piutang yang telat dibayar bukan cuma angka di pembukuan — itu uang usahamu yang sedang dipakai orang lain. Makin lama menunggak, makin kecil peluangnya kembali. Aging piutang membantumu melihatnya dengan jujur: berapa yang masih sehat, berapa yang sudah telat, dan mana yang paling mendesak ditagih. Piutang telat yang menumpuk bikin arus kas seret — soal menjaga arus kas usaha tetap sehat sudah kami bahas di artikel arus kas (Insights Tamatech).</p>
+    </div>
+
+    <div class="sec-head" style="margin-top:60px">
+      <h2>Pertanyaan yang sering ditanya</h2>
+    </div>
+    <div class="calc-faq">
+      <details><summary>Apa itu aging piutang?</summary><p>Pengelompokan piutang berdasarkan sudah berapa lama telat dibayar: belum jatuh tempo, telat 1–30 hari, 31–60 hari, 61–90 hari, dan lebih dari 90 hari. Makin tua kelompoknya, makin besar risikonya — jadi kamu tahu mana yang harus dikejar duluan.</p></details>
+      <details><summary>Piutang telat berapa hari yang perlu dikejar duluan?</summary><p>Yang telat lebih dari 90 hari dulu — itu yang paling rawan tidak tertagih. Sesudah itu turun ke 61–90 hari, lalu 31–60 hari. Piutang yang baru telat 1–30 hari biasanya cukup diingatkan lewat pesan sopan.</p></details>
+      <details><summary>Kenapa piutang lama susah ditagih?</summary><p>Karena makin lama menunggak, makin kecil peluang pelanggan masih punya uang atau niat bayar — apalagi kalau usahanya sudah tutup atau kontaknya hilang. Itu sebabnya piutang telat di atas 90 hari sering dicadangkan sebagai kerugian di pembukuan.</p></details>
+      <details><summary>Apakah kalkulator ini menyimpan dataku?</summary><p>Tidak. Semua hitungan jalan di browser kamu sendiri — nama pelanggan dan jumlah piutang tidak dikirim ke mana pun.</p></details>
+    </div>
+
+    <p style="color:var(--mut);margin-top:40px">Kalkulator ini alat estimasi untuk membantu menata penagihan — bukan nasihat hukum atau akuntansi. Untuk keputusan pembukuan dan penagihan, konsultasikan dengan akuntan atau penasihat hukum kamu.</p>
+  </div>
+</section>
+
+
+
+<script>
+(function(){
+  function toNum(s){
+    s = String(s == null ? '' : s).trim();
+    var neg = s.charAt(0) === '-';
+    var d = s.replace(/[^\d]/g, '');
+    if (d === '') return 0;
+    var n = parseInt(d, 10);
+    return neg ? -n : n;
+  }
+  function fmtNum(n){ return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
+  function fmtIDR(n){ return 'Rp' + fmtNum(n); }
+  function fmtNumInput(el){
+    el.addEventListener('input', function(){
+      var pos = el.selectionStart == null ? el.value.length : el.selectionStart;
+      var before = el.value.slice(0, pos).replace(/[^\d]/g, '').length;
+      var digits = el.value.replace(/[^\d]/g, '');
+      var formatted = digits === '' ? '' : fmtNum(parseInt(digits, 10));
+      el.value = formatted;
+      var seen = 0, i = 0;
+      while (i < formatted.length && seen < before){ if (/\d/.test(formatted.charAt(i))) seen++; i++; }
+      try { el.setSelectionRange(i, i); } catch (e) {}
+    });
+  }
+  function parseISODate(s){
+    if (!s) return null;
+    var p = String(s).split('-');
+    if (p.length !== 3) return null;
+    var d = new Date(+p[0], +p[1] - 1, +p[2]);
+    return isNaN(d.getTime()) ? null : d;
+  }
+  function toISODate(d){
+    var m = d.getMonth() + 1, day = d.getDate();
+    return d.getFullYear() + '-' + (m < 10 ? '0' : '') + m + '-' + (day < 10 ? '0' : '') + day;
+  }
+  function addDays(d, n){
+    var c = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    c.setDate(c.getDate() + n);
+    return c;
+  }
+  var AG_LABELS = ['Belum jatuh tempo', 'Telat 1–30 hari', 'Telat 31–60 hari', 'Telat 61–90 hari', 'Telat >90 hari'];
+  function bucketIndex(daysLate){
+    if (daysLate <= 0) return 0;
+    if (daysLate <= 30) return 1;
+    if (daysLate <= 60) return 2;
+    if (daysLate <= 90) return 3;
+    return 4;
+  }
+  function bucketize(rows, todayRef){
+    var today = todayRef instanceof Date ? todayRef : (parseISODate(todayRef) || new Date());
+    var t = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
+    var buckets = [0, 0, 0, 0, 0], total = 0, overdue = 0, count = 0;
+    rows.forEach(function(r){
+      var amt = Math.max(0, toNum(r.amount));
+      if (amt <= 0) return;
+      var due = parseISODate(r.due);
+      var idx = 0;
+      if (due){
+        var daysLate = Math.round((t - due.getTime()) / 86400000);
+        idx = bucketIndex(daysLate);
+      }
+      buckets[idx] += amt;
+      total += amt;
+      count++;
+      if (idx > 0) overdue += amt;
+    });
+    return {buckets: buckets, total: total, overdue: overdue, count: count, overduePct: total > 0 ? Math.round(overdue / total * 100) : 0};
+  }
+  /* ---- Wiring DOM (di bawah ini butuh document) ---- */
+  function $(id){ return document.getElementById(id); }
+  var AG_MAX_ROWS = 10;
+  function makeRow(name, amount, dueISO){
+    var wrap = document.createElement('div');
+    wrap.className = 'ag-row';
+    wrap.innerHTML = '<input type="text" class="ag-name" placeholder="Nama pelanggan" value="" aria-label="Nama pelanggan">' +
+      '<input type="text" class="ag-amount" placeholder="Rp0" value="" inputmode="numeric" aria-label="Jumlah piutang (Rp)">' +
+      '<input type="date" class="ag-due" value="" aria-label="Tanggal jatuh tempo">' +
+      '<button type="button" class="ag-del" aria-label="Hapus baris">&times;</button>';
+    var nameEl = wrap.querySelector('.ag-name');
+    var amtEl = wrap.querySelector('.ag-amount');
+    var dueEl = wrap.querySelector('.ag-due');
+    nameEl.value = name || '';
+    amtEl.value = amount || '';
+    dueEl.value = dueISO || '';
+    fmtNumInput(amtEl);
+    [nameEl, amtEl, dueEl].forEach(function(el){
+      el.addEventListener('input', update);
+      el.addEventListener('change', update);
+    });
+    wrap.querySelector('.ag-del').addEventListener('click', function(){
+      wrap.remove();
+      syncAddButton();
+      update();
+    });
+    return wrap;
+  }
+  function rowCount(){ return $('agRows').querySelectorAll('.ag-row').length; }
+  function syncAddButton(){
+    var full = rowCount() >= AG_MAX_ROWS;
+    $('agAddRow').disabled = full;
+    $('agMaxNote').textContent = full ? 'Maksimal 10 baris piutang.' : '';
+  }
+  function readRows(){
+    var rows = [];
+    $('agRows').querySelectorAll('.ag-row').forEach(function(row){
+      rows.push({
+        name: row.querySelector('.ag-name').value,
+        amount: row.querySelector('.ag-amount').value,
+        due: row.querySelector('.ag-due').value
+      });
+    });
+    return rows;
+  }
+  function update(){
+    var r = bucketize(readRows(), new Date());
+    var i;
+    for (i = 0; i < 5; i++){
+      $('agB' + i).textContent = r.total > 0 ? fmtIDR(r.buckets[i]) : '—';
+    }
+    $('agTotal').textContent = r.total > 0 ? fmtIDR(r.total) : '—';
+    if (r.total <= 0){
+      $('agOverdue').textContent = '—';
+      $('agOverdueNote').textContent = 'Isi piutang dulu untuk melihat umur piutangmu.';
+      $('agOverdueSrc').textContent = 'Umur telat dihitung dari tanggal hari ini.';
+      return;
+    }
+    $('agOverdue').textContent = fmtIDR(r.overdue);
+    $('agOverdueNote').textContent = r.overduePct + '% dari total piutang ' + fmtIDR(r.total) + ' telat dibayar.';
+    var worst = -1;
+    for (i = 4; i >= 1; i--){ if (r.buckets[i] > 0){ worst = i; break; } }
+    $('agOverdueSrc').textContent = worst > 0
+      ? 'Kejar dulu yang ' + AG_LABELS[worst].toLowerCase() + ': ' + fmtIDR(r.buckets[worst]) + '.'
+      : 'Semua piutang masih belum jatuh tempo — bagus, pertahankan.';
+  }
+  $('agAddRow').addEventListener('click', function(){
+    if (rowCount() >= AG_MAX_ROWS) return;
+    $('agRows').appendChild(makeRow('', '', ''));
+    syncAddButton();
+    update();
+  });
+  (function seed(){
+    var today = new Date();
+    $('agRows').appendChild(makeRow('Pelanggan A', '5.000.000', toISODate(addDays(today, 10))));
+    $('agRows').appendChild(makeRow('Pelanggan B', '3.000.000', toISODate(addDays(today, -12))));
+    $('agRows').appendChild(makeRow('Pelanggan C', '2.000.000', toISODate(addDays(today, -75))));
+  })();
+  syncAddButton();
+  update();
+})();
+</script>
+</main>
+<section class="static-cta">
+  <div class="static-wrap">
+    <div class="kick" style="margin-bottom:28px"><b>( 05 )</b> Mulai Proyek</div>
+    <h2>Punya ide?<br><span class="out">Ayo kita bangun.</span></h2>
+    <p>Ceritakan ke mana bisnismu ingin melangkah. Kami akan menganalisis, mengidentifikasi, dan meracik pengalaman digital yang membawamu ke sana.</p>
+    <a class="btn acc" href="https://tamatech.id/contact">Rasakan Pengalaman Digital Terbaik <span class="arr">&rarr;</span></a>
+  </div>
+</section>
+<footer class="static-foot">
+  <div class="static-wrap">
+    <span>&copy; 2026 Tama Technology (Tamatech) &mdash; Tools Bisnis Gratis.</span>
+    <span><a href="https://tamatech.id/tools">Semua tools</a> &middot; <a href="https://tamatech.id">tamatech.id</a></span>
+  </div>
+</footer>
+</body>
+</html>

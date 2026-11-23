@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Konverter JSON ke CSV &amp; Formatter JSON Gratis</title>
+<meta name="description" content="Ubah JSON ke CSV/Excel dan CSV ke JSON, plus rapikan dan validasi JSON — semua di browser, gratis tanpa daftar.">
+<meta property="og:title" content="Konverter JSON ke CSV &amp; Formatter JSON Gratis">
+<meta property="og:description" content="Ubah JSON ke CSV/Excel dan CSV ke JSON, plus rapikan dan validasi JSON — semua di browser, gratis tanpa daftar.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://tamatech.id/tools/konverter-json-csv">
+<link rel="stylesheet" href="../../assets/tools.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Apakah dataku diunggah ke server?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tidak. Semua yang kamu unggah, tempel, atau ketik hanya dibaca di browsermu sendiri. Tidak ada data yang dikirim ke server Tamatech atau ke mana pun — tutup halaman, datanya hilang."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "JSON bersarang jadi apa di CSV?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Objek bersarang diratakan jadi kolom dengan nama bertitik — misalnya alamat.jalan dan alamat.kode_pos. Nilai array diubah jadi teks JSON supaya tetap satu sel."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "CSV seperti apa yang bisa diubah ke JSON?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "CSV yang baris pertamanya judul kolom. Tanda kutip, koma di dalam kutip, dan baris baru di dalam kutip ditangani dengan benar. Hasilnya JSON array — satu objek per baris."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apa bedanya Rapikan dan Padatkan?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Rapikan menulis ulang JSON dengan indent 2 spasi supaya mudah dibaca manusia. Padatkan menulis ulang jadi satu baris tanpa spasi — lebih kecil untuk dikirim atau disimpan. Isi datanya sama persis."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Seberapa besar file yang bisa diproses?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tergantung browsermu — file sampai beberapa MB (puluhan ribu baris) umumnya lancar karena pemrosesan dilakukan bertahap. Pratinjau di halaman dibatasi 50 baris pertama, tapi file unduhan berisi seluruh hasil."
+      }
+    }
+  ]
+}
+</script>
+<style>
+.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin:40px 0}
+@media(max-width:820px){.calc-grid{grid-template-columns:1fr}}
+.calc-card{border:1px solid var(--line);border-radius:20px;padding:28px;background:var(--gray);min-width:0}
+.calc-card h3{font-size:20px;margin:0 0 6px}
+.calc-card p.hint{color:var(--mut);font-size:14px;margin:0 0 20px}
+.calc-card label{display:block;font-weight:600;font-size:14px;margin:0 0 6px}
+.calc-card input,.calc-card select,.calc-card textarea{width:100%;min-width:0;border:1px solid var(--line);border-radius:12px;padding:13px 15px;font-family:var(--body);font-size:15.5px;color:#0B2A4A;background:#fff;margin-bottom:14px;box-sizing:border-box}
+.calc-card input:focus,.calc-card select:focus,.calc-card textarea:focus{outline:2px solid var(--acc);outline-offset:1px}
+.calc-card textarea{min-height:150px;resize:vertical;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13.5px}
+.calc-result{border:1px solid var(--line);border-radius:20px;padding:32px;background:var(--navy);color:#fff;min-width:0}
+.calc-result .lbl{font-size:12px;letter-spacing:.2em;text-transform:uppercase;opacity:.7}
+.calc-result .note{opacity:.85;font-size:15px}
+.calc-result .src{opacity:.6;font-size:13px;margin-top:18px}
+.calc-faq{margin:8px 0 0}
+.calc-faq details{border-bottom:1px solid var(--line);padding:16px 0}
+.calc-faq summary{cursor:pointer;font-weight:600;font-size:17px}
+.calc-faq p{color:var(--mut);margin:10px 0 0}
+.jc-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.jc-tabbtn{flex:1;min-width:0;border:1px solid var(--line);border-radius:12px;padding:11px 6px;font-family:var(--body);font-size:14px;font-weight:700;background:var(--bg);color:var(--ink);cursor:pointer;text-align:center}
+.jc-tabbtn.jc-on{background:#0B2A4A;color:#fff;border-color:#0B2A4A}
+html[data-theme="dark"] .jc-tabbtn.jc-on{background:#e9effc;color:#071a3e;border-color:#e9effc}
+.jc-pane{display:none;min-width:0}
+.jc-pane.jc-on{display:block}
+.jc-file{display:block;border:1px dashed var(--acc);border-radius:12px;padding:16px;text-align:center;cursor:pointer;color:var(--acc);font-weight:600;font-size:14.5px;margin-bottom:8px}
+.jc-file:hover{background:var(--acc-soft)}
+.jc-file input{display:none}
+.jc-fileinfo{color:var(--mut);font-size:13.5px;margin:0 0 14px;min-height:18px}
+.jc-btnrow{display:flex;gap:10px;flex-wrap:wrap}
+.jc-btnrow>*{flex:1;justify-content:center;min-width:0}
+.jc-btnrow .btn,.jc-btnrow .btn-o{white-space:nowrap;flex-shrink:0}
+.jc-right{position:sticky;top:96px;min-width:0}
+@media(max-width:820px){.jc-right{position:static}}
+.jc-tablewrap{margin-top:18px;border:1px solid var(--line);border-radius:14px;overflow-x:auto;background:var(--bg);min-width:0}
+.jc-tablewrap table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:420px}
+.jc-tablewrap th,.jc-tablewrap td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;white-space:nowrap;color:var(--ink)}
+.jc-tablewrap th{background:var(--gray);font-weight:700;white-space:normal;overflow-wrap:break-word;line-height:1.35}
+.jc-tablewrap tr:last-child td{border-bottom:none}
+.jc-note{color:var(--mut);font-size:13.5px;margin:10px 0 0}
+.jc-pre{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:16px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13.5px;line-height:1.55;white-space:pre-wrap;word-break:break-word;max-height:420px;overflow:auto;color:var(--ink);margin:18px 0 0;min-width:0}
+.jc-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.jc-actions>*{flex:1;justify-content:center;min-width:0}
+.jc-actions button:disabled{opacity:.45;cursor:not-allowed}
+.jc-err{color:#ffcf99}
+.jc-big{font-size:44px;font-weight:800;line-height:1.1;letter-spacing:-.5px}
+.jc-big small{font-size:20px;font-weight:600;color:#9db8e8}
+@media(max-width:560px){
+  .calc-card{padding:22px 18px}
+  .jc-btnrow{flex-direction:column}
+  .jc-btnrow>*{width:100%}
+  .jc-actions{flex-direction:column}
+  .jc-actions>*{width:100%}
+  .jc-big{font-size:36px}
+  .jc-tabs{flex-direction:column}
+}
+</style>
+</head>
+<body>
+<header class="static-head">
+  <div class="static-wrap">
+    <a class="static-logo" href="https://tamatech.id">tama<i>tech</i><sup>&reg;</sup></a>
+    <nav>
+      <a href="https://tamatech.id/">Beranda</a>
+      <a href="https://tamatech.id/tools">Tools Gratis</a>
+      <a href="https://tamatech.id/portfolio">Portofolio</a>
+      <a href="https://tamatech.id/insights">Insights</a>
+      <a href="https://tamatech.id/contact">Kontak</a>
+    </nav>
+  </div>
+</header>
+<main class="static-wrap">
+<!-- PAGE HERO -->
+<section class="p-hero">
+  <div class="wrap">
+    <div class="kick" style="margin-top:22px"><b>( &#10022; )</b> Tools Tamatech</div>
+    <h1>Konverter JSON &amp; CSV</h1>
+    <div class="orb"><svg viewBox="0 0 100 100"><defs><path id="cir" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0"/></defs><text><textPath href="#cir" textLength="236">DESIGN &bull; CODE &bull; DEVELOP &bull; MAINTAIN &bull;</textPath></text></svg><span class="orb-c"><i>&darr;</i></span></div>
+    <p class="intro">Ubah JSON ke CSV/Excel, CSV ke JSON, dan rapikan JSON — tiga arah dalam satu tool. Semua proses di browser, gratis, tanpa daftar.</p>
+  </div>
+</section>
+
+<!-- TOOL -->
+<section class="sec" style="padding-top:64px">
+  <div class="wrap">
+    <div class="calc-grid">
+      <div class="calc-card">
+        <div class="jc-tabs" role="tablist">
+          <button class="jc-tabbtn jc-on" type="button" id="jcTabBtn1" data-jctab="1">JSON → CSV / Excel</button>
+          <button class="jc-tabbtn" type="button" id="jcTabBtn2" data-jctab="2">CSV → JSON</button>
+          <button class="jc-tabbtn" type="button" id="jcTabBtn3" data-jctab="3">Formatter JSON</button>
+        </div>
+
+        <div class="jc-pane jc-on" id="jcIn1">
+          <h3>JSON ke CSV / Excel</h3>
+          <p class="hint">Unggah file .json atau tempel teks JSON — objek bersarang otomatis diratakan jadi kolom (mis. alamat.jalan).</p>
+          <label class="jc-file" for="jcJsonFile">📁 Unggah file .json
+            <input type="file" id="jcJsonFile" accept=".json,application/json">
+          </label>
+          <p class="jc-fileinfo" id="jcJsonFileInfo">Belum ada file dipilih.</p>
+          <label for="jcJsonText">Atau tempel JSON di sini</label>
+          <textarea id="jcJsonText" placeholder='[{"nama":"Budi","kota":"Bandung"}]'></textarea>
+          <div class="jc-btnrow">
+            <button class="btn" type="button" id="jcProsesJson">Proses JSON <span class="arr">→</span></button>
+            <button class="btn-o" type="button" id="jcContohJson">Muat contoh</button>
+            <button class="btn-o" type="button" id="jcResetJson">Reset</button>
+          </div>
+          <p class="jc-note">Semua proses jalan di browsermu — tidak ada data yang dikirim atau disimpan di mana pun.</p>
+        </div>
+
+        <div class="jc-pane" id="jcIn2">
+          <h3>CSV ke JSON</h3>
+          <p class="hint">Baris pertama dianggap judul kolom. Tanda kutip, koma di dalam kutip, dan baris baru di dalam kutip ditangani dengan benar.</p>
+          <label class="jc-file" for="jcCsvFile">📁 Unggah file .csv
+            <input type="file" id="jcCsvFile" accept=".csv,text/csv">
+          </label>
+          <p class="jc-fileinfo" id="jcCsvFileInfo">Belum ada file dipilih.</p>
+          <label for="jcCsvText">Atau tempel teks CSV di sini</label>
+          <textarea id="jcCsvText" placeholder="nama,kota,total_belanja&#10;Budi,Jakarta,150000"></textarea>
+          <div class="jc-btnrow">
+            <button class="btn" type="button" id="jcProsesCsv">Ubah ke JSON <span class="arr">→</span></button>
+            <button class="btn-o" type="button" id="jcContohCsv">Muat contoh</button>
+            <button class="btn-o" type="button" id="jcResetCsv">Reset</button>
+          </div>
+          <p class="jc-note">Hasilnya JSON array — satu objek per baris, kuncinya dari judul kolom.</p>
+        </div>
+
+        <div class="jc-pane" id="jcIn3">
+          <h3>Formatter JSON</h3>
+          <p class="hint">Rapikan JSON yang berantakan jadi mudah dibaca, padatkan jadi satu baris, atau cek saja apakah JSON-mu valid.</p>
+          <label for="jcFmtText">Tempel JSON di sini</label>
+          <textarea id="jcFmtText" placeholder='{"nama":"Budi","kota":"Bandung"}'></textarea>
+          <div class="jc-btnrow">
+            <button class="btn" type="button" id="jcRapikan">Rapikan</button>
+            <button class="btn-o" type="button" id="jcPadatkan">Padatkan</button>
+            <button class="btn-o" type="button" id="jcValidasi">Validasi</button>
+          </div>
+          <div class="jc-btnrow" style="margin-top:10px">
+            <button class="btn-o" type="button" id="jcContohFmt">Muat contoh</button>
+            <button class="btn-o" type="button" id="jcResetFmt">Reset</button>
+          </div>
+          <p class="jc-note">Validasi menampilkan jenis datanya — objek, array, angka, atau teks — beserta jumlah kuncinya.</p>
+        </div>
+      </div>
+
+      <div class="jc-right">
+        <div class="jc-pane jc-on" id="jcRes1">
+          <div class="calc-result">
+            <div class="lbl">Hasil — JSON → CSV / Excel</div>
+            <div class="jc-big" id="jc1Big">—</div>
+            <p class="note" id="jc1Status">Belum ada data — muat contoh, tempel JSON, atau unggah file dulu.</p>
+            <p class="src">Objek bersarang diratakan (alamat.jalan), array jadi teks JSON.</p>
+          </div>
+          <div class="jc-tablewrap" id="jc1TableWrap" style="display:none">
+            <table id="jc1Preview"></table>
+          </div>
+          <p class="jc-note" id="jc1PreviewNote" style="display:none"></p>
+          <div class="jc-actions">
+            <button class="btn" type="button" id="jcUnduhCsv" disabled>Unduh .csv</button>
+            <button class="btn-o" type="button" id="jcUnduhXlsx" disabled>Unduh .xlsx</button>
+          </div>
+          <p class="jc-note">Hasil unduhan berisi seluruh baris — pratinjau di atas hanya menampilkan 50 baris pertama.</p>
+        </div>
+
+        <div class="jc-pane" id="jcRes2">
+          <div class="calc-result">
+            <div class="lbl">Hasil — CSV → JSON</div>
+            <div class="jc-big" id="jc2Big">—</div>
+            <p class="note" id="jc2Status">Belum ada data — muat contoh, tempel CSV, atau unggah file dulu.</p>
+            <p class="src">Satu objek per baris — kuncinya dari judul kolom baris pertama.</p>
+          </div>
+          <pre class="jc-pre" id="jc2Out">—</pre>
+          <div class="jc-actions">
+            <button class="btn" type="button" id="jcSalinJson" disabled>Salin JSON</button>
+            <button class="btn-o" type="button" id="jcUnduhJson" disabled>Unduh .json</button>
+          </div>
+        </div>
+
+        <div class="jc-pane" id="jcRes3">
+          <div class="calc-result">
+            <div class="lbl">Hasil — Formatter JSON</div>
+            <div class="jc-big" id="jc3Big">—</div>
+            <p class="note" id="jc3Status">Belum ada data — tempel JSON lalu tekan Rapikan, Padatkan, atau Validasi.</p>
+            <p class="src">Rapikan memakai indent 2 spasi — mudah dibaca manusia, tetap JSON yang sama.</p>
+          </div>
+          <pre class="jc-pre" id="jc3Out">—</pre>
+          <div class="jc-actions">
+            <button class="btn" type="button" id="jcSalinFmt" disabled>Salin hasil</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-head" style="margin-top:20px">
+      <h2>JSON dan CSV itu dua bahasa data</h2>
+      <p>JSON adalah bahasanya aplikasi dan API — rapi untuk mesin, tapi susah dibaca kalau datanya besar dan bersarang. CSV adalah bahasanya spreadsheet — gampang dibuka di Excel, gampang dihitung, tapi tidak bisa menyimpan struktur bersarang. Hampir semua kerja data sehari-hari adalah pindah dari satu bahasa ke bahasa lain: ekspor dari aplikasi (JSON) lalu olah di Excel (CSV), atau sebaliknya — data tabel dari Excel diubah jadi JSON untuk dimasukkan ke aplikasi. Tool ini mengerjakan pindah bahasa itu dua arah, plus merapikan JSON yang berantakan, tanpa datamu keluar dari browser.</p>
+    </div>
+
+    <div class="sec-head" style="margin-top:60px">
+      <h2>Pertanyaan yang sering ditanya</h2>
+    </div>
+    <div class="calc-faq">
+      <details><summary>Apakah dataku diunggah ke server?</summary><p>Tidak. Semua yang kamu unggah, tempel, atau ketik hanya dibaca di browsermu sendiri. Tidak ada data yang dikirim ke server Tamatech atau ke mana pun — tutup halaman, datanya hilang.</p></details>
+      <details><summary>JSON bersarang jadi apa di CSV?</summary><p>Objek bersarang diratakan jadi kolom dengan nama bertitik — misalnya alamat.jalan dan alamat.kode_pos. Nilai array diubah jadi teks JSON supaya tetap satu sel.</p></details>
+      <details><summary>CSV seperti apa yang bisa diubah ke JSON?</summary><p>CSV yang baris pertamanya judul kolom. Tanda kutip, koma di dalam kutip, dan baris baru di dalam kutip ditangani dengan benar. Hasilnya JSON array — satu objek per baris.</p></details>
+      <details><summary>Apa bedanya Rapikan dan Padatkan?</summary><p>Rapikan menulis ulang JSON dengan indent 2 spasi supaya mudah dibaca manusia. Padatkan menulis ulang jadi satu baris tanpa spasi — lebih kecil untuk dikirim atau disimpan. Isi datanya sama persis.</p></details>
+      <details><summary>Seberapa besar file yang bisa diproses?</summary><p>Tergantung browsermu — file sampai beberapa MB (puluhan ribu baris) umumnya lancar karena pemrosesan dilakukan bertahap. Pratinjau di halaman dibatasi 50 baris pertama, tapi file unduhan berisi seluruh hasil.</p></details>
+    </div>
+
+    <p style="color:var(--mut);margin-top:40px">Tool ini memproses data langsung di browser — bukan layanan pengolahan data Tamatech. Butuh sistem yang merapikan dan mengolah datamu otomatis tiap hari? <a href="https://tamatech.id/services/custom-it-solutions">Lihat layanan Custom IT →</a></p>
+    <p style="color:var(--mut);margin-top:12px">File Excel dibaca dan ditulis dengan library SheetJS (lisensi Apache 2.0) yang tersimpan di situs ini — tanpa CDN, jadi tetap jalan walau koneksi lambat. Library dan lisensinya ada di ../../assets/xlsx.js.</p>
+  </div>
+</section>
+
+
+<script src="../../assets/xlsx.js"></script>
+<script>
+(function(){
+  function flattenObject(obj, prefix){
+    prefix = prefix || '';
+    var flattened = {};
+    if (obj === null || typeof obj !== 'object' || Array.isArray(obj)) return flattened;
+    for (var key in obj){
+      if (Object.prototype.hasOwnProperty.call(obj, key)){
+        var newKey = prefix ? prefix + '.' + key : key;
+        var v = obj[key];
+        if (v !== null && typeof v === 'object' && !Array.isArray(v)){
+          var sub = flattenObject(v, newKey);
+          for (var sk in sub){ flattened[sk] = sub[sk]; }
+        } else if (Array.isArray(v)){
+          flattened[newKey] = JSON.stringify(v);
+        } else {
+          flattened[newKey] = v;
+        }
+      }
+    }
+    return flattened;
+  }
+  function parseCSV(text){
+    text = String(text == null ? '' : text).replace(/^\uFEFF/, '');
+    var rows = [];
+    var row = [];
+    var field = '';
+    var inQuotes = false;
+    var i = 0;
+    while (i < text.length){
+      var c = text[i];
+      if (inQuotes){
+        if (c === '"'){
+          if (text[i + 1] === '"'){ field += '"'; i += 2; }
+          else { inQuotes = false; i++; }
+        } else { field += c; i++; }
+      } else if (c === '"'){
+        inQuotes = true; i++;
+      } else if (c === ','){
+        row.push(field); field = ''; i++;
+      } else if (c === '\r'){
+        if (text[i + 1] === '\n') i++;
+        row.push(field); field = ''; rows.push(row); row = []; i++;
+      } else if (c === '\n'){
+        row.push(field); field = ''; rows.push(row); row = []; i++;
+      } else { field += c; i++; }
+    }
+    if (field !== '' || row.length > 0){ row.push(field); rows.push(row); }
+    if (rows.length === 0) return {headers: [], rows: []};
+    var headers = rows[0].map(function(h){ return String(h); });
+    var data = rows.slice(1);
+    return {headers: headers, rows: data};
+  }
+  function csvEscape(v){
+    var s = String(v == null ? '' : v);
+    if (/[",\n\r]/.test(s)) return '"' + s.replace(/"/g, '""') + '"';
+    return s;
+  }
+  function serializeCSV(table){
+    table = table || {headers: [], rows: []};
+    var lines = [];
+    lines.push(table.headers.map(csvEscape).join(','));
+    table.rows.forEach(function(r){
+      lines.push(r.map(csvEscape).join(','));
+    });
+    return lines.join('\r\n');
+  }
+  function jsonToTable(data){
+    var arr = Array.isArray(data) ? data : [data];
+    var flat = arr.map(function(item){
+      if (item !== null && typeof item === 'object' && !Array.isArray(item)) return flattenObject(item);
+      if (Array.isArray(item)) return {nilai: JSON.stringify(item)};
+      return {nilai: item};
+    });
+    var headers = [];
+    var seen = {};
+    flat.forEach(function(r){
+      Object.keys(r).forEach(function(k){ if (!seen[k]){ seen[k] = true; headers.push(k); } });
+    });
+    var rows = flat.map(function(r){
+      return headers.map(function(h){ var v = r[h]; return v == null ? '' : v; });
+    });
+    return {headers: headers, rows: rows};
+  }
+  function tableToObjects(table){
+    table = table || {headers: [], rows: []};
+    return table.rows.map(function(r){
+      var o = {};
+      table.headers.forEach(function(h, i){ o[h] = r[i] == null ? '' : r[i]; });
+      return o;
+    });
+  }
+  function csvToJson(text){
+    var table = parseCSV(text);
+    if (!table.headers.length && !table.rows.length) return {ok: false, error: 'empty'};
+    return {ok: true, data: tableToObjects(table), headers: table.headers};
+  }
+  function formatJson(text){
+    try {
+      var v = JSON.parse(String(text));
+      return {ok: true, out: JSON.stringify(v, null, 2)};
+    } catch (e){
+      return {ok: false, error: String(e && e.message ? e.message : e)};
+    }
+  }
+  function minifyJson(text){
+    try {
+      var v = JSON.parse(String(text));
+      return {ok: true, out: JSON.stringify(v)};
+    } catch (e){
+      return {ok: false, error: String(e && e.message ? e.message : e)};
+    }
+  }
+  function countKeys(value){
+    if (Array.isArray(value)){
+      var n = 0;
+      value.forEach(function(v){ n += countKeys(v); });
+      return n;
+    }
+    if (value !== null && typeof value === 'object'){
+      var m = 0;
+      for (var k in value){ if (Object.prototype.hasOwnProperty.call(value, k)){ m += 1 + countKeys(value[k]); } }
+      return m;
+    }
+    return 0;
+  }
+  function describeJson(value){
+    if (Array.isArray(value)) return {kind: 'array', count: value.length, keys: countKeys(value)};
+    if (value !== null && typeof value === 'object') return {kind: 'objek', count: Object.keys(value).length, keys: countKeys(value)};
+    if (typeof value === 'string') return {kind: 'teks', count: value.length, keys: 0};
+    if (typeof value === 'number') return {kind: 'angka', count: value, keys: 0};
+    if (typeof value === 'boolean') return {kind: 'boolean', count: value ? 1 : 0, keys: 0};
+    return {kind: 'null', count: 0, keys: 0};
+  }
+  function validateJson(text){
+    try {
+      var v = JSON.parse(String(text));
+      return {ok: true, info: describeJson(v)};
+    } catch (e){
+      return {ok: false, error: String(e && e.message ? e.message : e)};
+    }
+  }
+  function tab1InputState(text){
+    var t = String(text == null ? '' : text).trim();
+    if (t === '') return {state: 'empty'};
+    var v = validateJson(t);
+    if (v.ok) return {state: 'ok'};
+    return {state: 'invalid', error: v.error};
+  }
+  function escapeHtml(s){
+    return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  /* ---- Wiring DOM (di bawah ini butuh document) ---- */
+  function $(id){ return document.getElementById(id); }
+  var SAMPLE = [
+    {nama: 'Budi Santoso', kota: 'Bandung', total_belanja: 150000, member: true},
+    {nama: 'Ani Wijaya', kota: 'Jakarta', total_belanja: 85000, member: false},
+    {nama: 'Sinta Dewi', kota: 'Surabaya', total_belanja: 210000, member: true, alamat: {jalan: 'Jl. Merdeka 12', kode_pos: '60241'}}
+  ];
+  function sampleCSVText(){
+    return 'nama,kota,total_belanja,catatan\n'
+      + 'Budi Santoso,Bandung,150000,"Langganan, sejak 2023"\n'
+      + 'Ani Wijaya,Jakarta,85000,\n'
+      + 'Sinta Dewi,Surabaya,210000,"Minta dibungkus, pita merah"';
+  }
+  function switchTab(n){
+    [1, 2, 3].forEach(function(i){
+      $('jcTabBtn' + i).classList.toggle('jc-on', i === n);
+      $('jcIn' + i).classList.toggle('jc-on', i === n);
+      $('jcRes' + i).classList.toggle('jc-on', i === n);
+    });
+  }
+  [1, 2, 3].forEach(function(i){
+    $('jcTabBtn' + i).addEventListener('click', function(){ switchTab(i); });
+  });
+  function setStatus(id, msg, isErr){
+    var el = $(id);
+    el.textContent = msg;
+    if (isErr) el.classList.add('jc-err'); else el.classList.remove('jc-err');
+  }
+  function downloadBlob(blob, filename){
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 100);
+  }
+  function fallbackCopy(text){
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch (e){}
+    document.body.removeChild(ta);
+  }
+  function copyText(text, btn){
+    function done(){ var old = btn.textContent; btn.textContent = 'Disalin!'; setTimeout(function(){ btn.textContent = old; }, 2000); }
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(done, function(){ fallbackCopy(text); done(); });
+    } else { fallbackCopy(text); done(); }
+  }
+  function shortCell(v){
+    var s = String(v == null ? '' : v);
+    return s.length > 100 ? s.substring(0, 100) + '...' : s;
+  }
+  /* Tab 1 — JSON ke CSV/Excel */
+  var jc1Data = null;
+  var jc1Table = null;
+  var jc1Processing = false;
+  function renderEmpty1(){
+    $('jc1Big').textContent = '—';
+    setStatus('jc1Status', jc1Data ? 'Data sudah dimuat — tekan "Proses JSON".' : 'Belum ada data — muat contoh, tempel JSON, atau unggah file dulu.', false);
+    $('jc1TableWrap').style.display = 'none';
+    $('jc1PreviewNote').style.display = 'none';
+    $('jcUnduhCsv').disabled = true;
+    $('jcUnduhXlsx').disabled = true;
+  }
+  function renderPreview1(){
+    var t = jc1Table;
+    $('jc1Big').innerHTML = t.rows.length + ' <small>/ ' + t.headers.length + ' kolom</small>';
+    var maxShow = 50;
+    var html = '<thead><tr>' + t.headers.map(function(h){ return '<th>' + escapeHtml(h === '' ? '—' : h) + '</th>'; }).join('') + '</tr></thead><tbody>';
+    t.rows.slice(0, maxShow).forEach(function(r){
+      html += '<tr>' + t.headers.map(function(_, i){ return '<td>' + escapeHtml(shortCell(r[i])) + '</td>'; }).join('') + '</tr>';
+    });
+    html += '</tbody>';
+    $('jc1Preview').innerHTML = html;
+    $('jc1TableWrap').style.display = '';
+    var note = $('jc1PreviewNote');
+    if (t.rows.length > maxShow){
+      note.textContent = 'Menampilkan ' + maxShow + ' dari ' + t.rows.length + ' baris — unduh untuk melihat semua.';
+      note.style.display = '';
+    } else {
+      note.textContent = 'Menampilkan seluruh ' + t.rows.length + ' baris.';
+      note.style.display = '';
+    }
+    $('jcUnduhCsv').disabled = false;
+    $('jcUnduhXlsx').disabled = false;
+  }
+  function processJsonData(){
+    if (!jc1Data || jc1Processing) return;
+    jc1Processing = true;
+    var btn = $('jcProsesJson');
+    btn.disabled = true;
+    var dataArray = Array.isArray(jc1Data) ? jc1Data : [jc1Data];
+    if (dataArray.length === 0){
+      setStatus('jc1Status', 'Data JSON kosong — tidak ada baris yang bisa diproses.', true);
+      jc1Processing = false; btn.disabled = false;
+      return;
+    }
+    setStatus('jc1Status', 'Memproses ' + dataArray.length + ' baris...', false);
+    var flat = [];
+    var chunkSize = 1000;
+    var i = 0;
+    function step(){
+      var chunk = dataArray.slice(i, i + chunkSize);
+      chunk.forEach(function(item){
+        if (item !== null && typeof item === 'object' && !Array.isArray(item)) flat.push(flattenObject(item));
+        else if (Array.isArray(item)) flat.push({nilai: JSON.stringify(item)});
+        else flat.push({nilai: item});
+      });
+      i += chunk.length;
+      if (i < dataArray.length){
+        setStatus('jc1Status', 'Memproses... ' + Math.min(100, Math.round(i / dataArray.length * 100)) + '%', false);
+        requestAnimationFrame(step);
+      } else {
+        var headers = [];
+        var seen = {};
+        flat.forEach(function(r){ Object.keys(r).forEach(function(k){ if (!seen[k]){ seen[k] = true; headers.push(k); } }); });
+        jc1Table = {headers: headers, rows: flat.map(function(r){ return headers.map(function(h){ var v = r[h]; return v == null ? '' : v; }); })};
+        renderPreview1();
+        setStatus('jc1Status', 'Berhasil — ' + jc1Table.rows.length + ' baris, ' + jc1Table.headers.length + ' kolom. Siap diunduh.', false);
+        jc1Processing = false; btn.disabled = false;
+      }
+    }
+    step();
+  }
+  function handleJsonFile(file){
+    var name = file.name || 'file';
+    $('jcJsonFileInfo').textContent = 'Memuat "' + name + '"...';
+    if (file.size > 1024 * 1024) setStatus('jc1Status', 'Memuat file besar... Mohon tunggu.', false);
+    var reader = new FileReader();
+    reader.onload = function(e){
+      try {
+        var text = String(e.target.result || '');
+        if (text.length > 500000){
+          $('jcJsonText').value = '// File terlalu besar untuk ditampilkan di sini\n// Klik "Proses JSON" untuk melanjutkan';
+          $('jcJsonText').disabled = true;
+        } else {
+          $('jcJsonText').value = text;
+          $('jcJsonText').disabled = false;
+        }
+        jc1Data = JSON.parse(text);
+        $('jcJsonFileInfo').textContent = 'File "' + name + '" sudah dimuat.';
+        $('jcProsesJson').disabled = false;
+        setStatus('jc1Status', 'File berhasil dimuat — tekan "Proses JSON".', false);
+      } catch (err){
+        setStatus('jc1Status', 'JSON tidak valid: ' + (err && err.message ? err.message : err), true);
+        $('jcProsesJson').disabled = true;
+      }
+    };
+    reader.onerror = function(){ setStatus('jc1Status', 'Gagal membaca file.', true); };
+    reader.readAsText(file);
+  }
+  $('jcJsonFile').addEventListener('change', function(){
+    var f = this.files && this.files[0];
+    if (f) handleJsonFile(f);
+  });
+  $('jcJsonText').addEventListener('input', function(){
+    if (this.disabled) return;
+    var st = tab1InputState(this.value);
+    if (st.state === 'empty'){
+      jc1Data = null;
+      $('jcProsesJson').disabled = true;
+      if (!jc1Table) renderEmpty1();
+      return;
+    }
+    if (st.state === 'ok'){
+      jc1Data = JSON.parse(this.value.trim());
+      $('jcProsesJson').disabled = false;
+      $('jcJsonFileInfo').textContent = 'Data JSON dari kolom teks.';
+      setStatus('jc1Status', 'JSON sudah dibaca — tekan "Proses JSON".', false);
+      return;
+    }
+    jc1Data = null;
+    $('jcProsesJson').disabled = true;
+    setStatus('jc1Status', 'JSON tidak valid: ' + st.error, true);
+  });
+  $('jcProsesJson').addEventListener('click', processJsonData);
+  $('jcContohJson').addEventListener('click', function(){
+    var pretty = JSON.stringify(SAMPLE, null, 2);
+    $('jcJsonText').value = pretty;
+    $('jcJsonText').disabled = false;
+    try { jc1Data = JSON.parse(pretty); } catch (err){ jc1Data = null; }
+    $('jcJsonFileInfo').textContent = 'Data contoh sudah dimuat.';
+    $('jcProsesJson').disabled = false;
+    processJsonData();
+  });
+  $('jcResetJson').addEventListener('click', function(){
+    jc1Data = null; jc1Table = null;
+    $('jcJsonFile').value = '';
+    $('jcJsonText').value = '';
+    $('jcJsonText').disabled = false;
+    $('jcJsonFileInfo').textContent = 'Belum ada file dipilih.';
+    $('jcProsesJson').disabled = true;
+    renderEmpty1();
+  });
+  $('jcUnduhCsv').addEventListener('click', function(){
+    if (!jc1Table) return;
+    var blob = new Blob(['\uFEFF' + serializeCSV(jc1Table)], {type: 'text/csv;charset=utf-8'});
+    downloadBlob(blob, 'data.csv');
+  });
+  $('jcUnduhXlsx').addEventListener('click', function(){
+    if (!jc1Table) return;
+    if (typeof XLSX === 'undefined'){ setStatus('jc1Status', 'Pustaka Excel belum termuat — coba muat ulang halaman.', true); return; }
+    var aoa = [jc1Table.headers.slice()];
+    jc1Table.rows.forEach(function(r){ aoa.push(r.slice()); });
+    var ws = XLSX.utils.aoa_to_sheet(aoa);
+    var wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Data');
+    var out = XLSX.write(wb, {bookType: 'xlsx', type: 'array'});
+    downloadBlob(new Blob([out], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}), 'data.xlsx');
+  });
+  /* Tab 2 — CSV ke JSON */
+  var jc2Data = null;
+  function renderEmpty2(){
+    $('jc2Big').textContent = '—';
+    setStatus('jc2Status', 'Belum ada data — muat contoh, tempel CSV, atau unggah file dulu.', false);
+    $('jc2Out').textContent = '—';
+    $('jcSalinJson').disabled = true;
+    $('jcUnduhJson').disabled = true;
+  }
+  function runCsv(){
+    var res = csvToJson($('jcCsvText').value);
+    if (!res.ok){
+      jc2Data = null;
+      $('jc2Big').textContent = '—';
+      setStatus('jc2Status', 'Teks kosong — tidak ada data yang bisa dibaca.', true);
+      $('jc2Out').textContent = '—';
+      $('jcSalinJson').disabled = true;
+      $('jcUnduhJson').disabled = true;
+      return;
+    }
+    jc2Data = res.data;
+    $('jc2Big').innerHTML = res.data.length + ' <small>baris · ' + res.headers.length + ' kolom</small>';
+    setStatus('jc2Status', 'Berhasil — ' + res.data.length + ' baris diubah jadi JSON.', false);
+    $('jc2Out').textContent = JSON.stringify(res.data, null, 2);
+    $('jcSalinJson').disabled = false;
+    $('jcUnduhJson').disabled = false;
+  }
+  $('jcCsvFile').addEventListener('change', function(){
+    var f = this.files && this.files[0];
+    if (!f) return;
+    var name = f.name || 'file';
+    var reader = new FileReader();
+    reader.onload = function(e){
+      $('jcCsvText').value = String(e.target.result || '');
+      $('jcCsvFileInfo').textContent = 'File "' + name + '" sudah dimuat.';
+      runCsv();
+    };
+    reader.readAsText(f);
+  });
+  $('jcProsesCsv').addEventListener('click', runCsv);
+  $('jcContohCsv').addEventListener('click', function(){
+    $('jcCsvText').value = sampleCSVText();
+    $('jcCsvFileInfo').textContent = 'Data contoh sudah dimuat.';
+    runCsv();
+  });
+  $('jcResetCsv').addEventListener('click', function(){
+    jc2Data = null;
+    $('jcCsvFile').value = '';
+    $('jcCsvText').value = '';
+    $('jcCsvFileInfo').textContent = 'Belum ada file dipilih.';
+    renderEmpty2();
+  });
+  $('jcSalinJson').addEventListener('click', function(){
+    if (!jc2Data) return;
+    copyText(JSON.stringify(jc2Data, null, 2), this);
+  });
+  $('jcUnduhJson').addEventListener('click', function(){
+    if (!jc2Data) return;
+    var blob = new Blob([JSON.stringify(jc2Data, null, 2)], {type: 'application/json;charset=utf-8'});
+    downloadBlob(blob, 'data.json');
+  });
+  /* Tab 3 — Formatter JSON */
+  function renderEmpty3(){
+    $('jc3Big').textContent = '—';
+    setStatus('jc3Status', 'Belum ada data — tempel JSON lalu tekan Rapikan, Padatkan, atau Validasi.', false);
+    $('jc3Out').textContent = '—';
+    $('jcSalinFmt').disabled = true;
+  }
+  function fmtInfoText(info){
+    if (info.kind === 'objek') return 'JSON valid — objek dengan ' + info.count + ' kunci (' + info.keys + ' kunci total termasuk bersarang).';
+    if (info.kind === 'array') return 'JSON valid — array dengan ' + info.count + ' item (' + info.keys + ' kunci total).';
+    return 'JSON valid — ' + info.kind + '.';
+  }
+  function runFmt(mode){
+    var text = $('jcFmtText').value;
+    if (text.trim() === ''){
+      $('jc3Big').textContent = '—';
+      setStatus('jc3Status', 'Kolom masih kosong — tempel JSON dulu.', true);
+      $('jc3Out').textContent = '—';
+      $('jcSalinFmt').disabled = true;
+      return;
+    }
+    if (mode === 'pretty'){
+      var r = formatJson(text);
+      if (!r.ok){ $('jc3Big').textContent = '—'; setStatus('jc3Status', 'JSON tidak valid: ' + r.error, true); $('jc3Out').textContent = '—'; $('jcSalinFmt').disabled = true; return; }
+      $('jc3Out').textContent = r.out;
+      $('jc3Big').textContent = 'Valid';
+      setStatus('jc3Status', fmtInfoText(validateJson(text).info), false);
+      $('jcSalinFmt').disabled = false;
+    } else if (mode === 'minify'){
+      var m = minifyJson(text);
+      if (!m.ok){ $('jc3Big').textContent = '—'; setStatus('jc3Status', 'JSON tidak valid: ' + m.error, true); $('jc3Out').textContent = '—'; $('jcSalinFmt').disabled = true; return; }
+      $('jc3Out').textContent = m.out;
+      $('jc3Big').textContent = 'Valid';
+      setStatus('jc3Status', 'Dipadatkan jadi ' + m.out.length + ' karakter — ' + fmtInfoText(validateJson(text).info), false);
+      $('jcSalinFmt').disabled = false;
+    } else {
+      var v = validateJson(text);
+      if (!v.ok){ $('jc3Big').textContent = '—'; setStatus('jc3Status', 'JSON tidak valid: ' + v.error, true); $('jc3Out').textContent = '—'; $('jcSalinFmt').disabled = true; return; }
+      $('jc3Out').textContent = formatJson(text).out;
+      $('jc3Big').textContent = 'Valid';
+      setStatus('jc3Status', fmtInfoText(v.info), false);
+      $('jcSalinFmt').disabled = false;
+    }
+  }
+  $('jcRapikan').addEventListener('click', function(){ runFmt('pretty'); });
+  $('jcPadatkan').addEventListener('click', function(){ runFmt('minify'); });
+  $('jcValidasi').addEventListener('click', function(){ runFmt('validate'); });
+  $('jcContohFmt').addEventListener('click', function(){
+    $('jcFmtText').value = JSON.stringify(SAMPLE);
+    runFmt('pretty');
+  });
+  $('jcResetFmt').addEventListener('click', function(){
+    $('jcFmtText').value = '';
+    renderEmpty3();
+  });
+  $('jcSalinFmt').addEventListener('click', function(){
+    var t = $('jc3Out').textContent;
+    if (!t || t === '—') return;
+    copyText(t, this);
+  });
+  switchTab(1);
+  $('jcProsesJson').disabled = true;
+  renderEmpty1();
+  renderEmpty2();
+  renderEmpty3();
+})();
+</script>
+</main>
+<section class="static-cta">
+  <div class="static-wrap">
+    <div class="kick" style="margin-bottom:28px"><b>( 05 )</b> Mulai Proyek</div>
+    <h2>Punya ide?<br><span class="out">Ayo kita bangun.</span></h2>
+    <p>Ceritakan ke mana bisnismu ingin melangkah. Kami akan menganalisis, mengidentifikasi, dan meracik pengalaman digital yang membawamu ke sana.</p>
+    <a class="btn acc" href="https://tamatech.id/contact">Rasakan Pengalaman Digital Terbaik <span class="arr">&rarr;</span></a>
+  </div>
+</section>
+<footer class="static-foot">
+  <div class="static-wrap">
+    <span>&copy; 2026 Tama Technology (Tamatech) &mdash; Tools Bisnis Gratis.</span>
+    <span><a href="https://tamatech.id/tools">Semua tools</a> &middot; <a href="https://tamatech.id">tamatech.id</a></span>
+  </div>
+</footer>
+</body>
+</html>

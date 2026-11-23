@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UTM Link Builder: Buat Link UTM Gratis</title>
+<meta name="description" content="Buat link UTM untuk kampanye iklan dan media sosial — source, medium, campaign, term, dan content, tinggal salin. Gratis, tanpa daftar.">
+<meta property="og:title" content="UTM Link Builder: Buat Link UTM Gratis">
+<meta property="og:description" content="Buat link UTM untuk kampanye iklan dan media sosial — source, medium, campaign, term, dan content, tinggal salin. Gratis, tanpa daftar.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://tamatech.id/tools/utm-link-builder">
+<link rel="stylesheet" href="../../assets/tools.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Apa itu parameter UTM?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Parameter UTM adalah potongan teks yang ditambahkan ke URL (utm_source, utm_medium, utm_campaign, dan lainnya) supaya Google Analytics bisa mencatat dari mana pengunjung datang — misalnya dari iklan Google, Instagram, atau WhatsApp."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apa beda utm_source dan utm_medium?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "utm_source adalah asal trafiknya (misalnya google, instagram, whatsapp), sedangkan utm_medium adalah jenis medianya (misalnya cpc, social, email, referral)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah UTM memengaruhi SEO?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tidak. Parameter UTM hanya dipakai untuk pelacakan di analytics dan tidak mengubah isi halaman — mesin pencari tetap melihat halaman yang sama."
+      }
+    }
+  ]
+}
+</script>
+<style>
+.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin:40px 0}
+@media(max-width:820px){.calc-grid{grid-template-columns:1fr}}
+.calc-card{border:1px solid var(--line);border-radius:20px;padding:28px;background:var(--gray);min-width:0}
+.calc-card h3{font-size:20px;margin:0 0 6px}
+.calc-card p.hint{color:var(--mut);font-size:14px;margin:0 0 20px}
+.calc-card label{display:block;font-weight:600;font-size:14px;margin:0 0 6px}
+.calc-card input,.calc-card select{width:100%;min-width:0;border:1px solid var(--line);border-radius:12px;padding:13px 15px;font-family:var(--body);font-size:15.5px;color:#0B2A4A;background:#fff;margin-bottom:14px;box-sizing:border-box}
+.calc-card input:focus,.calc-card select:focus{outline:2px solid var(--acc);outline-offset:1px}
+.calc-result{border:1px solid var(--line);border-radius:20px;padding:32px;background:var(--navy);color:#fff;min-width:0}
+.calc-result .lbl{font-size:12px;letter-spacing:.2em;text-transform:uppercase;opacity:.7}
+.calc-result .note{opacity:.85;font-size:15px}
+.calc-result .src{opacity:.6;font-size:13px;margin-top:18px}
+.calc-table{width:100%;border-collapse:collapse;margin:8px 0 0}
+.calc-table th,.calc-table td{border-bottom:1px solid var(--line);padding:12px 8px;text-align:left;font-size:15px}
+.calc-table th{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.calc-table td:last-child,.calc-table th:last-child{text-align:right;white-space:nowrap}
+.calc-table tr.tot td{font-weight:700}
+.calc-faq{margin:8px 0 0}
+.calc-faq details{border-bottom:1px solid var(--line);padding:16px 0}
+.calc-faq summary{cursor:pointer;font-weight:600;font-size:17px}
+.calc-faq p{color:var(--mut);margin:10px 0 0}
+.utm-chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.utm-chip{border:1px solid var(--line);border-radius:999px;padding:7px 13px;font-family:var(--body);font-size:13.5px;font-weight:600;background:#fff;color:#0B2A4A;cursor:pointer}
+.utm-chip.on{background:#0B2A4A;color:#fff;border-color:#0B2A4A}
+.utm-link{font-size:17px;line-height:1.55;word-break:break-all;margin:12px 0 16px}
+.utm-copy{border:1px solid rgba(255,255,255,.5);border-radius:12px;padding:12px 20px;font-family:var(--body);font-size:15px;font-weight:700;background:#fff;color:#0B2A4A;cursor:pointer}
+.utm-copy:disabled{opacity:.45;cursor:default}
+</style>
+</head>
+<body>
+<header class="static-head">
+  <div class="static-wrap">
+    <a class="static-logo" href="https://tamatech.id">tama<i>tech</i><sup>&reg;</sup></a>
+    <nav>
+      <a href="https://tamatech.id/">Beranda</a>
+      <a href="https://tamatech.id/tools">Tools Gratis</a>
+      <a href="https://tamatech.id/portfolio">Portofolio</a>
+      <a href="https://tamatech.id/insights">Insights</a>
+      <a href="https://tamatech.id/contact">Kontak</a>
+    </nav>
+  </div>
+</header>
+<main class="static-wrap">
+
+
+<!-- PAGE HERO -->
+<section class="p-hero">
+  <div class="wrap">
+    <div class="kick" style="margin-top:22px"><b>( &#10022; )</b> Tools Tamatech</div>
+    <h1>UTM Link Builder</h1>
+    <div class="orb"><svg viewBox="0 0 100 100"><defs><path id="cir" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0"/></defs><text><textPath href="#cir" textLength="236">DESIGN &bull; CODE &bull; DEVELOP &bull; MAINTAIN &bull;</textPath></text></svg><span class="orb-c"><i>&darr;</i></span></div>
+    <p class="intro">Buat link UTM untuk kampanye iklan dan media sosial — supaya tahu persis dari mana pengunjungmu datang.</p>
+  </div>
+</section>
+
+<!-- CALCULATOR -->
+<section class="sec" style="padding-top:64px">
+  <div class="wrap">
+    <div class="calc-grid">
+      <div class="calc-card">
+        <h3>Link &amp; parametermu</h3>
+        <p class="hint">Isi URL halaman tujuanmu, lalu isi parameter UTM-nya. Yang wajib: source, medium, dan campaign.</p>
+        <label for="utmBase">URL dasar</label>
+        <input type="text" id="utmBase" value="https://tamatech.id/portfolio" inputmode="url" autocomplete="off" placeholder="https://contoh.com/halaman">
+        <label for="utmSource">utm_source — asal trafik</label>
+        <input type="text" id="utmSource" value="google" autocomplete="off" placeholder="google">
+        <div class="utm-chips" id="utmSourceChips">
+          <button type="button" class="utm-chip on" data-target="utmSource" data-value="google">google</button>
+          <button type="button" class="utm-chip" data-target="utmSource" data-value="facebook">facebook</button>
+          <button type="button" class="utm-chip" data-target="utmSource" data-value="instagram">instagram</button>
+          <button type="button" class="utm-chip" data-target="utmSource" data-value="tiktok">tiktok</button>
+          <button type="button" class="utm-chip" data-target="utmSource" data-value="whatsapp">whatsapp</button>
+          <button type="button" class="utm-chip" data-target="utmSource" data-value="email">email</button>
+        </div>
+        <label for="utmMedium">utm_medium — jenis media</label>
+        <input type="text" id="utmMedium" value="cpc" autocomplete="off" placeholder="cpc">
+        <div class="utm-chips" id="utmMediumChips">
+          <button type="button" class="utm-chip on" data-target="utmMedium" data-value="cpc">cpc</button>
+          <button type="button" class="utm-chip" data-target="utmMedium" data-value="social">social</button>
+          <button type="button" class="utm-chip" data-target="utmMedium" data-value="email">email</button>
+          <button type="button" class="utm-chip" data-target="utmMedium" data-value="referral">referral</button>
+        </div>
+        <label for="utmCampaign">utm_campaign — nama kampanye</label>
+        <input type="text" id="utmCampaign" value="promo-jan" autocomplete="off" placeholder="promo-jan">
+        <label for="utmTerm">utm_term — kata kunci (opsional)</label>
+        <input type="text" id="utmTerm" value="" autocomplete="off" placeholder="jasa-website">
+        <label for="utmContent">utm_content — varian iklan (opsional)</label>
+        <input type="text" id="utmContent" value="" autocomplete="off" placeholder="banner-biru">
+      </div>
+      <div>
+        <div class="calc-result" id="utmResult">
+          <div class="lbl">Link hasil</div>
+          <div class="utm-link" id="utmLink">https://tamatech.id/portfolio?utm_source=google&amp;utm_medium=cpc&amp;utm_campaign=promo-jan</div>
+          <button type="button" class="utm-copy" id="utmCopy">Salin link</button>
+          <div class="note" id="utmNote" style="margin-top:14px">Siap dipakai di iklan, bio, atau pesan WhatsApp.</div>
+          <div class="src" id="utmSrc">Parameter UTM hanya untuk pelacakan — tidak mengubah isi halaman.</div>
+        </div>
+        <div style="margin-top:28px">
+          <h3 style="font-size:20px;margin:0 0 6px">Parameternya</h3>
+          <table class="calc-table">
+            <tr><th>Parameter</th><th>Nilai</th></tr>
+            <tr><td>utm_source</td><td id="utmRowSource">google</td></tr>
+            <tr><td>utm_medium</td><td id="utmRowMedium">cpc</td></tr>
+            <tr><td>utm_campaign</td><td id="utmRowCampaign">promo-jan</td></tr>
+            <tr><td>utm_term</td><td id="utmRowTerm">—</td></tr>
+            <tr><td>utm_content</td><td id="utmRowContent">—</td></tr>
+          </table>
+          <p id="utmWarn" style="color:#b3261e;font-size:14px;margin:14px 0 0" hidden>URL dasar harus diawali http:// atau https://</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-head" style="margin-top:20px">
+      <h2>Cara pakainya</h2>
+      <p>Tempel link hasil ke iklan, postingan, atau pesanmu. Google Analytics akan mencatat kunjungan dari link itu di bawah source, medium, dan campaign yang kamu isi — jadi kamu tahu kampanye mana yang benar-benar mendatangkan pengunjung. Parameter lama utm_* di URL dasar akan diganti dengan yang baru, dan query atau jangkar (#) yang sudah ada di URL tetap dipertahankan.</p>
+    </div>
+
+    <div class="sec-head" style="margin-top:60px">
+      <h2>Pertanyaan yang sering ditanya</h2>
+    </div>
+    <div class="calc-faq">
+      <details><summary>Apa itu parameter UTM?</summary><p>Parameter UTM adalah potongan teks yang ditambahkan ke URL (utm_source, utm_medium, utm_campaign, dan lainnya) supaya Google Analytics bisa mencatat dari mana pengunjung datang — misalnya dari iklan Google, Instagram, atau WhatsApp.</p></details>
+      <details><summary>Apa beda utm_source dan utm_medium?</summary><p>utm_source adalah asal trafiknya (misalnya google, instagram, whatsapp), sedangkan utm_medium adalah jenis medianya (misalnya cpc, social, email, referral).</p></details>
+      <details><summary>Apakah UTM memengaruhi SEO?</summary><p>Tidak. Parameter UTM hanya dipakai untuk pelacakan di analytics dan tidak mengubah isi halaman — mesin pencari tetap melihat halaman yang sama.</p></details>
+    </div>
+
+    <p style="color:var(--mut);margin-top:40px">Tool ini berjalan sepenuhnya di browser — URL dan parametermu tidak dikirim ke mana pun. Link hasil bisa langsung disalin dan dipakai di mana saja.</p>
+  </div>
+</section>
+
+
+
+<script>
+(function(){
+  var UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+  function buildUtm(base, params){
+    base = String(base == null ? '' : base).trim();
+    if (base === '') return {error: 'empty'};
+    if (!/^https?:\/\//i.test(base)) return {error: 'protocol'};
+    var hash = '', q = '';
+    var hi = base.indexOf('#');
+    if (hi >= 0) { hash = base.slice(hi); base = base.slice(0, hi); }
+    var qi = base.indexOf('?');
+    var path = base, query = '';
+    if (qi >= 0) { path = base.slice(0, qi); query = base.slice(qi + 1); }
+    var kept = [];
+    if (query !== '') {
+      query.split('&').forEach(function(pair){
+        if (pair === '') return;
+        var k = pair.split('=')[0];
+        if (UTM_KEYS.indexOf(k) < 0) kept.push(pair);
+      });
+    }
+    var added = [];
+    UTM_KEYS.forEach(function(k){
+      var v = params[k];
+      if (v != null && String(v).trim() !== '') added.push(k + '=' + encodeURIComponent(String(v).trim()));
+    });
+    var all = kept.concat(added);
+    var url = path + (all.length ? '?' + all.join('&') : '') + hash;
+    return {url: url};
+  }
+  /* ---- Wiring DOM (di bawah ini butuh document) ---- */
+  function $(id){ return document.getElementById(id); }
+  function readParams(){
+    return {
+      utm_source: $('utmSource').value,
+      utm_medium: $('utmMedium').value,
+      utm_campaign: $('utmCampaign').value,
+      utm_term: $('utmTerm').value,
+      utm_content: $('utmContent').value
+    };
+  }
+  function update(){
+    var r = buildUtm($('utmBase').value, readParams());
+    var p = readParams();
+    $('utmRowSource').textContent = p.utm_source.trim() || '—';
+    $('utmRowMedium').textContent = p.utm_medium.trim() || '—';
+    $('utmRowCampaign').textContent = p.utm_campaign.trim() || '—';
+    $('utmRowTerm').textContent = p.utm_term.trim() || '—';
+    $('utmRowContent').textContent = p.utm_content.trim() || '—';
+    if (r.error === 'empty') {
+      $('utmLink').textContent = '—';
+      $('utmNote').textContent = 'Isi URL dasar dulu';
+      $('utmWarn').hidden = true;
+      $('utmCopy').disabled = true;
+    } else if (r.error === 'protocol') {
+      $('utmLink').textContent = '—';
+      $('utmNote').textContent = 'Periksa URL dasarmu';
+      $('utmWarn').hidden = false;
+      $('utmCopy').disabled = true;
+    } else {
+      $('utmLink').textContent = r.url;
+      $('utmNote').textContent = 'Siap dipakai di iklan, bio, atau pesan WhatsApp.';
+      $('utmWarn').hidden = true;
+      $('utmCopy').disabled = false;
+    }
+  }
+  ['utmBase','utmSource','utmMedium','utmCampaign','utmTerm','utmContent'].forEach(function(id){
+    $(id).addEventListener('input', update);
+    $(id).addEventListener('change', update);
+  });
+  document.querySelectorAll('.utm-chip').forEach(function(chip){
+    chip.addEventListener('click', function(){
+      var target = $(chip.getAttribute('data-target'));
+      target.value = chip.getAttribute('data-value');
+      var sibs = chip.parentNode.querySelectorAll('.utm-chip');
+      sibs.forEach(function(s){ s.classList.remove('on'); });
+      chip.classList.add('on');
+      update();
+    });
+  });
+  $('utmCopy').addEventListener('click', function(){
+    var text = $('utmLink').textContent;
+    if (!text || text === '—') return;
+    var done = function(){ $('utmCopy').textContent = 'Disalin!'; setTimeout(function(){ $('utmCopy').textContent = 'Salin link'; }, 1500); };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, function(){ fallbackCopy(text, done); });
+    } else {
+      fallbackCopy(text, done);
+    }
+  });
+  function fallbackCopy(text, done){
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); done(); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+  update();
+})();
+</script>
+</main>
+<section class="static-cta">
+  <div class="static-wrap">
+    <div class="kick" style="margin-bottom:28px"><b>( 05 )</b> Mulai Proyek</div>
+    <h2>Punya ide?<br><span class="out">Ayo kita bangun.</span></h2>
+    <p>Ceritakan ke mana bisnismu ingin melangkah. Kami akan menganalisis, mengidentifikasi, dan meracik pengalaman digital yang membawamu ke sana.</p>
+    <a class="btn acc" href="https://tamatech.id/contact">Rasakan Pengalaman Digital Terbaik <span class="arr">&rarr;</span></a>
+  </div>
+</section>
+<footer class="static-foot">
+  <div class="static-wrap">
+    <span>&copy; 2026 Tama Technology (Tamatech) &mdash; Tools Bisnis Gratis.</span>
+    <span><a href="https://tamatech.id/tools">Semua tools</a> &middot; <a href="https://tamatech.id">tamatech.id</a></span>
+  </div>
+</footer>
+</body>
+</html>
+

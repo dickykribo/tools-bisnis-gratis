@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalkulator THR: Hitung THR Karyawan Online</title>
+<meta name="description" content="Hitung THR dari gaji pokok, tunjangan tetap, dan masa kerja — sesuai Permenaker 6/2016, dibayar paling lambat H-7. Gratis, tanpa daftar.">
+<meta property="og:title" content="Kalkulator THR: Hitung THR Karyawan Online">
+<meta property="og:description" content="Hitung THR dari gaji pokok, tunjangan tetap, dan masa kerja — sesuai Permenaker 6/2016, dibayar paling lambat H-7. Gratis, tanpa daftar.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://tamatech.id/tools/kalkulator-thr">
+<link rel="stylesheet" href="../../assets/tools.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Siapa yang berhak mendapat THR?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Pekerja dengan masa kerja minimal 1 bulan berhak mendapat THR — baik pekerja tetap maupun pekerja dengan perjanjian kerja waktu tertentu (PKWT)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Kapan THR wajib dibayar?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "THR wajib dibayar paling lambat 7 hari sebelum hari raya keagamaan, sesuai Permenaker Nomor 6 Tahun 2016."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Bagaimana THR dihitung bila masa kerja kurang dari 12 bulan?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Dihitung proporsional: masa kerja (dalam bulan) dibagi 12, dikali upah sebulan. Misalnya masa kerja 8 bulan mendapat 8/12 dari upah sebulan."
+      }
+    }
+  ]
+}
+</script>
+<style>
+.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin:40px 0}
+@media(max-width:820px){.calc-grid{grid-template-columns:1fr}}
+.calc-card{border:1px solid var(--line);border-radius:20px;padding:28px;background:var(--gray);min-width:0}
+.calc-card h3{font-size:20px;margin:0 0 6px}
+.calc-card p.hint{color:var(--mut);font-size:14px;margin:0 0 20px}
+.calc-card label{display:block;font-weight:600;font-size:14px;margin:0 0 6px}
+.calc-card input,.calc-card select{width:100%;min-width:0;border:1px solid var(--line);border-radius:12px;padding:13px 15px;font-family:var(--body);font-size:15.5px;color:#0B2A4A;background:#fff;margin-bottom:14px;box-sizing:border-box}
+.calc-card input:focus,.calc-card select:focus{outline:2px solid var(--acc);outline-offset:1px}
+.calc-result{border:1px solid var(--line);border-radius:20px;padding:32px;background:var(--navy);color:#fff;min-width:0}
+.calc-result .lbl{font-size:12px;letter-spacing:.2em;text-transform:uppercase;opacity:.7}
+.calc-result .range{font-family:var(--disp);font-size:clamp(34px,4vw,52px);font-weight:600;line-height:1.05;margin:10px 0 6px}
+.calc-result .note{opacity:.85;font-size:15px}
+.calc-result .src{opacity:.6;font-size:13px;margin-top:18px}
+.calc-table{width:100%;border-collapse:collapse;margin:8px 0 0}
+.calc-table th,.calc-table td{border-bottom:1px solid var(--line);padding:12px 8px;text-align:left;font-size:15px}
+.calc-table th{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.calc-table td:last-child,.calc-table th:last-child{text-align:right;white-space:nowrap}
+.calc-table tr.tot td{font-weight:700}
+.calc-faq{margin:8px 0 0}
+.calc-faq details{border-bottom:1px solid var(--line);padding:16px 0}
+.calc-faq summary{cursor:pointer;font-weight:600;font-size:17px}
+.calc-faq p{color:var(--mut);margin:10px 0 0}
+</style>
+</head>
+<body>
+<header class="static-head">
+  <div class="static-wrap">
+    <a class="static-logo" href="https://tamatech.id">tama<i>tech</i><sup>&reg;</sup></a>
+    <nav>
+      <a href="https://tamatech.id/">Beranda</a>
+      <a href="https://tamatech.id/tools">Tools Gratis</a>
+      <a href="https://tamatech.id/portfolio">Portofolio</a>
+      <a href="https://tamatech.id/insights">Insights</a>
+      <a href="https://tamatech.id/contact">Kontak</a>
+    </nav>
+  </div>
+</header>
+<main class="static-wrap">
+
+
+<!-- PAGE HERO -->
+<section class="p-hero">
+  <div class="wrap">
+    <div class="kick" style="margin-top:22px"><b>( &#10022; )</b> Tools Tamatech</div>
+    <h1>Kalkulator THR</h1>
+    <div class="orb"><svg viewBox="0 0 100 100"><defs><path id="cir" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0"/></defs><text><textPath href="#cir" textLength="236">DESIGN &bull; CODE &bull; DEVELOP &bull; MAINTAIN &bull;</textPath></text></svg><span class="orb-c"><i>&darr;</i></span></div>
+    <p class="intro">Hitung Tunjangan Hari Raya dari gaji pokok, tunjangan tetap, dan masa kerja — sesuai Permenaker 6/2016.</p>
+  </div>
+</section>
+
+<!-- CALCULATOR -->
+<section class="sec" style="padding-top:64px">
+  <div class="wrap">
+    <div class="calc-grid">
+      <div class="calc-card">
+        <h3>Upah &amp; masa kerjamu</h3>
+        <p class="hint">Isi gaji pokok dan tunjangan tetapmu per bulan, lalu sudah berapa bulan kamu bekerja di perusahaan ini.</p>
+        <label for="thrPokok">Gaji pokok (Rp)</label>
+        <input type="text" id="thrPokok" value="5.000.000" inputmode="numeric" autocomplete="off">
+        <label for="thrTunjangan">Tunjangan tetap (Rp)</label>
+        <input type="text" id="thrTunjangan" value="1.000.000" inputmode="numeric" autocomplete="off">
+        <label for="thrMasa">Masa kerja (bulan)</label>
+        <input type="text" id="thrMasa" value="8" inputmode="numeric" autocomplete="off">
+      </div>
+      <div>
+        <div class="calc-result" id="thrResult">
+          <div class="lbl">THR yang kamu terima</div>
+          <div class="range" id="thrVal">Rp4.000.000</div>
+          <div class="note" id="thrNote">8/12 × upah sebulan Rp6.000.000</div>
+          <div class="src" id="thrSrc">Wajib dibayar paling lambat H-7 hari raya keagamaan</div>
+        </div>
+        <div style="margin-top:28px">
+          <h3 style="font-size:20px;margin:0 0 6px">Rinciannya</h3>
+          <table class="calc-table">
+            <tr><th>Pos</th><th>Jumlah</th></tr>
+            <tr><td>Gaji pokok</td><td id="thrPokokVal">Rp5.000.000</td></tr>
+            <tr><td>Tunjangan tetap</td><td id="thrTunjanganVal">Rp1.000.000</td></tr>
+            <tr class="tot"><td>Upah sebulan</td><td id="thrSebulan">Rp6.000.000</td></tr>
+            <tr><td>Masa kerja</td><td id="thrMasaVal">8 bulan</td></tr>
+            <tr><td>Proporsi THR</td><td id="thrProporsi">8/12</td></tr>
+            <tr class="tot"><td>THR</td><td id="thrTotal">Rp4.000.000</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-head" style="margin-top:20px">
+      <h2>Cara hitungnya</h2>
+      <p>Upah sebulan adalah gaji pokok + tunjangan tetap. Pekerja dengan masa kerja 12 bulan atau lebih mendapat THR sebesar 1 kali upah sebulan. Masa kerja kurang dari 12 bulan mendapat THR proporsional: masa kerja (dalam bulan) dibagi 12, dikali upah sebulan — misalnya 8 bulan mendapat 8/12 dari upah sebulan. Pekerja dengan masa kerja kurang dari 1 bulan belum berhak mendapat THR. Aturan ini mengikuti Permenaker Nomor 6 Tahun 2016, dan THR wajib dibayar paling lambat 7 hari sebelum hari raya keagamaan.</p>
+    </div>
+
+    <div class="sec-head" style="margin-top:60px">
+      <h2>Pertanyaan yang sering ditanya</h2>
+    </div>
+    <div class="calc-faq">
+      <details><summary>Siapa yang berhak mendapat THR?</summary><p>Pekerja dengan masa kerja minimal 1 bulan berhak mendapat THR — baik pekerja tetap maupun pekerja dengan perjanjian kerja waktu tertentu (PKWT).</p></details>
+      <details><summary>Kapan THR wajib dibayar?</summary><p>THR wajib dibayar paling lambat 7 hari sebelum hari raya keagamaan, sesuai Permenaker Nomor 6 Tahun 2016.</p></details>
+      <details><summary>Bagaimana THR dihitung bila masa kerja kurang dari 12 bulan?</summary><p>Dihitung proporsional: masa kerja (dalam bulan) dibagi 12, dikali upah sebulan. Misalnya masa kerja 8 bulan mendapat 8/12 dari upah sebulan.</p></details>
+    </div>
+
+    <p style="color:var(--mut);margin-top:40px">Kalkulator ini menghitung dari angka yang kamu isi sendiri, semuanya di browser — tidak ada data yang dikirim ke mana pun. Hasilnya perkiraan berdasarkan Permenaker Nomor 6 Tahun 2016: aturan ketenagakerjaan bisa berubah, dan angka final mengikuti perhitungan HRD serta perjanjian kerja yang berlaku.</p>
+  </div>
+</section>
+
+
+
+<script>
+(function(){
+  function toNum(s){
+    s = String(s == null ? '' : s).trim();
+    var neg = s.charAt(0) === '-';
+    var d = s.replace(/[^\d]/g, '');
+    if (d === '') return 0;
+    var n = parseInt(d, 10);
+    return neg ? -n : n;
+  }
+  function fmtNum(n){ return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
+  function fmtIDR(n){ return 'Rp' + fmtNum(Math.round(n)); }
+  function fmtNumInput(el){
+    var raw = el.value;
+    if (raw.trim() === '') return;
+    var v = toNum(raw);
+    var caret = el.selectionStart == null ? raw.length : el.selectionStart;
+    var digitsBefore = raw.slice(0, caret).replace(/[^\d]/g, '').length;
+    var s = fmtNum(v);
+    el.value = s;
+    var p = 0, d = 0;
+    while (p < s.length && d < digitsBefore) { if (/\d/.test(s.charAt(p))) d++; p++; }
+    try { el.setSelectionRange(p, p); } catch (e) {}
+  }
+  function calcThr(pokok, tunjangan, masa){
+    pokok = Math.max(0, pokok);
+    tunjangan = Math.max(0, tunjangan);
+    masa = Math.max(0, Math.floor(masa));
+    var sebulan = pokok + tunjangan;
+    var berhak = masa >= 1;
+    var bulanHitung = Math.min(masa, 12);
+    var thr = berhak ? Math.round(sebulan * bulanHitung / 12) : 0;
+    return {sebulan: sebulan, masa: masa, berhak: berhak, bulanHitung: bulanHitung, thr: thr};
+  }
+  /* ---- Wiring DOM (di bawah ini butuh document) ---- */
+  function $(id){ return document.getElementById(id); }
+  function update(){
+    var pokok = Math.max(0, toNum($('thrPokok').value));
+    var tunjangan = Math.max(0, toNum($('thrTunjangan').value));
+    var masa = Math.max(0, toNum($('thrMasa').value));
+    var r = calcThr(pokok, tunjangan, masa);
+    $('thrPokokVal').textContent = fmtIDR(pokok);
+    $('thrTunjanganVal').textContent = fmtIDR(tunjangan);
+    $('thrSebulan').textContent = fmtIDR(r.sebulan);
+    $('thrMasaVal').textContent = r.masa + ' bulan';
+    $('thrProporsi').textContent = r.berhak ? (r.bulanHitung + '/12') : '—';
+    $('thrTotal').textContent = fmtIDR(r.thr);
+    if (r.sebulan === 0) {
+      $('thrVal').textContent = '—';
+      $('thrNote').textContent = 'Isi gaji pokok dan tunjangan dulu';
+    } else if (!r.berhak) {
+      $('thrVal').textContent = 'Rp0';
+      $('thrNote').textContent = 'Belum berhak THR — masa kerja kurang dari 1 bulan';
+    } else if (r.masa >= 12) {
+      $('thrVal').textContent = fmtIDR(r.thr);
+      $('thrNote').textContent = 'Masa kerja 12 bulan atau lebih · THR penuh 1× upah sebulan';
+    } else {
+      $('thrVal').textContent = fmtIDR(r.thr);
+      $('thrNote').textContent = r.bulanHitung + '/12 × upah sebulan ' + fmtIDR(r.sebulan);
+    }
+    $('thrSrc').textContent = 'Wajib dibayar paling lambat H-7 hari raya keagamaan';
+  }
+  ['thrPokok','thrTunjangan','thrMasa'].forEach(function(id){
+    $(id).addEventListener('input', function(){ fmtNumInput($(id)); update(); });
+    $(id).addEventListener('change', update);
+  });
+  update();
+})();
+</script>
+</main>
+<section class="static-cta">
+  <div class="static-wrap">
+    <div class="kick" style="margin-bottom:28px"><b>( 05 )</b> Mulai Proyek</div>
+    <h2>Punya ide?<br><span class="out">Ayo kita bangun.</span></h2>
+    <p>Ceritakan ke mana bisnismu ingin melangkah. Kami akan menganalisis, mengidentifikasi, dan meracik pengalaman digital yang membawamu ke sana.</p>
+    <a class="btn acc" href="https://tamatech.id/contact">Rasakan Pengalaman Digital Terbaik <span class="arr">&rarr;</span></a>
+  </div>
+</section>
+<footer class="static-foot">
+  <div class="static-wrap">
+    <span>&copy; 2026 Tama Technology (Tamatech) &mdash; Tools Bisnis Gratis.</span>
+    <span><a href="https://tamatech.id/tools">Semua tools</a> &middot; <a href="https://tamatech.id">tamatech.id</a></span>
+  </div>
+</footer>
+</body>
+</html>
+

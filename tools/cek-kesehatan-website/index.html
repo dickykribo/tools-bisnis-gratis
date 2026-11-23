@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cek Kesehatan Website Gratis: Skor SEO, Kecepatan & Keamanan</title>
+<meta name="description" content="Cek kesehatan website gratis: skor SEO on-page, kecepatan respons, dan keamanan dasar. Masukkan URL, lihat hasilnya dalam hitungan detik.">
+<meta property="og:title" content="Cek Kesehatan Website Gratis: Skor SEO, Kecepatan & Keamanan">
+<meta property="og:description" content="Cek kesehatan website gratis: skor SEO on-page, kecepatan respons, dan keamanan dasar. Masukkan URL, lihat hasilnya dalam hitungan detik.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://tamatech.id/tools/cek-kesehatan-website">
+<link rel="stylesheet" href="../../assets/tools.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Apa yang dicek oleh tools ini?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sepuluh hal dasar: HTTPS aktif atau tidak, website bisa dibuka atau tidak, waktu respons server, judul halaman, meta description, judul utama (H1), tampilan HP, alt gambar, header keamanan, dan ukuran halaman. Hasilnya skor 0 sampai 100 beserta rincian tiap pemeriksaan."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah URL yang dicek disimpan?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tidak. URL hanya dipakai sekali untuk pemeriksaan ini dan tidak disimpan di server Tamatech."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Kenapa skor website bisa rendah?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Penyebab yang paling sering: belum HTTPS, judul atau meta description tidak ada, tidak ada H1, tampilan HP berantakan, dan header keamanan tidak ada. Semuanya bisa dirapikan — layanan Maintenance & Repair Tamatech mengerjakannya."
+      }
+    }
+  ]
+}
+</script>
+<style>
+.cek-form{display:flex;gap:12px;margin:36px 0 8px}
+@media(max-width:640px){.cek-form{flex-direction:column}}
+.cek-form input{flex:1;border:1px solid var(--line);border-radius:100px;padding:14px 22px;font-size:16px;background:#fff;color:#0B2A4A}
+.cek-form input:focus{outline:2px solid var(--acc);outline-offset:1px}
+.cek-example{color:var(--mut);font-size:14px;margin:0 0 8px}
+.cek-example button{background:none;border:none;color:var(--acc);cursor:pointer;font-size:14px;text-decoration:underline;padding:0}
+.cek-result{display:none;border:1px solid var(--line);border-radius:20px;padding:32px;margin:28px 0;background:var(--gray)}
+.cek-result.show{display:block}
+.cek-score{display:flex;gap:24px;align-items:center;flex-wrap:wrap}
+.cek-num{font-family:var(--disp);font-size:clamp(56px,8vw,84px);font-weight:600;line-height:1}
+.cek-grade{font-size:20px;font-weight:600}
+.cek-meta{color:var(--mut);font-size:14px;margin-top:6px}
+.cek-list{list-style:none;margin:24px 0 0;padding:0}
+.cek-list li{display:flex;gap:12px;align-items:flex-start;border-top:1px solid var(--line);padding:14px 0}
+.cek-dot{flex:0 0 22px;height:22px;border-radius:50%;margin-top:2px}
+.cek-dot.lolos{background:#16a34a}
+.cek-dot.perhatian{background:#d97706}
+.cek-dot.gagal{background:#dc2626}
+.cek-list b{display:block;font-size:15px}
+.cek-list span{color:var(--mut);font-size:14px}
+.cek-list .pts{margin-left:auto;white-space:nowrap;font-weight:600;font-size:14px}
+.cek-err{display:none;color:#dc2626;margin:16px 0 0}
+.cek-faq{margin:8px 0 0}
+.cek-faq details{border-bottom:1px solid var(--line);padding:16px 0}
+.cek-faq summary{cursor:pointer;font-weight:600;font-size:17px}
+.cek-faq p{color:var(--mut);margin:10px 0 0}
+</style>
+</head>
+<body>
+<header class="static-head">
+  <div class="static-wrap">
+    <a class="static-logo" href="https://tamatech.id">tama<i>tech</i><sup>&reg;</sup></a>
+    <nav>
+      <a href="https://tamatech.id/">Beranda</a>
+      <a href="https://tamatech.id/tools">Tools Gratis</a>
+      <a href="https://tamatech.id/portfolio">Portofolio</a>
+      <a href="https://tamatech.id/insights">Insights</a>
+      <a href="https://tamatech.id/contact">Kontak</a>
+    </nav>
+  </div>
+</header>
+<main class="static-wrap">
+<!-- PAGE HERO -->
+<section class="p-hero">
+  <div class="wrap">
+    <div class="kick" style="margin-top:22px"><b>( &#10022; )</b> Tools Tamatech</div>
+    <h1>Cek Kesehatan Website</h1>
+    <div class="orb"><svg viewBox="0 0 100 100"><defs><path id="cir" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0"/></defs><text><textPath href="#cir" textLength="236">DESIGN &bull; CODE &bull; DEVELOP &bull; MAINTAIN &bull;</textPath></text></svg><span class="orb-c"><i>&darr;</i></span></div>
+    <p class="intro">Sebelum jualan atau publish website, cek dulu websitemu sudah sehat atau belum. Gratis — masukkan URL, lihat skornya dalam hitungan detik.</p>
+    <form class="cek-form" id="cekForm">
+      <input type="text" id="cekUrl" placeholder="contoh: tamatech.id" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" inputmode="url" aria-label="URL website">
+      <button class="btn acc" type="submit" id="cekBtn">Cek sekarang <span class="arr">→</span></button>
+    </form>
+    <p class="cek-example">Coba contoh: <button type="button" id="cekExample">tamatech.id</button></p>
+    <p class="cek-err" id="cekErr"></p>
+    <div class="cek-result" id="cekResult">
+      <div class="cek-score">
+        <div class="cek-num" id="cekScore">–</div>
+        <div>
+          <div class="cek-grade" id="cekGrade"></div>
+          <div class="cek-meta" id="cekMeta"></div>
+        </div>
+      </div>
+      <ul class="cek-list" id="cekList"></ul>
+      <p style="color:var(--mut);margin:20px 0 0">Skor di bawah 85? Kami bisa merapikannya — <a href="https://tamatech.id/services/maintenance-services">layanan Maintenance &amp; Repair</a> Tamatech mengerjakannya.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec" style="padding-top:64px">
+  <div class="wrap">
+    <div class="sec-head" style="margin-top:20px">
+      <h2>Pertanyaan yang sering ditanya</h2>
+    </div>
+    <div class="cek-faq">
+      <details><summary>Apa yang dicek oleh tools ini?</summary><p>Sepuluh hal dasar: HTTPS aktif atau tidak, website bisa dibuka atau tidak, waktu respons server, judul halaman, meta description, judul utama (H1), tampilan HP, alt gambar, header keamanan, dan ukuran halaman. Hasilnya skor 0 sampai 100 beserta rincian tiap pemeriksaan.</p></details>
+      <details><summary>Apakah URL yang dicek disimpan?</summary><p>Tidak. URL hanya dipakai sekali untuk pemeriksaan ini dan tidak disimpan di server Tamatech.</p></details>
+      <details><summary>Kenapa skor website bisa rendah?</summary><p>Penyebab yang paling sering: belum HTTPS, judul atau meta description tidak ada, tidak ada H1, tampilan HP berantakan, dan header keamanan tidak ada. Semuanya bisa dirapikan — layanan Maintenance &amp; Repair Tamatech mengerjakannya.</p></details>
+    </div>
+    <p style="color:var(--mut);margin-top:40px">Pemeriksaan dasar (SEO on-page + keamanan + kecepatan respons) — bukan pengganti audit penuh. <a href="https://tamatech.id/insights/keamanan-server-php2shell">Baca soal keamanan server →</a></p>
+  </div>
+</section>
+
+
+
+<script>
+(function(){
+  var form = document.getElementById("cekForm");
+  var input = document.getElementById("cekUrl");
+  var btn = document.getElementById("cekBtn");
+  var err = document.getElementById("cekErr");
+  var res = document.getElementById("cekResult");
+  document.getElementById("cekExample").addEventListener("click", function(){
+    input.value = "tamatech.id";
+    input.focus();
+  });
+  form.addEventListener("submit", function(ev){
+    ev.preventDefault();
+    var url = input.value.trim();
+    if (!url) { err.textContent = "Masukkan dulu URL websitenya."; err.style.display = "block"; return; }
+    err.style.display = "none";
+    res.classList.remove("show");
+    btn.disabled = true;
+    btn.textContent = "Mengecek…";
+    fetch("/api/tools/cek-website?url=" + encodeURIComponent(url))
+      .then(function(r){ return r.json().then(function(j){ return {status: r.status, body: j}; }); })
+      .then(function(out){
+        btn.disabled = false;
+        btn.innerHTML = 'Cek sekarang <span class="arr">→</span>';
+        if (!out.body.ok) {
+          err.textContent = out.body.error || "Pemeriksaan gagal.";
+          err.style.display = "block";
+          return;
+        }
+        var b = out.body;
+        document.getElementById("cekScore").textContent = b.score;
+        document.getElementById("cekGrade").textContent = b.grade + " — " + b.score + "/100";
+        document.getElementById("cekMeta").textContent =
+          b.final_url + " · HTTP " + b.status + " · " + b.elapsed_ms + " mdtk · " + b.size_kb + " KB";
+        var list = document.getElementById("cekList");
+        list.innerHTML = "";
+        b.checks.forEach(function(c){
+          var li = document.createElement("li");
+          var dot = document.createElement("span");
+          dot.className = "cek-dot " + c.status;
+          var tx = document.createElement("div");
+          var t = document.createElement("b");
+          t.textContent = c.label;
+          var d = document.createElement("span");
+          d.textContent = c.detail;
+          tx.appendChild(t); tx.appendChild(d);
+          var p = document.createElement("span");
+          p.className = "pts";
+          p.textContent = c.points + "/" + c.max;
+          li.appendChild(dot); li.appendChild(tx); li.appendChild(p);
+          list.appendChild(li);
+        });
+        res.classList.add("show");
+        res.scrollIntoView({behavior: "smooth", block: "nearest"});
+      })
+      .catch(function(){
+        btn.disabled = false;
+        btn.innerHTML = 'Cek sekarang <span class="arr">→</span>';
+        err.textContent = "Pemeriksaan gagal — coba lagi sebentar lagi.";
+        err.style.display = "block";
+      });
+  });
+})();
+</script>
+</main>
+<section class="static-cta">
+  <div class="static-wrap">
+    <div class="kick" style="margin-bottom:28px"><b>( 05 )</b> Mulai Proyek</div>
+    <h2>Punya ide?<br><span class="out">Ayo kita bangun.</span></h2>
+    <p>Ceritakan ke mana bisnismu ingin melangkah. Kami akan menganalisis, mengidentifikasi, dan meracik pengalaman digital yang membawamu ke sana.</p>
+    <a class="btn acc" href="https://tamatech.id/contact">Rasakan Pengalaman Digital Terbaik <span class="arr">&rarr;</span></a>
+  </div>
+</section>
+<footer class="static-foot">
+  <div class="static-wrap">
+    <span>&copy; 2026 Tama Technology (Tamatech) &mdash; Tools Bisnis Gratis.</span>
+    <span><a href="https://tamatech.id/tools">Semua tools</a> &middot; <a href="https://tamatech.id">tamatech.id</a></span>
+  </div>
+</footer>
+</body>
+</html>

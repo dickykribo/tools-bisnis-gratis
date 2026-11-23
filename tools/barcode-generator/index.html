@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Barcode Generator Gratis — Buat Barcode Online</title>
+<meta name="description" content="Buat barcode gratis dari teks atau angka — CODE128, EAN-13, UPC-A, dan CODE39. Pratinjau langsung, unduh PNG atau SVG, tanpa daftar.">
+<meta property="og:title" content="Barcode Generator Gratis — Buat Barcode Online">
+<meta property="og:description" content="Buat barcode gratis dari teks atau angka — CODE128, EAN-13, UPC-A, dan CODE39. Pratinjau langsung, unduh PNG atau SVG, tanpa daftar.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://tamatech.id/tools/barcode-generator">
+<link rel="stylesheet" href="../../assets/tools.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Apa bedanya CODE128, EAN-13, UPC-A, dan CODE39?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "CODE128 paling fleksibel (huruf, angka, dan simbol ASCII apa pun) dan paling padat. EAN-13 adalah standar barcode produk retail di Indonesia dan dunia (13 digit, digit terakhir adalah digit cek). UPC-A adalah standar retail Amerika Utara (12 digit). CODE39 adalah format lama untuk huruf besar, angka, dan beberapa simbol — dipakai di inventaris dan kartu anggota."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah barcode yang dibuat di sini bisa dipindai?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ya, selama pemindainya mendukung format yang dipilih. CODE128 dan EAN-13 didukung hampir semua pemindai barcode. Pastikan hasil cetaknya cukup besar dan kontras (hitam di atas putih) — jangan diperkecil sampai garisnya menyatu."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah teks atau angkaku dikirim ke server?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tidak. Barcode dibuat sepenuhnya di browser kamu dengan library JavaScript yang tersimpan di situs ini — tidak ada data yang dikirim ke mana pun."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Kenapa EAN-13 minta 12 atau 13 digit?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Digit ke-13 adalah digit cek yang dihitung dari 12 digit sebelumnya. Kalau kamu isi 12 digit, digit ceknya dihitung otomatis; kalau isi 13 digit, digit ceknya diperiksa — kalau salah, tool ini memberi tahu digit yang benar."
+      }
+    }
+  ]
+}
+</script>
+<style>
+.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin:40px 0}
+@media(max-width:820px){.calc-grid{grid-template-columns:1fr}}
+.calc-card{border:1px solid var(--line);border-radius:20px;padding:28px;background:var(--gray);min-width:0}
+.calc-card h3{font-size:20px;margin:0 0 6px}
+.calc-card p.hint{color:var(--mut);font-size:14px;margin:0 0 20px}
+.calc-card label{display:block;font-weight:600;font-size:14px;margin:0 0 6px}
+.calc-card input,.calc-card select,.calc-card textarea{width:100%;min-width:0;border:1px solid var(--line);border-radius:12px;padding:13px 15px;font-family:var(--body);font-size:15.5px;color:#0B2A4A;background:#fff;margin-bottom:14px;box-sizing:border-box}
+.calc-card input:focus,.calc-card select:focus,.calc-card textarea:focus{outline:2px solid var(--acc);outline-offset:1px}
+.calc-card .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:560px){.calc-card .row2{grid-template-columns:1fr}}
+.calc-card .check{display:flex;align-items:center;gap:10px;margin:2px 0 14px;font-size:15px}
+.calc-card .check input{width:auto;margin:0;accent-color:var(--acc)}
+.calc-result{border:1px solid var(--line);border-radius:20px;padding:32px;background:var(--navy);color:#fff;min-width:0}
+.calc-result .lbl{font-size:12px;letter-spacing:.2em;text-transform:uppercase;opacity:.7}
+.calc-result .note{opacity:.85;font-size:15px}
+.calc-result .src{opacity:.6;font-size:13px;margin-top:18px}
+.calc-table{width:100%;border-collapse:collapse;margin:8px 0 0}
+.calc-table th,.calc-table td{border-bottom:1px solid var(--line);padding:12px 8px;text-align:left;font-size:15px}
+.calc-table th{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.calc-table td:last-child,.calc-table th:last-child{text-align:right;white-space:nowrap}
+.calc-table tr.tot td{font-weight:700}
+.calc-faq{margin:8px 0 0}
+.calc-faq details{border-bottom:1px solid var(--line);padding:16px 0}
+.calc-faq summary{cursor:pointer;font-weight:600;font-size:17px}
+.calc-faq p{color:var(--mut);margin:10px 0 0}
+.bc-box{background:#fff;border-radius:16px;padding:20px;margin:16px auto 8px;overflow-x:auto}
+.bc-box svg{width:100%;height:auto;display:block}
+.bc-empty{border:2px dashed rgba(255,255,255,.4);border-radius:16px;padding:48px 20px;text-align:center;font-size:18px;margin:16px 0 8px}
+.bc-dlrow{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.bc-dl{flex:1 1 140px;border:1px solid rgba(255,255,255,.5);border-radius:12px;padding:12px 20px;font-family:var(--body);font-size:15px;font-weight:700;background:#fff;color:#0B2A4A;cursor:pointer;margin-top:12px}
+.bc-dl:disabled{opacity:.45;cursor:default}
+.bc-err{color:#ffcf99}
+</style>
+</head>
+<body>
+<header class="static-head">
+  <div class="static-wrap">
+    <a class="static-logo" href="https://tamatech.id">tama<i>tech</i><sup>&reg;</sup></a>
+    <nav>
+      <a href="https://tamatech.id/">Beranda</a>
+      <a href="https://tamatech.id/tools">Tools Gratis</a>
+      <a href="https://tamatech.id/portfolio">Portofolio</a>
+      <a href="https://tamatech.id/insights">Insights</a>
+      <a href="https://tamatech.id/contact">Kontak</a>
+    </nav>
+  </div>
+</header>
+<main class="static-wrap">
+<!-- PAGE HERO -->
+<section class="p-hero">
+  <div class="wrap">
+    <div class="kick" style="margin-top:22px"><b>( &#10022; )</b> Tools Tamatech</div>
+    <h1>Barcode Generator</h1>
+    <div class="orb"><svg viewBox="0 0 100 100"><defs><path id="cir" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0"/></defs><text><textPath href="#cir" textLength="236">DESIGN &bull; CODE &bull; DEVELOP &bull; MAINTAIN &bull;</textPath></text></svg><span class="orb-c"><i>&darr;</i></span></div>
+    <p class="intro">Buat barcode gratis dari teks atau angka — untuk produk, kemasan, dan inventaris. Dibuat di browser, tanpa daftar.</p>
+  </div>
+</section>
+
+<!-- CALCULATOR -->
+<section class="sec" style="padding-top:64px">
+  <div class="wrap">
+    <div class="calc-grid">
+      <div class="calc-card">
+        <h3>Isi barcode-mu</h3>
+        <p class="hint">Tulis teks atau angka yang mau diubah jadi barcode, lalu pilih formatnya. Barcode langsung muncul di sebelah kanan.</p>
+        <label for="bcText">Teks atau angka</label>
+        <input id="bcText" type="text" autocomplete="off" placeholder="8991234567890" value="8991234567890">
+        <label for="bcFormat">Format barcode</label>
+        <select id="bcFormat">
+          <option value="CODE128" selected>CODE128 — teks &amp; angka apa pun (paling fleksibel)</option>
+          <option value="EAN13">EAN-13 — produk retail (12 atau 13 digit)</option>
+          <option value="CODE39">CODE39 — huruf besar &amp; angka (inventaris, kartu anggota)</option>
+          <option value="UPC">UPC-A — produk retail Amerika (11 atau 12 digit)</option>
+        </select>
+        <div class="row2">
+          <div>
+            <label for="bcHeight">Tinggi bar (px)</label>
+            <input id="bcHeight" type="number" min="40" max="200" step="10" value="100">
+          </div>
+          <div>
+            <label for="bcWidth">Lebar bar (skala)</label>
+            <select id="bcWidth">
+              <option value="1">1 — tipis</option>
+              <option value="2" selected>2 — standar</option>
+              <option value="3">3 — tebal</option>
+              <option value="4">4 — paling tebal</option>
+            </select>
+          </div>
+        </div>
+        <label class="check"><input id="bcShowText" type="checkbox" checked> Tampilkan teks di bawah barcode</label>
+      </div>
+      <div>
+        <div class="calc-result" id="bcResult" style="text-align:center">
+          <div class="lbl">Barcode-mu</div>
+          <div class="bc-box" id="bcBox"><svg id="bcSvg" xmlns="http://www.w3.org/2000/svg"></svg></div>
+          <div class="bc-dlrow">
+            <button type="button" class="bc-dl" id="bcDlPng">Unduh PNG</button>
+            <button type="button" class="bc-dl" id="bcDlSvg">Unduh SVG</button>
+          </div>
+          <div class="note" id="bcNote" style="margin-top:14px">Siap dicetak atau ditempel di kemasan dan produkmu.</div>
+          <div class="src" id="bcSrc">Barcode dibuat di browser — tidak ada data yang dikirim ke mana pun.</div>
+        </div>
+        <div style="margin-top:28px">
+          <h3 style="font-size:20px;margin:0 0 6px">Detailnya</h3>
+          <table class="calc-table">
+            <tr><th>Keterangan</th><th>Nilai</th></tr>
+            <tr><td>Format</td><td id="bcFormatVal">CODE128</td></tr>
+            <tr><td>Isi (yang di-encode)</td><td id="bcIsi" style="word-break:break-all">8991234567890</td></tr>
+            <tr><td>Digit cek</td><td id="bcCheck">—</td></tr>
+            <tr><td>Jumlah karakter</td><td id="bcChars">13</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-head" style="margin-top:20px">
+      <h2>Cara pakainya</h2>
+      <p>Ketik teks atau angka, pilih format, barcode langsung muncul. Atur tinggi dan lebar bar bila perlu, lalu unduh sebagai PNG (untuk ditempel di kemasan atau katalog) atau SVG (untuk desain dan cetak). Semua proses jalan di browser — tidak ada data yang diunggah ke server. Contoh: produk Indonesia biasanya memakai EAN-13 dengan awalan 899 — isi 12 digit, digit ceknya dihitung otomatis.</p>
+    </div>
+
+    <div class="sec-head" style="margin-top:60px">
+      <h2>Pertanyaan yang sering ditanya</h2>
+    </div>
+    <div class="calc-faq">
+      <details><summary>Apa bedanya CODE128, EAN-13, UPC-A, dan CODE39?</summary><p>CODE128 paling fleksibel (huruf, angka, dan simbol ASCII apa pun) dan paling padat. EAN-13 adalah standar barcode produk retail di Indonesia dan dunia (13 digit, digit terakhir adalah digit cek). UPC-A adalah standar retail Amerika Utara (12 digit). CODE39 adalah format lama untuk huruf besar, angka, dan beberapa simbol — dipakai di inventaris dan kartu anggota.</p></details>
+      <details><summary>Apakah barcode yang dibuat di sini bisa dipindai?</summary><p>Ya, selama pemindainya mendukung format yang dipilih. CODE128 dan EAN-13 didukung hampir semua pemindai barcode. Pastikan hasil cetaknya cukup besar dan kontras (hitam di atas putih) — jangan diperkecil sampai garisnya menyatu.</p></details>
+      <details><summary>Apakah teks atau angkaku dikirim ke server?</summary><p>Tidak. Barcode dibuat sepenuhnya di browser kamu dengan library JavaScript yang tersimpan di situs ini — tidak ada data yang dikirim ke mana pun.</p></details>
+      <details><summary>Kenapa EAN-13 minta 12 atau 13 digit?</summary><p>Digit ke-13 adalah digit cek yang dihitung dari 12 digit sebelumnya. Kalau kamu isi 12 digit, digit ceknya dihitung otomatis; kalau isi 13 digit, digit ceknya diperiksa — kalau salah, tool ini memberi tahu digit yang benar.</p></details>
+    </div>
+
+    <p style="color:var(--mut);margin-top:40px">Barcode dibuat dengan library JsBarcode (Johan Lindell, lisensi MIT) yang tersimpan di situs ini — tanpa CDN, jadi tetap jalan walau koneksi lambat. Library dan lisensinya ada di ../../assets/jsbarcode.js.</p>
+  </div>
+</section>
+
+
+<script src="../../assets/jsbarcode.js"></script>
+<script>
+(function(){
+  var FORMAT_LABEL = {CODE128: 'CODE128', EAN13: 'EAN-13', CODE39: 'CODE39', UPC: 'UPC-A'};
+  var CODE39_OK = /^[0-9A-Z \-.$/+%]*$/;
+  function eanCheckDigit(d12){
+    var sum = 0;
+    for (var i = 0; i < 12; i++){
+      var d = d12.charCodeAt(i) - 48;
+      sum += (i % 2 === 0) ? d : d * 3;
+    }
+    return (10 - (sum % 10)) % 10;
+  }
+  function upcCheckDigit(d11){
+    var sum = 0;
+    for (var i = 0; i < 11; i++){
+      var d = d11.charCodeAt(i) - 48;
+      sum += (i % 2 === 0) ? d * 3 : d;
+    }
+    return (10 - (sum % 10)) % 10;
+  }
+  function validateAndEncode(text, format){
+    text = String(text == null ? '' : text);
+    format = FORMAT_LABEL[format] ? format : 'CODE128';
+    if (text === '') return {error: 'empty'};
+    if (format === 'EAN13'){
+      if (/[^0-9]/.test(text)) return {error: 'digits'};
+      if (text.length === 12){
+        var c = eanCheckDigit(text);
+        return {value: text + c, check: c};
+      }
+      if (text.length === 13){
+        var want = eanCheckDigit(text.slice(0, 12));
+        var got = text.charCodeAt(12) - 48;
+        if (want !== got) return {error: 'badcheck', expected: want};
+        return {value: text, check: got};
+      }
+      return {error: 'length'};
+    }
+    if (format === 'UPC'){
+      if (/[^0-9]/.test(text)) return {error: 'digits'};
+      if (text.length === 11){
+        var c2 = upcCheckDigit(text);
+        return {value: text + c2, check: c2};
+      }
+      if (text.length === 12){
+        var want2 = upcCheckDigit(text.slice(0, 11));
+        var got2 = text.charCodeAt(11) - 48;
+        if (want2 !== got2) return {error: 'badcheck', expected: want2};
+        return {value: text, check: got2};
+      }
+      return {error: 'length'};
+    }
+    if (format === 'CODE39'){
+      var up = text.toUpperCase();
+      if (!CODE39_OK.test(up)){
+        var bad = [];
+        for (var j = 0; j < up.length; j++){
+          if (!CODE39_OK.test(up[j]) && bad.indexOf(up[j]) < 0) bad.push(up[j]);
+        }
+        return {error: 'charset', bad: bad};
+      }
+      return {value: up, check: null};
+    }
+    for (var k = 0; k < text.length; k++){
+      if (text.charCodeAt(k) > 127) return {error: 'ascii'};
+    }
+    return {value: text, check: null};
+  }
+  function renderBarcode(svgEl, value, format, opts){
+    try {
+      JsBarcode(svgEl, value, {
+        format: format,
+        width: opts.width,
+        height: opts.height,
+        displayValue: opts.displayValue,
+        background: '#ffffff',
+        lineColor: '#000000',
+        margin: 10,
+        fontSize: 18
+      });
+      var bars = svgEl.querySelectorAll ? svgEl.querySelectorAll('rect').length : 0;
+      return {ok: true, bars: bars};
+    } catch (e) {
+      return {error: 'render'};
+    }
+  }
+  function normalizeInput(text, format){
+    text = String(text == null ? '' : text);
+    if (format === 'CODE39') return text.toUpperCase();
+    return text;
+  }
+  /* ---- Wiring DOM (di bawah ini butuh document) ---- */
+  function $(id){ return document.getElementById(id); }
+  function safeName(v){
+    var s = String(v).replace(/[^A-Za-z0-9_-]/g, '');
+    return s === '' ? 'barcode' : s;
+  }
+  var lastValue = '';
+  function errMsg(r, format){
+    if (r.error === 'empty') return 'Isi teks atau angka dulu';
+    if (r.error === 'digits') return 'Format ' + FORMAT_LABEL[format] + ' hanya menerima angka';
+    if (r.error === 'length') return format === 'EAN13' ? 'EAN-13 butuh 12 digit (digit cek dihitung otomatis) atau 13 digit' : 'UPC-A butuh 11 digit (digit cek dihitung otomatis) atau 12 digit';
+    if (r.error === 'badcheck') return 'Digit cek salah — seharusnya ' + r.expected;
+    if (r.error === 'charset') return 'CODE39 tidak menerima karakter: ' + r.bad.join(' ');
+    if (r.error === 'ascii') return 'CODE128 hanya menerima karakter ASCII';
+    if (r.error === 'render') return 'Tidak bisa membuat barcode dari isi ini';
+    return 'Isi tidak valid untuk format ' + FORMAT_LABEL[format];
+  }
+  function update(){
+    var text = $('bcText').value;
+    var format = $('bcFormat').value;
+    var norm = normalizeInput(text, format);
+    if (norm !== text){
+      text = norm;
+      $('bcText').value = norm;
+    }
+    var height = parseInt($('bcHeight').value, 10);
+    if (isNaN(height) || height < 40) height = 40;
+    if (height > 200) height = 200;
+    var width = parseInt($('bcWidth').value, 10);
+    if (isNaN(width) || width < 1) width = 2;
+    if (width > 4) width = 4;
+    var showText = $('bcShowText').checked;
+    var r = validateAndEncode(text, format);
+    $('bcFormatVal').textContent = FORMAT_LABEL[format] || FORMAT_LABEL.CODE128;
+    $('bcChars').textContent = text.length;
+    if (r.error){
+      $('bcBox').innerHTML = '<div class="bc-empty">—</div>';
+      $('bcIsi').textContent = '—';
+      $('bcCheck').textContent = '—';
+      var note = $('bcNote');
+      note.textContent = errMsg(r, format);
+      note.classList.add('bc-err');
+      $('bcDlPng').disabled = true;
+      $('bcDlSvg').disabled = true;
+      lastValue = '';
+    } else {
+      var svg = $('bcSvg');
+      if (!svg){
+        $('bcBox').innerHTML = '<svg id="bcSvg" xmlns="http://www.w3.org/2000/svg"></svg>';
+        svg = $('bcSvg');
+      }
+      var rr = renderBarcode(svg, r.value, format, {width: width, height: height, displayValue: showText});
+      if (rr.error){
+        $('bcBox').innerHTML = '<div class="bc-empty">—</div>';
+        $('bcIsi').textContent = '—';
+        $('bcCheck').textContent = '—';
+        var note2 = $('bcNote');
+        note2.textContent = errMsg(rr, format);
+        note2.classList.add('bc-err');
+        $('bcDlPng').disabled = true;
+        $('bcDlSvg').disabled = true;
+        lastValue = '';
+      } else {
+        $('bcIsi').textContent = r.value;
+        $('bcCheck').textContent = (r.check === null || r.check === undefined) ? '—' : String(r.check);
+        var note3 = $('bcNote');
+        note3.textContent = 'Siap dicetak atau ditempel di kemasan dan produkmu.';
+        note3.classList.remove('bc-err');
+        $('bcDlPng').disabled = false;
+        $('bcDlSvg').disabled = false;
+        lastValue = r.value;
+      }
+    }
+  }
+  function downloadSvgBlob(){
+    var svg = $('bcSvg');
+    if (!svg || !lastValue) return null;
+    var s = new XMLSerializer().serializeToString(svg);
+    return new Blob([s], {type: 'image/svg+xml;charset=utf-8'});
+  }
+  $('bcText').addEventListener('input', update);
+  $('bcFormat').addEventListener('change', update);
+  $('bcHeight').addEventListener('input', update);
+  $('bcWidth').addEventListener('change', update);
+  $('bcShowText').addEventListener('change', update);
+  $('bcDlSvg').addEventListener('click', function(){
+    var b = downloadSvgBlob();
+    if (!b) return;
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(b);
+    a.download = 'barcode-' + safeName(lastValue) + '.svg';
+    a.click();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000);
+  });
+  $('bcDlPng').addEventListener('click', function(){
+    var b = downloadSvgBlob();
+    if (!b) return;
+    var url = URL.createObjectURL(b);
+    var img = new Image();
+    img.onload = function(){
+      var scale = 3;
+      var canvas = document.createElement('canvas');
+      canvas.width = img.width * scale;
+      canvas.height = img.height * scale;
+      var ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      URL.revokeObjectURL(url);
+      canvas.toBlob(function(bb){
+        if (!bb) return;
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(bb);
+        a.download = 'barcode-' + safeName(lastValue) + '.png';
+        a.click();
+        setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000);
+      }, 'image/png');
+    };
+    img.onerror = function(){ URL.revokeObjectURL(url); };
+    img.src = url;
+  });
+  update();
+})();
+</script>
+</main>
+<section class="static-cta">
+  <div class="static-wrap">
+    <div class="kick" style="margin-bottom:28px"><b>( 05 )</b> Mulai Proyek</div>
+    <h2>Punya ide?<br><span class="out">Ayo kita bangun.</span></h2>
+    <p>Ceritakan ke mana bisnismu ingin melangkah. Kami akan menganalisis, mengidentifikasi, dan meracik pengalaman digital yang membawamu ke sana.</p>
+    <a class="btn acc" href="https://tamatech.id/contact">Rasakan Pengalaman Digital Terbaik <span class="arr">&rarr;</span></a>
+  </div>
+</section>
+<footer class="static-foot">
+  <div class="static-wrap">
+    <span>&copy; 2026 Tama Technology (Tamatech) &mdash; Tools Bisnis Gratis.</span>
+    <span><a href="https://tamatech.id/tools">Semua tools</a> &middot; <a href="https://tamatech.id">tamatech.id</a></span>
+  </div>
+</footer>
+</body>
+</html>

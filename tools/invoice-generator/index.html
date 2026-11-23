@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Invoice Generator: Buat Invoice Online Gratis — Tamatech</title>
+<meta name="description" content="Buat invoice profesional dalam satu menit: isi rincian tagihan, pajak, dan jatuh tempo, lalu cetak atau simpan sebagai PDF. Gratis, tanpa daftar.">
+<meta property="og:title" content="Invoice Generator: Buat Invoice Online Gratis — Tamatech">
+<meta property="og:description" content="Buat invoice profesional dalam satu menit: isi rincian tagihan, pajak, dan jatuh tempo, lalu cetak atau simpan sebagai PDF. Gratis, tanpa daftar.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://tamatech.id/tools/invoice-generator">
+<link rel="stylesheet" href="../../assets/tools.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Apa itu invoice?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Invoice adalah dokumen tagihan dari penjual ke pembeli yang merinci pekerjaan atau barang, jumlah, harga, pajak, dan tanggal jatuh tempo pembayaran. Isi alat ini, periksa dokumennya, lalu cetak atau simpan sebagai PDF."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apa saja yang harus ada di invoice?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Minimal: identitas perusahaan dan klien, nomor dan tanggal invoice, rincian tagihan beserta jumlah dan harga, subtotal, diskon dan pajak bila ada, total, tanggal jatuh tempo, dan rekening pembayaran."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah data yang saya isi disimpan?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tidak. Semua isian dihitung di browser kamu dan tidak dikirim atau disimpan di server Tamatech. Tutup halaman, datanya hilang."
+      }
+    }
+  ]
+}
+</script>
+<style>
+.quo-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin:40px 0;align-items:start}
+.quo-grid>*{min-width:0}
+@media(max-width:900px){.quo-grid{grid-template-columns:1fr}}
+.quo-right{position:sticky;top:96px}
+@media(max-width:900px){.quo-right{position:static}}
+.quo-form{border:1px solid var(--line);border-radius:20px;padding:28px;background:var(--gray)}
+.quo-form h3{font-size:20px;margin:26px 0 12px}
+.quo-form h3:first-child{margin-top:0}
+.quo-form label{display:block;font-size:13px;font-weight:600;letter-spacing:.04em;color:var(--mut);margin:0 0 6px}
+.quo-form input[type=text],.quo-form input[type=number],.quo-form input[type=date],.quo-form textarea{width:100%;min-width:0;border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:15px;background:#fff;color:#0B2A4A;margin-bottom:12px;font-family:inherit}
+.quo-form input:focus,.quo-form textarea:focus{outline:2px solid var(--acc);outline-offset:1px}
+.quo-form textarea{min-height:84px;resize:vertical}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.item-row{display:grid;grid-template-columns:1fr 56px 118px 32px;gap:8px;align-items:start;margin-bottom:8px}
+.item-row input{margin-bottom:0}
+.item-del{border:1px solid var(--line);background:#fff;border-radius:10px;width:32px;height:44px;cursor:pointer;font-size:16px;color:var(--mut)}
+.item-del:hover{border-color:#d33;color:#d33}
+.btn-add{border:1px dashed var(--acc);background:none;color:var(--acc);border-radius:12px;padding:11px 16px;font-size:14px;font-weight:600;cursor:pointer;width:100%}
+.btn-add:hover{background:var(--acc-soft)}
+/* Dokumen (kertas) */
+.doc{background:#fff;color:#0B2A4A;border:1px solid var(--line);border-radius:6px;box-shadow:0 10px 34px rgba(11,42,91,.12);padding:40px 44px}
+@media(max-width:900px){.doc{padding:28px 22px}}
+.doc-head{display:flex;justify-content:space-between;gap:20px;border-bottom:3px solid #0B2A4A;padding-bottom:18px;margin-bottom:20px}
+.doc-head .co{font-family:var(--disp);font-weight:700;font-size:22px;letter-spacing:-.02em}
+.doc-head .co small{display:block;font-family:inherit;font-weight:400;font-size:12px;color:#5b6b80;letter-spacing:0;margin-top:4px;line-height:1.5}
+.doc-head .ttl{text-align:right}
+.doc-head .ttl b{display:block;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:#0B2A4A}
+.doc-head .ttl span{display:block;font-size:12px;color:#5b6b80;margin-top:4px;line-height:1.6}
+.doc-to{font-size:14px;line-height:1.7;color:#33465e;margin-bottom:18px}
+.doc-to b{color:#0B2A4A}
+.doc table{width:100%;border-collapse:collapse;font-size:14px;margin:6px 0 4px}
+.doc th{text-align:left;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#5b6b80;border-bottom:2px solid #0B2A4A;padding:8px 6px}
+.doc td{border-bottom:1px solid #e6eaf0;padding:10px 6px;vertical-align:top}
+.doc td.n,.doc th.n{text-align:right}
+.doc-tot{margin-left:auto;width:280px;font-size:14px}
+.doc-tot div{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #e6eaf0;color:#33465e}
+.doc-tot div.grand{border-bottom:none;border-top:2px solid #0B2A4A;font-weight:700;font-size:17px;color:#0B2A4A;padding-top:10px}
+.doc-pay{font-size:13px;line-height:1.7;color:#33465e;margin-top:20px;border:1px solid #e6eaf0;border-radius:10px;padding:14px 16px}
+.doc-pay b{color:#0B2A4A}
+.doc-terms{font-size:13px;line-height:1.7;color:#5b6b80;margin-top:18px;white-space:pre-line}
+.doc-sign{margin-top:34px;display:flex;justify-content:space-between;font-size:14px;color:#33465e}
+.doc-sign .s{text-align:center}
+.doc-sign .s .line{border-bottom:1px solid #0B2A4A;width:180px;height:44px;margin-bottom:6px}
+.doc-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.doc-actions .btn{font-size:12px;padding:12px 20px}
+.btn-o{border:1.5px solid var(--navy);color:var(--navy);border-radius:100px;padding:12px 20px;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;background:none;cursor:pointer}
+.btn-o:hover{background:var(--navy);color:#fff}
+.quo-faq{margin:8px 0 0}
+.quo-faq details{border-bottom:1px solid var(--line);padding:16px 0}
+.quo-faq summary{cursor:pointer;font-weight:600;font-size:17px}
+.quo-faq p{color:var(--mut);margin:10px 0 0}
+@media(max-width:560px){
+  .frow{grid-template-columns:1fr}
+  .item-row{grid-template-columns:1fr 1fr 1fr 32px}
+  .item-row .it-desc{grid-column:1/-1}
+  .doc{padding:24px 16px}
+  .doc-head{flex-direction:column;gap:8px}
+  .doc-head .ttl{text-align:left}
+  .doc table{font-size:13px}
+  .doc td,.doc th{padding:8px 4px}
+  .doc-tot{width:100%;max-width:280px}
+  .doc-sign{flex-direction:column;gap:22px;align-items:flex-start}
+  .doc-sign .s{text-align:left}
+  .doc-actions{flex-direction:column}
+  .doc-actions>*{width:100%;text-align:center}
+}
+@media print{
+  body *{visibility:hidden !important}
+  .doc,.doc *{visibility:visible !important}
+  .doc{position:absolute !important;left:0;top:0;width:100%;box-shadow:none !important;border:none !important;border-radius:0 !important}
+}
+</style>
+</head>
+<body>
+<header class="static-head">
+  <div class="static-wrap">
+    <a class="static-logo" href="https://tamatech.id">tama<i>tech</i><sup>&reg;</sup></a>
+    <nav>
+      <a href="https://tamatech.id/">Beranda</a>
+      <a href="https://tamatech.id/tools">Tools Gratis</a>
+      <a href="https://tamatech.id/portfolio">Portofolio</a>
+      <a href="https://tamatech.id/insights">Insights</a>
+      <a href="https://tamatech.id/contact">Kontak</a>
+    </nav>
+  </div>
+</header>
+<main class="static-wrap">
+<!-- PAGE HERO -->
+<section class="p-hero">
+  <div class="wrap">
+    <div class="kick" style="margin-top:22px"><b>( &#10022; )</b> Tools Tamatech</div>
+    <h1>Generator Invoice</h1>
+    <div class="orb"><svg viewBox="0 0 100 100"><defs><path id="cir" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0"/></defs><text><textPath href="#cir" textLength="236">DESIGN &bull; CODE &bull; DEVELOP &bull; MAINTAIN &bull;</textPath></text></svg><span class="orb-c"><i>&darr;</i></span></div>
+    <p class="intro">Buat invoice (tagihan) yang rapi dalam satu menit — isi formnya, periksa dokumennya, cetak atau simpan sebagai PDF. Gratis, tanpa daftar, datamu tidak keluar dari browser.</p>
+  </div>
+</section>
+
+<!-- TOOL -->
+<section class="sec" style="padding-top:64px">
+  <div class="wrap">
+    <div class="quo-grid">
+      <div class="quo-form no-print">
+        <h3>Perusahaan kamu</h3>
+        <label for="qCompany">Nama perusahaan</label>
+        <input type="text" id="qCompany" placeholder="cth: PT Maju Bersama" autocomplete="off">
+        <label for="qCompanyAddr">Alamat</label>
+        <input type="text" id="qCompanyAddr" placeholder="cth: Jl. Merdeka No. 12, Bandung" autocomplete="off">
+        <label for="qCompanyContact">Telepon / email</label>
+        <input type="text" id="qCompanyContact" placeholder="cth: 0812-3456-7890 / halo@perusahaan.id" autocomplete="off">
+
+        <h3>Ditagihkan ke</h3>
+        <label for="qClient">Nama klien</label>
+        <input type="text" id="qClient" placeholder="cth: Budi Santoso" autocomplete="off">
+        <label for="qClientCo">Perusahaan klien (opsional)</label>
+        <input type="text" id="qClientCo" placeholder="cth: PT Sejahtera Abadi" autocomplete="off">
+        <label for="qClientAddr">Alamat klien (opsional)</label>
+        <input type="text" id="qClientAddr" placeholder="cth: Jl. Asia Afrika No. 8, Bandung" autocomplete="off">
+        <div class="frow">
+          <div><label for="qClientPhone">No. HP klien (opsional)</label><input type="text" id="qClientPhone" placeholder="cth: 0812-3456-7890" autocomplete="off" inputmode="tel"></div>
+          <div><label for="qClientEmail">Email klien (opsional)</label><input type="text" id="qClientEmail" placeholder="cth: budi@perusahaan.id" autocomplete="off" inputmode="email"></div>
+        </div>
+
+        <h3>Dokumen</h3>
+        <div class="frow">
+          <div><label for="qNo">Nomor invoice</label><input type="text" id="qNo" autocomplete="off"></div>
+          <div><label for="qDate">Tanggal</label><input type="date" id="qDate"></div>
+        </div>
+        <label for="qValidDays">Jatuh tempo (hari)</label>
+        <input type="number" id="qValidDays" min="1" max="90" value="14">
+
+        <h3>Rincian tagihan</h3>
+        <div id="qItems"></div>
+        <button class="btn-add" type="button" id="qAddRow">+ Tambah baris</button>
+
+        <h3>Diskon &amp; pajak</h3>
+        <div class="frow">
+          <div><label for="qDisc">Diskon (%)</label><input type="number" id="qDisc" min="0" max="100" value="0"></div>
+          <div><label for="qTax">Pajak (%)</label><input type="number" id="qTax" min="0" max="100" value="11"></div>
+        </div>
+
+        <h3>Pembayaran</h3>
+        <label for="qBank">Bank</label>
+        <input type="text" id="qBank" placeholder="cth: BCA" autocomplete="off">
+        <div class="frow">
+          <div><label for="qAcct">Nomor rekening</label><input type="text" id="qAcct" placeholder="cth: 1234567890" autocomplete="off"></div>
+          <div><label for="qHolder">Atas nama</label><input type="text" id="qHolder" placeholder="cth: PT Maju Bersama" autocomplete="off"></div>
+        </div>
+
+        <h3>Catatan</h3>
+        <textarea id="qTerms">Pembayaran paling lambat pada tanggal jatuh tempo di atas. Harap cantumkan nomor invoice pada berita transfer.</textarea>
+        <label for="qSigner">Nama penandatangan</label>
+        <input type="text" id="qSigner" placeholder="cth: Yustira Dicky Pratama" autocomplete="off">
+      </div>
+
+      <div class="quo-right">
+        <div class="doc" id="qDoc">
+          <div class="doc-head">
+            <div class="co"><span id="pCompany">Nama Perusahaan Anda</span><small id="pCompanyMeta">Alamat perusahaan<br>Telepon / email</small></div>
+            <div class="ttl"><b>Invoice</b><span id="pNo">No: —</span><span id="pDate">Tanggal: —</span><span id="pValid">Jatuh tempo: —</span></div>
+          </div>
+          <div class="doc-to">Ditagihkan ke,<br><b id="pClient">Nama Klien</b><span id="pClientCo"></span><small id="pClientMeta" style="display:block;font-size:12px;color:#5b6b80;line-height:1.6"></small></div>
+          <table>
+            <thead><tr><th>Uraian</th><th class="n">Qty</th><th class="n">Harga satuan</th><th class="n">Jumlah</th></tr></thead>
+            <tbody id="pItems"></tbody>
+          </table>
+          <div class="doc-tot">
+            <div><span>Subtotal</span><span id="pSub">Rp0</span></div>
+            <div id="pDiscRow" style="display:none"><span>Diskon (<span id="pDiscPct">0</span>%)</span><span id="pDisc">−Rp0</span></div>
+            <div id="pTaxRow"><span>Pajak (<span id="pTaxPct">11</span>%)</span><span id="pTax">Rp0</span></div>
+            <div class="grand"><span>Total tagihan</span><span id="pTotal">Rp0</span></div>
+          </div>
+          <div class="doc-pay" id="pPay"><b>Pembayaran:</b> <span id="pPayText">Isi rekening pembayaran di form.</span></div>
+          <div class="doc-terms" id="pTerms"></div>
+          <div class="doc-sign">
+            <div class="s"><div class="line"></div><span id="pSigner">Nama Penandatangan</span></div>
+            <div class="s"><div class="line"></div><span id="pCompanySign">Nama Perusahaan Anda</span></div>
+          </div>
+        </div>
+        <div class="doc-actions no-print">
+          <button class="btn" type="button" id="qPrint">Cetak / Unduh PDF <span class="arr">→</span></button>
+          <button class="btn-o" type="button" id="qCopy">Salin ringkasan</button>
+          <button class="btn-o" type="button" id="qReset">Reset</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-head" style="margin-top:20px">
+      <h2>Pertanyaan yang sering ditanya</h2>
+    </div>
+    <div class="quo-faq">
+      <details><summary>Apa itu invoice?</summary><p>Invoice adalah dokumen tagihan dari penjual ke pembeli yang merinci pekerjaan atau barang, jumlah, harga, pajak, dan tanggal jatuh tempo pembayaran. Isi form di atas, periksa dokumennya, lalu cetak atau simpan sebagai PDF.</p></details>
+      <details><summary>Apa saja yang harus ada di invoice?</summary><p>Minimal: identitas perusahaan dan klien, nomor dan tanggal invoice, rincian tagihan beserta jumlah dan harga, subtotal, diskon dan pajak bila ada, total, tanggal jatuh tempo, dan rekening pembayaran.</p></details>
+      <details><summary>Apakah data yang saya isi disimpan?</summary><p>Tidak. Semua isian dihitung di browser kamu dan tidak dikirim atau disimpan di server Tamatech. Tutup halaman, datanya hilang.</p></details>
+    </div>
+
+    <p style="color:var(--mut);margin-top:40px">Invoice ini dibuat langsung di browser — bukan dokumen resmi Tamatech dan bukan invoice Tamatech. Butuh sistem invoice yang terhubung ke klien, penawaran, dan pembayaran? <a href="https://tamatech.id/services/custom-it-solutions">Lihat layanan Custom IT →</a></p>
+  </div>
+</section>
+
+
+
+<script>
+(function(){
+  /* ---- Fungsi murni (bisa dites tanpa DOM) ---- */
+  function toNum(v){ var s = String(v).trim(); var neg = s.charAt(0) === '-'; var d = s.replace(/[^0-9]/g, ''); var n = d === '' ? 0 : parseInt(d, 10); return isNaN(n) ? 0 : (neg ? -n : n); }
+  function fmtIDR(n){ return 'Rp' + Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
+  function calcInvoice(items, discPct, taxPct){
+    var sub = 0;
+    items.forEach(function(it){ var q = Math.max(0, toNum(it.qty)); var p = Math.max(0, toNum(it.price)); sub += q * p; });
+    var disc = sub * Math.min(100, Math.max(0, toNum(discPct))) / 100;
+    var tax = (sub - disc) * Math.min(100, Math.max(0, toNum(taxPct))) / 100;
+    return {subtotal: sub, discount: disc, tax: tax, total: sub - disc + tax};
+  }
+  function fmtDateID(d){
+    var bln = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+    return d.getDate() + ' ' + bln[d.getMonth()] + ' ' + d.getFullYear();
+  }
+  function addDays(dateStr, days){
+    var d = dateStr ? new Date(dateStr + 'T00:00:00') : new Date();
+    if (isNaN(d.getTime())) d = new Date();
+    d.setDate(d.getDate() + Math.max(0, Math.floor(toNum(days))));
+    return d;
+  }
+  function payText(bank, acct, holder){
+    var parts = [];
+    if (bank) parts.push('Transfer ke ' + bank);
+    if (acct) parts.push('No. Rek. ' + acct);
+    if (holder) parts.push('a.n. ' + holder);
+    return parts.length ? parts.join(' — ') + '.' : '';
+  }
+
+  /* ---- Wiring DOM (dilewati saat dites di Node) ---- */
+  if (typeof document === 'undefined' || !document.querySelector) return;
+  var $ = function(id){ return document.getElementById(id); };
+  var DEFAULT_TERMS = $('qTerms').value;
+  var DEFAULT_ITEM = {desc: 'Pembuatan website company profile', qty: 1, price: 5000000};
+
+  function todayStr(){ var d = new Date(); return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
+  function defaultNo(){ var d = new Date(); return 'INV-' + d.getFullYear() + String(d.getMonth()+1).padStart(2,'0') + String(d.getDate()).padStart(2,'0') + '-001'; }
+
+  function addRow(item){
+    var wrap = $('qItems');
+    if (wrap.children.length >= 10) return;
+    var row = document.createElement('div');
+    row.className = 'item-row';
+    row.innerHTML = '<input type="text" class="it-desc" placeholder="Uraian tagihan" aria-label="Uraian tagihan">'
+      + '<input type="number" class="it-qty" min="0" step="1" value="1" aria-label="Jumlah">'
+      + '<input type="number" class="it-price" min="0" step="1000" value="0" aria-label="Harga satuan">'
+      + '<button type="button" class="item-del" aria-label="Hapus baris">×</button>';
+    if (item){ row.querySelector('.it-desc').value = item.desc || ''; row.querySelector('.it-qty').value = item.qty; row.querySelector('.it-price').value = item.price; }
+    row.querySelector('.item-del').addEventListener('click', function(){ if (wrap.children.length > 1) { row.remove(); render(); } });
+    row.querySelectorAll('input').forEach(function(el){ el.addEventListener('input', render); });
+    wrap.appendChild(row);
+  }
+
+  function readItems(){
+    var out = [];
+    document.querySelectorAll('#qItems .item-row').forEach(function(row){
+      out.push({
+        desc: row.querySelector('.it-desc').value.trim(),
+        qty: row.querySelector('.it-qty').value,
+        price: row.querySelector('.it-price').value
+      });
+    });
+    return out;
+  }
+
+  function render(){
+    var items = readItems().filter(function(it){ return it.desc !== '' || toNum(it.qty) > 0 || toNum(it.price) > 0; });
+    var discPct = toNum($('qDisc').value), taxPct = toNum($('qTax').value);
+    var t = calcInvoice(items, discPct, taxPct);
+
+    $('pCompany').textContent = $('qCompany').value.trim() || 'Nama Perusahaan Anda';
+    $('pCompanySign').textContent = $('qCompany').value.trim() || 'Nama Perusahaan Anda';
+    var meta = [];
+    if ($('qCompanyAddr').value.trim()) meta.push($('qCompanyAddr').value.trim());
+    if ($('qCompanyContact').value.trim()) meta.push($('qCompanyContact').value.trim());
+    $('pCompanyMeta').innerHTML = meta.length ? meta.join('<br>') : 'Alamat perusahaan<br>Telepon / email';
+    $('pNo').textContent = 'No: ' + ($('qNo').value.trim() || '—');
+    $('pDate').textContent = 'Tanggal: ' + ($('qDate').value ? fmtDateID(new Date($('qDate').value + 'T00:00:00')) : '—');
+    $('pValid').textContent = 'Jatuh tempo: ' + fmtDateID(addDays($('qDate').value, $('qValidDays').value));
+    $('pClient').textContent = $('qClient').value.trim() || 'Nama Klien';
+    $('pClientCo').textContent = $('qClientCo').value.trim() ? ' — ' + $('qClientCo').value.trim() : '';
+    var cmeta = [];
+    if ($('qClientAddr').value.trim()) cmeta.push($('qClientAddr').value.trim());
+    if ($('qClientPhone').value.trim()) cmeta.push($('qClientPhone').value.trim());
+    if ($('qClientEmail').value.trim()) cmeta.push($('qClientEmail').value.trim());
+    $('pClientMeta').innerHTML = cmeta.join('<br>');
+
+    var tb = $('pItems');
+    tb.innerHTML = '';
+    if (!items.length){
+      tb.innerHTML = '<tr><td colspan="4" style="color:#5b6b80">Belum ada rincian — isi satu baris tagihan di form.</td></tr>';
+    } else {
+      items.forEach(function(it){
+        var tr = document.createElement('tr');
+        var amt = Math.max(0, toNum(it.qty)) * Math.max(0, toNum(it.price));
+        tr.innerHTML = '<td>' + it.desc.replace(/</g, '&lt;') + '</td><td class="n">' + Math.max(0, toNum(it.qty)) + '</td><td class="n">' + fmtIDR(it.price) + '</td><td class="n">' + fmtIDR(amt) + '</td>';
+        tb.appendChild(tr);
+      });
+    }
+    $('pSub').textContent = fmtIDR(t.subtotal);
+    $('pDiscRow').style.display = t.discount > 0 ? 'flex' : 'none';
+    $('pDiscPct').textContent = discPct;
+    $('pDisc').textContent = '−' + fmtIDR(t.discount);
+    $('pTaxPct').textContent = taxPct;
+    $('pTax').textContent = fmtIDR(t.tax);
+    $('pTotal').textContent = fmtIDR(t.total);
+    var pay = payText($('qBank').value.trim(), $('qAcct').value.trim(), $('qHolder').value.trim());
+    $('pPayText').textContent = pay || 'Isi rekening pembayaran di form.';
+    $('pTerms').textContent = $('qTerms').value;
+    $('pSigner').textContent = $('qSigner').value.trim() || 'Nama Penandatangan';
+  }
+
+  function resetAll(){
+    ['qCompany','qCompanyAddr','qCompanyContact','qClient','qClientCo','qClientAddr','qClientPhone','qClientEmail','qBank','qAcct','qHolder','qSigner'].forEach(function(id){ $(id).value = ''; });
+    $('qNo').value = defaultNo();
+    $('qDate').value = todayStr();
+    $('qValidDays').value = 14;
+    $('qDisc').value = 0;
+    $('qTax').value = 11;
+    $('qTerms').value = DEFAULT_TERMS;
+    $('qItems').innerHTML = '';
+    addRow(DEFAULT_ITEM);
+    render();
+  }
+
+  document.querySelectorAll('.quo-form input, .quo-form textarea').forEach(function(el){
+    el.addEventListener('input', render);
+    el.addEventListener('change', render);
+  });
+  $('qAddRow').addEventListener('click', function(){ addRow(null); render(); });
+  $('qPrint').addEventListener('click', function(){ window.print(); });
+  $('qReset').addEventListener('click', resetAll);
+  $('qCopy').addEventListener('click', function(){
+    var items = readItems().filter(function(it){ return it.desc !== ''; });
+    var t = calcInvoice(items, toNum($('qDisc').value), toNum($('qTax').value));
+    var lines = ['INVOICE — ' + ($('qNo').value.trim() || ''),
+      'Dari: ' + ($('qCompany').value.trim() || '-'),
+      'Kepada: ' + ($('qClient').value.trim() || '-') + ($('qClientCo').value.trim() ? ' (' + $('qClientCo').value.trim() + ')' : '')];
+    if ($('qClientAddr').value.trim()) lines.push('Alamat: ' + $('qClientAddr').value.trim());
+    if ($('qClientPhone').value.trim()) lines.push('HP: ' + $('qClientPhone').value.trim());
+    if ($('qClientEmail').value.trim()) lines.push('Email: ' + $('qClientEmail').value.trim());
+    items.forEach(function(it){ lines.push('• ' + it.desc + ' — ' + Math.max(0, toNum(it.qty)) + ' × ' + fmtIDR(it.price) + ' = ' + fmtIDR(Math.max(0, toNum(it.qty)) * Math.max(0, toNum(it.price)))); });
+    lines.push('Total tagihan: ' + fmtIDR(t.total));
+    lines.push('Jatuh tempo: ' + fmtDateID(addDays($('qDate').value, $('qValidDays').value)));
+    var pay = payText($('qBank').value.trim(), $('qAcct').value.trim(), $('qHolder').value.trim());
+    if (pay) lines.push('Pembayaran: ' + pay);
+    var txt = lines.join('\n');
+    var done = function(){ var b = $('qCopy'); var old = b.textContent; b.textContent = 'Disalin ✓'; setTimeout(function(){ b.textContent = old; }, 1800); };
+    if (navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(done, done); }
+    else { var ta = document.createElement('textarea'); ta.value = txt; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); } catch(e){} ta.remove(); done(); }
+  });
+
+  resetAll();
+})();
+</script>
+</main>
+<section class="static-cta">
+  <div class="static-wrap">
+    <div class="kick" style="margin-bottom:28px"><b>( 05 )</b> Mulai Proyek</div>
+    <h2>Punya ide?<br><span class="out">Ayo kita bangun.</span></h2>
+    <p>Ceritakan ke mana bisnismu ingin melangkah. Kami akan menganalisis, mengidentifikasi, dan meracik pengalaman digital yang membawamu ke sana.</p>
+    <a class="btn acc" href="https://tamatech.id/contact">Rasakan Pengalaman Digital Terbaik <span class="arr">&rarr;</span></a>
+  </div>
+</section>
+<footer class="static-foot">
+  <div class="static-wrap">
+    <span>&copy; 2026 Tama Technology (Tamatech) &mdash; Tools Bisnis Gratis.</span>
+    <span><a href="https://tamatech.id/tools">Semua tools</a> &middot; <a href="https://tamatech.id">tamatech.id</a></span>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kuis Kesiapan AI: Apakah Bisnismu Sudah Siap Pakai AI?</title>
+<meta name="description" content="Kuis gratis 5 pertanyaan: cari tahu apakah bisnismu sudah siap memakai AI, atau masih ada yang perlu dirapikan dulu. Hasil langsung, tanpa daftar.">
+<meta property="og:title" content="Kuis Kesiapan AI: Apakah Bisnismu Sudah Siap Pakai AI?">
+<meta property="og:description" content="Kuis gratis 5 pertanyaan: cari tahu apakah bisnismu sudah siap memakai AI, atau masih ada yang perlu dirapikan dulu. Hasil langsung, tanpa daftar.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://tamatech.id/tools/kuis-kesiapan-ai">
+<link rel="stylesheet" href="../../assets/tools.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Apa itu kuis kesiapan AI?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Lima pertanyaan singkat tentang cara bisnismu bekerja hari ini — data pelanggan, tugas berulang, pengalaman memakai AI, proses yang jadi penopang, dan kebutuhan layanan pelanggan. Hasilnya menunjukkan apakah bisnismu belum siap, setengah siap, atau sudah siap memakai AI."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah jawaban kuis ini disimpan?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tidak. Kuis ini berjalan sepenuhnya di browser kamu — tidak ada jawaban yang dikirim atau disimpan di server Tamatech."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Bisnisku belum siap AI — mulai dari mana?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Mulai dari satu tugas berulang yang paling makan waktu, misalnya menjawab pertanyaan pelanggan yang itu-itu saja. Chatbot AI atau otomasi alur kerja kecil adalah langkah pertama yang paling aman, sebelum membangun sistem yang besar."
+      }
+    }
+  ]
+}
+</script>
+<style>
+.opt{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:10px;cursor:pointer;background:#fff}
+.opt:hover{border-color:var(--acc)}
+.opt.sel{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc)}
+.opt input{margin-top:4px;accent-color:var(--acc)}
+.opt b{display:block;font-size:15px}
+.opt span{color:var(--mut);font-size:13px}
+.kuis-q{border:1px solid var(--line);border-radius:20px;padding:28px;margin-bottom:20px;background:var(--gray)}
+.kuis-q h3{font-size:20px;margin:0 0 16px}
+.kuis-result{display:none;border:1px solid var(--line);border-radius:20px;padding:32px;margin:28px 0;background:var(--navy);color:#fff}
+.kuis-result.show{display:block}
+.kuis-result .lbl{font-size:12px;letter-spacing:.2em;text-transform:uppercase;opacity:.7}
+.kuis-result .grade{font-family:var(--disp);font-size:clamp(30px,4vw,44px);font-weight:600;line-height:1.1;margin:10px 0 6px}
+.kuis-result .note{opacity:.85;font-size:15px}
+.kuis-result .note a{color:var(--acc)}
+.kuis-faq{margin:8px 0 0}
+.kuis-faq details{border-bottom:1px solid var(--line);padding:16px 0}
+.kuis-faq summary{cursor:pointer;font-weight:600;font-size:17px}
+.kuis-faq p{color:var(--mut);margin:10px 0 0}
+</style>
+</head>
+<body>
+<header class="static-head">
+  <div class="static-wrap">
+    <a class="static-logo" href="https://tamatech.id">tama<i>tech</i><sup>&reg;</sup></a>
+    <nav>
+      <a href="https://tamatech.id/">Beranda</a>
+      <a href="https://tamatech.id/tools">Tools Gratis</a>
+      <a href="https://tamatech.id/portfolio">Portofolio</a>
+      <a href="https://tamatech.id/insights">Insights</a>
+      <a href="https://tamatech.id/contact">Kontak</a>
+    </nav>
+  </div>
+</header>
+<main class="static-wrap">
+<!-- PAGE HERO -->
+<section class="p-hero">
+  <div class="wrap">
+    <div class="kick" style="margin-top:22px"><b>( &#10022; )</b> Tools Tamatech</div>
+    <h1>Kuis Kesiapan AI</h1>
+    <div class="orb"><svg viewBox="0 0 100 100"><defs><path id="cir" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0"/></defs><text><textPath href="#cir" textLength="236">DESIGN &bull; CODE &bull; DEVELOP &bull; MAINTAIN &bull;</textPath></text></svg><span class="orb-c"><i>&darr;</i></span></div>
+    <p class="intro">Lima pertanyaan singkat — cari tahu apakah bisnismu sudah siap memakai AI, atau masih ada yang perlu dirapikan dulu.</p>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section class="sec" style="padding-top:64px">
+  <div class="wrap">
+    <form id="kuisForm">
+      <div class="kuis-q">
+        <h3>1. Apakah data pelangganmu sudah tercatat rapi?</h3>
+        <label class="opt"><input type="radio" name="q1" value="0"><span><b>Belum</b><span>Masih tersebar di chat WA dan catatan lepas.</span></span></label>
+        <label class="opt"><input type="radio" name="q1" value="1"><span><b>Sebagian</b><span>Ada yang rapi, ada yang masih tercecer.</span></span></label>
+        <label class="opt"><input type="radio" name="q1" value="2"><span><b>Sudah rapi di sistem</b><span>Tersimpan di satu tempat dan mudah dicari.</span></span></label>
+      </div>
+      <div class="kuis-q">
+        <h3>2. Seberapa sering timmu mengerjakan tugas yang sama berulang kali?</h3>
+        <label class="opt"><input type="radio" name="q2" value="0"><span><b>Jarang</b><span>Kerjaan sehari-hari kebanyakan beda-beda.</span></span></label>
+        <label class="opt"><input type="radio" name="q2" value="1"><span><b>Kadang</b><span>Ada beberapa tugas yang diulang tiap minggu.</span></span></label>
+        <label class="opt"><input type="radio" name="q2" value="2"><span><b>Setiap hari</b><span>Tugas yang sama diulang terus, makan banyak waktu.</span></span></label>
+      </div>
+      <div class="kuis-q">
+        <h3>3. Apakah kamu sudah pernah memakai tools AI untuk kerjaan?</h3>
+        <label class="opt"><input type="radio" name="q3" value="0"><span><b>Belum pernah</b><span>Baru dengar, belum pernah coba.</span></span></label>
+        <label class="opt"><input type="radio" name="q3" value="1"><span><b>Pernah coba</b><span>Sekali-dua kali, belum jadi kebiasaan.</span></span></label>
+        <label class="opt"><input type="radio" name="q3" value="2"><span><b>Sudah rutin</b><span>AI sudah jadi bagian dari cara kerja sehari-hari.</span></span></label>
+      </div>
+      <div class="kuis-q">
+        <h3>4. Apakah ada satu proses yang kalau berhenti, semuanya ikut berhenti?</h3>
+        <label class="opt"><input type="radio" name="q4" value="0"><span><b>Nggak ada</b><span>Semua proses punya cadangan atau pengganti.</span></span></label>
+        <label class="opt"><input type="radio" name="q4" value="1"><span><b>Ada, tapi masih jalan</b><span>Satu proses jadi penopang, sejauh ini aman.</span></span></label>
+        <label class="opt"><input type="radio" name="q4" value="2"><span><b>Ada, dan sering jadi masalah</b><span>Proses itu sudah beberapa kali menghambat kerjaan.</span></span></label>
+      </div>
+      <div class="kuis-q">
+        <h3>5. Kalau ada chatbot yang menjawab pelanggan 24 jam, apa reaksimu?</h3>
+        <label class="opt"><input type="radio" name="q5" value="0"><span><b>Belum butuh</b><span>Pelanggan masih terlayani dengan baik seperti sekarang.</span></span></label>
+        <label class="opt"><input type="radio" name="q5" value="1"><span><b>Menarik, mau coba</b><span>Penasaran, tapi belum tahu mulai dari mana.</span></span></label>
+        <label class="opt"><input type="radio" name="q5" value="2"><span><b>Butuh sekarang</b><span>Pertanyaan pelanggan sudah tidak terkejar lagi.</span></span></label>
+      </div>
+      <p class="cek-err" id="kuisErr" style="display:none;color:#dc2626"></p>
+      <button class="btn acc" type="submit" id="kuisBtn">Lihat hasilku <span class="arr">→</span></button>
+    </form>
+
+    <div class="kuis-result" id="kuisResult">
+      <div class="lbl">Hasil kuis kamu</div>
+      <div class="grade" id="kuisGrade"></div>
+      <div class="note" id="kuisNote"></div>
+    </div>
+
+    <div class="sec-head" style="margin-top:60px">
+      <h2>Pertanyaan yang sering ditanya</h2>
+    </div>
+    <div class="kuis-faq">
+      <details><summary>Apa itu kuis kesiapan AI?</summary><p>Lima pertanyaan singkat tentang cara bisnismu bekerja hari ini — data pelanggan, tugas berulang, pengalaman memakai AI, proses yang jadi penopang, dan kebutuhan layanan pelanggan. Hasilnya menunjukkan apakah bisnismu belum siap, setengah siap, atau sudah siap memakai AI.</p></details>
+      <details><summary>Apakah jawaban kuis ini disimpan?</summary><p>Tidak. Kuis ini berjalan sepenuhnya di browser kamu — tidak ada jawaban yang dikirim atau disimpan di server Tamatech.</p></details>
+      <details><summary>Bisnisku belum siap AI — mulai dari mana?</summary><p>Mulai dari satu tugas berulang yang paling makan waktu, misalnya menjawab pertanyaan pelanggan yang itu-itu saja. Chatbot AI atau otomasi alur kerja kecil adalah langkah pertama yang paling aman, sebelum membangun sistem yang besar.</p></details>
+    </div>
+    <p style="color:var(--mut);margin-top:40px">Kuis ini alat bantu awal, bukan audit. <a href="https://tamatech.id/insights/cara-memakai-ai-untuk-bisnis">Baca cara memakai AI untuk bisnis →</a></p>
+  </div>
+</section>
+
+
+
+<script>
+(function(){
+  var GRADES = [
+    {min: 0, max: 3, title: "Belum siap — mulai dari yang paling gampang",
+     note: "AI paling berguna kalau datanya rapi dan ada tugas berulang yang jelas. Mulai dari satu hal kecil: rapikan data pelanggan, lalu coba chatbot untuk pertanyaan yang itu-itu saja. Layanan <a href=\"/services/ai-automation\">AI Automation</a> Tamatech bisa memetakan langkah pertamanya."},
+    {min: 4, max: 7, title: "Setengah siap — fondasinya sudah ada",
+     note: "Sebagian sudah jalan, sebagian masih tercecer. Langkah berikutnya: pilih satu proses berulang yang paling makan waktu, lalu otomasi itu dulu. Baca <a href=\"/insights/cara-memakai-ai-untuk-bisnis\">cara memakai AI untuk bisnis</a> sebagai gambaran."},
+    {min: 8, max: 10, title: "Siap — tinggal eksekusi",
+     note: "Datamu rapi, tugas berulangnya jelas, dan kamu sudah kenal AI. Ini saat yang tepat untuk membangun: chatbot pelanggan, otomasi alur kerja, atau agen AI. Ceritakan kebutuhanmu lewat <a href=\"/contact\">kontak Tamatech</a>."}
+  ];
+  function gradeFor(score){
+    for (var i = 0; i < GRADES.length; i++) {
+      if (score >= GRADES[i].min && score <= GRADES[i].max) return GRADES[i];
+    }
+    return GRADES[0];
+  }
+  document.getElementById("kuisForm").addEventListener("submit", function(ev){
+    ev.preventDefault();
+    var err = document.getElementById("kuisErr");
+    var total = 0;
+    for (var q = 1; q <= 5; q++) {
+      var sel = document.querySelector('input[name="q' + q + '"]:checked');
+      if (!sel) {
+        err.textContent = "Jawab dulu pertanyaan nomor " + q + ".";
+        err.style.display = "block";
+        return;
+      }
+      total += parseInt(sel.value, 10);
+    }
+    err.style.display = "none";
+    var g = gradeFor(total);
+    document.getElementById("kuisGrade").textContent = g.title + " (" + total + "/10)";
+    document.getElementById("kuisNote").innerHTML = g.note;
+    var res = document.getElementById("kuisResult");
+    res.classList.add("show");
+    res.scrollIntoView({behavior: "smooth", block: "nearest"});
+  });
+  document.querySelectorAll('#kuisForm .opt input').forEach(function(el){
+    el.addEventListener("change", function(){
+      document.querySelectorAll('#kuisForm .opt').forEach(function(o){ o.classList.remove('sel'); });
+      document.querySelectorAll('#kuisForm input:checked').forEach(function(c){
+        c.closest('.opt').classList.add('sel');
+      });
+    });
+  });
+})();
+</script>
+</main>
+<section class="static-cta">
+  <div class="static-wrap">
+    <div class="kick" style="margin-bottom:28px"><b>( 05 )</b> Mulai Proyek</div>
+    <h2>Punya ide?<br><span class="out">Ayo kita bangun.</span></h2>
+    <p>Ceritakan ke mana bisnismu ingin melangkah. Kami akan menganalisis, mengidentifikasi, dan meracik pengalaman digital yang membawamu ke sana.</p>
+    <a class="btn acc" href="https://tamatech.id/contact">Rasakan Pengalaman Digital Terbaik <span class="arr">&rarr;</span></a>
+  </div>
+</section>
+<footer class="static-foot">
+  <div class="static-wrap">
+    <span>&copy; 2026 Tama Technology (Tamatech) &mdash; Tools Bisnis Gratis.</span>
+    <span><a href="https://tamatech.id/tools">Semua tools</a> &middot; <a href="https://tamatech.id">tamatech.id</a></span>
+  </div>
+</footer>
+</body>
+</html>

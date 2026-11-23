@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pembersih Data Excel &amp; CSV Gratis — Hapus Duplikat</title>
+<meta name="description" content="Bersihkan data Excel dan CSV di browser: hapus duplikat, baris &amp; kolom kosong, rapikan spasi. Gratis, tanpa daftar, file tidak diunggah.">
+<meta property="og:title" content="Pembersih Data Excel &amp; CSV Gratis — Hapus Duplikat">
+<meta property="og:description" content="Bersihkan data Excel dan CSV di browser: hapus duplikat, baris &amp; kolom kosong, rapikan spasi. Gratis, tanpa daftar, file tidak diunggah.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://tamatech.id/tools/pembersih-data-excel-csv">
+<link rel="stylesheet" href="../../assets/tools.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Apakah file saya diunggah ke server?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tidak. File yang kamu unggah atau teks yang kamu tempel hanya dibaca di browsermu sendiri. Tidak ada data yang dikirim ke server Tamatech atau ke mana pun — tutup halaman, datanya hilang."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Format file apa yang didukung?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "File .csv dan Excel .xlsx/.xls (dibaca sheet pertamanya). Kamu juga bisa menempel teks CSV langsung, atau memakai data contoh untuk mencoba dulu."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apa saja yang dibersihkan?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Baris duplikat (semua kolom atau satu kolom kunci pilihanmu), baris kosong, kolom yang seluruh isinya kosong, spasi berantakan di awal/akhir sel dan spasi ganda, plus cari & ganti teks di semua sel."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Seberapa besar file yang bisa dibersihkan?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tergantung browsermu — file sampai beberapa MB (puluhan ribu baris) umumnya lancar. Pratinjau di halaman dibatasi 50 baris pertama, tapi file unduhan berisi seluruh hasil pembersihan."
+      }
+    }
+  ]
+}
+</script>
+<style>
+.xc-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin:40px 0;align-items:start}
+.xc-grid>*{min-width:0}
+@media(max-width:900px){.xc-grid{grid-template-columns:1fr}}
+.xc-card{border:1px solid var(--line);border-radius:20px;padding:28px;background:var(--gray);min-width:0}
+.xc-card h3{font-size:20px;margin:26px 0 12px}
+.xc-card h3:first-child{margin-top:0}
+.xc-card p.xc-hint{color:var(--mut);font-size:14px;margin:0 0 20px}
+.xc-card label{display:block;font-weight:600;font-size:14px;margin:0 0 6px}
+.xc-card input[type=text],.xc-card textarea,.xc-card select{width:100%;min-width:0;border:1px solid var(--line);border-radius:12px;padding:13px 15px;font-family:var(--body);font-size:15.5px;color:#0B2A4A;background:#fff;margin-bottom:14px;box-sizing:border-box}
+.xc-card input:focus,.xc-card textarea:focus,.xc-card select:focus{outline:2px solid var(--acc);outline-offset:1px}
+.xc-card textarea{min-height:120px;resize:vertical;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13.5px}
+.xc-file{display:block;border:1px dashed var(--acc);border-radius:12px;padding:16px;text-align:center;cursor:pointer;color:var(--acc);font-weight:600;font-size:14.5px;margin-bottom:8px}
+.xc-file:hover{background:var(--acc-soft)}
+.xc-file input{display:none}
+.xc-fileinfo{color:var(--mut);font-size:13.5px;margin:0 0 14px;min-height:18px}
+.xc-ops{display:grid;grid-template-columns:1fr 1fr;gap:10px 16px;margin:4px 0 18px}
+.xc-ops>*{min-width:0}
+.xc-op{display:flex;gap:9px;align-items:flex-start;font-size:14.5px;font-weight:400;line-height:1.45}
+.xc-op input{width:18px;height:18px;margin-top:1px;flex:none;accent-color:var(--acc)}
+.xc-op-full{grid-column:1 / -1}
+.xc-findrow{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.xc-findrow>*{min-width:0}
+.xc-findrow input{margin-bottom:0}
+.xc-keyrow{display:grid;grid-template-columns:1fr;gap:0}
+.xc-keyrow select{margin-bottom:0}
+.xc-btnrow{display:flex;gap:10px;flex-wrap:wrap}
+.xc-btnrow>*{flex:1;justify-content:center;min-width:0}
+.xc-right{position:sticky;top:96px;min-width:0}
+@media(max-width:900px){.xc-right{position:static}}
+.xc-stats{background:#0B2A4A;color:#fff;border-radius:16px;padding:24px 26px;min-width:0}
+.xc-stats .xc-big{font-size:44px;font-weight:800;line-height:1.1;letter-spacing:-.5px}
+.xc-stats .xc-big small{font-size:20px;font-weight:600;color:#9db8e8}
+.xc-stats p{color:#c6d4ee;font-size:14.5px;margin:8px 0 0}
+.xc-stats ul{list-style:none;margin:16px 0 0;padding:14px 0 0;border-top:1px solid rgba(255,255,255,.22)}
+.xc-stats li{display:flex;justify-content:space-between;gap:12px;font-size:14.5px;padding:5px 0;color:#dbe6fa}
+.xc-stats li b{color:#fff;white-space:nowrap}
+.xc-tablewrap{margin-top:18px;border:1px solid var(--line);border-radius:14px;overflow-x:auto;background:var(--bg);min-width:0}
+.xc-tablewrap table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:420px}
+.xc-tablewrap th,.xc-tablewrap td{border-bottom:1px solid var(--line);padding:9px 12px;text-align:left;white-space:nowrap;color:var(--ink)}
+.xc-tablewrap th{background:var(--gray);font-weight:700}
+.xc-tablewrap tr:last-child td{border-bottom:none}
+.xc-note{color:var(--mut);font-size:13.5px;margin:10px 0 0}
+.xc-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.xc-actions>*{flex:1;justify-content:center;min-width:0}
+.xc-actions button:disabled{opacity:.45;cursor:not-allowed}
+.xc-faq{margin:8px 0 0}
+.xc-faq details{border-bottom:1px solid var(--line);padding:16px 0}
+.xc-faq summary{cursor:pointer;font-weight:600;font-size:17px}
+.xc-faq p{color:var(--mut);margin:10px 0 0}
+@media(max-width:560px){
+  .xc-ops{grid-template-columns:1fr}
+  .xc-findrow{grid-template-columns:1fr}
+  .xc-card{padding:22px 18px}
+  .xc-btnrow{flex-direction:column}
+  .xc-btnrow>*{width:100%}
+  .xc-actions{flex-direction:column}
+  .xc-actions>*{width:100%}
+  .xc-stats .xc-big{font-size:36px}
+}
+</style>
+</head>
+<body>
+<header class="static-head">
+  <div class="static-wrap">
+    <a class="static-logo" href="https://tamatech.id">tama<i>tech</i><sup>&reg;</sup></a>
+    <nav>
+      <a href="https://tamatech.id/">Beranda</a>
+      <a href="https://tamatech.id/tools">Tools Gratis</a>
+      <a href="https://tamatech.id/portfolio">Portofolio</a>
+      <a href="https://tamatech.id/insights">Insights</a>
+      <a href="https://tamatech.id/contact">Kontak</a>
+    </nav>
+  </div>
+</header>
+<main class="static-wrap">
+<!-- PAGE HERO -->
+<section class="p-hero">
+  <div class="wrap">
+    <div class="kick" style="margin-top:22px"><b>( &#10022; )</b> Tools Tamatech</div>
+    <h1>Pembersih Data Excel &amp; CSV</h1>
+    <div class="orb"><svg viewBox="0 0 100 100"><defs><path id="cir" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0"/></defs><text><textPath href="#cir" textLength="236">DESIGN &bull; CODE &bull; DEVELOP &bull; MAINTAIN &bull;</textPath></text></svg><span class="orb-c"><i>&darr;</i></span></div>
+    <p class="intro">Bersihkan data kotor — baris duplikat, baris kosong, kolom kosong, spasi berantakan — langsung di browser. Gratis, tanpa daftar, file tidak pernah diunggah ke server.</p>
+  </div>
+</section>
+
+<!-- TOOL -->
+<section class="sec" style="padding-top:64px">
+  <div class="wrap">
+    <div class="xc-grid">
+      <div class="xc-card">
+        <h3>Datamu</h3>
+        <p class="xc-hint">Tiga cara memasukkan data — pilih satu. Baris pertama dianggap judul kolom (header).</p>
+        <label class="xc-file" for="xcFile">📁 Unggah file .csv atau Excel (.xlsx / .xls)
+          <input type="file" id="xcFile" accept=".csv,.xlsx,.xls,text/csv">
+        </label>
+        <p class="xc-fileinfo" id="xcFileInfo">Belum ada file dipilih.</p>
+        <label for="xcPaste">Atau tempel teks CSV di sini</label>
+        <textarea id="xcPaste" placeholder="Nama,Kota,Pesanan&#10;Budi,Bandung,Kopi&#10;Ani,Jakarta,Teh"></textarea>
+        <div class="xc-btnrow" style="margin-bottom:6px">
+          <button class="btn-o" type="button" id="xcPakaiTeks">Pakai teks ini</button>
+          <button class="btn-o" type="button" id="xcContoh">Muat contoh</button>
+        </div>
+
+        <h3>Yang dibersihkan</h3>
+        <div class="xc-ops">
+          <label class="xc-op"><input type="checkbox" id="xcOpDup" checked> Hapus baris duplikat</label>
+          <label class="xc-op"><input type="checkbox" id="xcOpEmptyRows" checked> Hapus baris kosong</label>
+          <label class="xc-op"><input type="checkbox" id="xcOpEmptyCols" checked> Hapus kolom kosong</label>
+          <label class="xc-op"><input type="checkbox" id="xcOpTrim" checked> Rapikan spasi di tiap sel</label>
+          <div class="xc-op-full xc-keyrow">
+            <label for="xcKeyCol">Duplikat dihitung dari</label>
+            <select id="xcKeyCol"><option value="-1">Semua kolom</option></select>
+          </div>
+          <div class="xc-op-full">
+            <label>Cari &amp; ganti teks (kosongkan bila tidak perlu)</label>
+            <div class="xc-findrow">
+              <input type="text" id="xcFind" placeholder="Cari: mis. Kopi" autocomplete="off" aria-label="Cari teks">
+              <input type="text" id="xcReplace" placeholder="Ganti dengan: mis. Kopi Arabika" autocomplete="off" aria-label="Ganti dengan">
+            </div>
+          </div>
+        </div>
+        <div class="xc-btnrow">
+          <button class="btn" type="button" id="xcBersihkan">Bersihkan Data <span class="arr">→</span></button>
+          <button class="btn-o" type="button" id="xcReset">Reset</button>
+        </div>
+        <p class="xc-note">Semua proses jalan di browsermu — tidak ada data yang dikirim atau disimpan di mana pun.</p>
+      </div>
+
+      <div class="xc-right">
+        <div class="xc-stats">
+          <div class="xc-big" id="xcBig">—</div>
+          <p id="xcBigSub">Belum ada data — muat contoh, tempel teks, atau unggah file dulu.</p>
+          <ul id="xcStatsList" style="display:none">
+            <li><span>Baris awal</span><b id="xcStBefore">—</b></li>
+            <li><span>Baris akhir</span><b id="xcStAfter">—</b></li>
+            <li><span>Duplikat dihapus</span><b id="xcStDup">—</b></li>
+            <li><span>Baris kosong dihapus</span><b id="xcStEmptyRows">—</b></li>
+            <li><span>Kolom kosong dihapus</span><b id="xcStEmptyCols">—</b></li>
+            <li><span>Teks diganti</span><b id="xcStReplaced">—</b></li>
+          </ul>
+        </div>
+        <div class="xc-tablewrap" id="xcTableWrap" style="display:none">
+          <table id="xcPreview"></table>
+        </div>
+        <p class="xc-note" id="xcPreviewNote" style="display:none"></p>
+        <div class="xc-actions">
+          <button class="btn" type="button" id="xcUnduhCsv" disabled>Unduh .csv</button>
+          <button class="btn-o" type="button" id="xcUnduhXlsx" disabled>Unduh .xlsx</button>
+        </div>
+        <p style="color:var(--mut);font-size:14px;margin-top:14px">Hasil unduhan berisi seluruh baris yang sudah dibersihkan — pratinjau di atas hanya menampilkan 50 baris pertama.</p>
+      </div>
+    </div>
+
+    <div class="sec-head" style="margin-top:20px">
+      <h2>Data kotor itu mahal — biayanya waktu</h2>
+      <p>Data hasil ekspor toko online, absensi, atau survei hampir selalu kotor: ada baris yang dobel karena terimpor dua kali, baris kosong dari enter yang tidak sengaja, kolom kosong dari template, dan spasi berantakan dari ketikan manual. Kalau langsung dipakai, laporanmu ikut kotor — jumlah pelanggan jadi dobel, total jadi meleset. Bersihkan dulu di sini, baru olah lanjut di Excel atau sistemmu. File tidak pernah keluar dari browser, jadi aman untuk data pelanggan sekalipun.</p>
+    </div>
+
+    <div class="sec-head" style="margin-top:60px">
+      <h2>Pertanyaan yang sering ditanya</h2>
+    </div>
+    <div class="xc-faq">
+      <details><summary>Apakah file saya diunggah ke server?</summary><p>Tidak. File yang kamu unggah atau teks yang kamu tempel hanya dibaca di browsermu sendiri. Tidak ada data yang dikirim ke server Tamatech atau ke mana pun — tutup halaman, datanya hilang.</p></details>
+      <details><summary>Format file apa yang didukung?</summary><p>File .csv dan Excel .xlsx/.xls (dibaca sheet pertamanya). Kamu juga bisa menempel teks CSV langsung, atau memakai data contoh untuk mencoba dulu.</p></details>
+      <details><summary>Apa saja yang dibersihkan?</summary><p>Baris duplikat (semua kolom atau satu kolom kunci pilihanmu), baris kosong, kolom yang seluruh isinya kosong, spasi berantakan di awal/akhir sel dan spasi ganda, plus cari &amp; ganti teks di semua sel.</p></details>
+      <details><summary>Seberapa besar file yang bisa dibersihkan?</summary><p>Tergantung browsermu — file sampai beberapa MB (puluhan ribu baris) umumnya lancar. Pratinjau di halaman dibatasi 50 baris pertama, tapi file unduhan berisi seluruh hasil pembersihan.</p></details>
+    </div>
+
+    <p style="color:var(--mut);margin-top:40px">Tool ini memproses data langsung di browser — bukan layanan pengolahan data Tamatech. Butuh sistem yang merapikan dan mengolah datamu otomatis tiap hari? <a href="https://tamatech.id/services/custom-it-solutions">Lihat layanan Custom IT →</a></p>
+    <p style="color:var(--mut);margin-top:12px">File Excel dibaca dengan library SheetJS (lisensi Apache 2.0) yang tersimpan di situs ini — tanpa CDN, jadi tetap jalan walau koneksi lambat. Library dan lisensinya ada di ../../assets/xlsx.js.</p>
+  </div>
+</section>
+
+
+<script src="../../assets/xlsx.js"></script>
+<script>
+(function(){
+  function isEmptyCell(v){
+    return v == null || String(v).trim() === '';
+  }
+  function trimCell(v){
+    return String(v == null ? '' : v).replace(/\s+/g, ' ').trim();
+  }
+  function parseCSV(text){
+    text = String(text == null ? '' : text).replace(/^\uFEFF/, '');
+    var rows = [];
+    var row = [];
+    var field = '';
+    var inQuotes = false;
+    var i = 0;
+    while (i < text.length){
+      var c = text[i];
+      if (inQuotes){
+        if (c === '"'){
+          if (text[i + 1] === '"'){ field += '"'; i += 2; }
+          else { inQuotes = false; i++; }
+        } else { field += c; i++; }
+      } else if (c === '"'){
+        inQuotes = true; i++;
+      } else if (c === ','){
+        row.push(field); field = ''; i++;
+      } else if (c === '\r'){
+        if (text[i + 1] === '\n') i++;
+        row.push(field); field = ''; rows.push(row); row = []; i++;
+      } else if (c === '\n'){
+        row.push(field); field = ''; rows.push(row); row = []; i++;
+      } else { field += c; i++; }
+    }
+    if (field !== '' || row.length > 0){ row.push(field); rows.push(row); }
+    if (rows.length === 0) return {headers: [], rows: []};
+    var headers = rows[0].map(function(h){ return String(h); });
+    var data = rows.slice(1);
+    return {headers: headers, rows: data};
+  }
+  function csvEscape(v){
+    var s = String(v == null ? '' : v);
+    if (/[",\n\r]/.test(s)) return '"' + s.replace(/"/g, '""') + '"';
+    return s;
+  }
+  function serializeCSV(table){
+    var lines = [];
+    lines.push(table.headers.map(csvEscape).join(','));
+    table.rows.forEach(function(r){
+      lines.push(r.map(csvEscape).join(','));
+    });
+    return lines.join('\r\n');
+  }
+  function cloneTable(table){
+    return {headers: table.headers.slice(), rows: table.rows.map(function(r){ return r.slice(); })};
+  }
+  function cleanData(table, opts){
+    opts = opts || {};
+    var t = cloneTable(table || {headers: [], rows: []});
+    var stats = {rowsBefore: t.rows.length, colsBefore: t.headers.length, rowsAfter: 0, colsAfter: 0, dupRemoved: 0, emptyRowsRemoved: 0, emptyColsRemoved: 0, replacedCount: 0};
+    var r, c;
+    if (opts.trim){
+      for (r = 0; r < t.rows.length; r++){
+        for (c = 0; c < t.rows[r].length; c++){ t.rows[r][c] = trimCell(t.rows[r][c]); }
+      }
+      t.headers = t.headers.map(function(h){ return trimCell(h); });
+    }
+    if (opts.emptyRows){
+      var kept = [];
+      for (r = 0; r < t.rows.length; r++){
+        var allEmpty = true;
+        for (c = 0; c < t.rows[r].length; c++){ if (!isEmptyCell(t.rows[r][c])){ allEmpty = false; break; } }
+        if (allEmpty) stats.emptyRowsRemoved++;
+        else kept.push(t.rows[r]);
+      }
+      t.rows = kept;
+    }
+    if (opts.emptyCols){
+      var keepCols = [];
+      for (c = 0; c < t.headers.length; c++){
+        var colEmpty = true;
+        for (r = 0; r < t.rows.length; r++){
+          var v = t.rows[r][c];
+          if (!isEmptyCell(v)){ colEmpty = false; break; }
+        }
+        if (!colEmpty) keepCols.push(c);
+      }
+      stats.emptyColsRemoved = t.headers.length - keepCols.length;
+      t.headers = keepCols.map(function(i){ return t.headers[i]; });
+      t.rows = t.rows.map(function(row){ return keepCols.map(function(i){ return row[i] == null ? '' : row[i]; }); });
+    }
+    if (opts.dedup){
+      var keyIdx = (typeof opts.keyCol === 'number') ? opts.keyCol : -1;
+      var seen = {};
+      var keptRows = [];
+      for (r = 0; r < t.rows.length; r++){
+        var key = keyIdx >= 0 ? String(t.rows[r][keyIdx] == null ? '' : t.rows[r][keyIdx]) : JSON.stringify(t.rows[r]);
+        if (seen[key]){ stats.dupRemoved++; }
+        else { seen[key] = true; keptRows.push(t.rows[r]); }
+      }
+      t.rows = keptRows;
+    }
+    var find = String(opts.find == null ? '' : opts.find);
+    if (find !== ''){
+      var rep = String(opts.replace == null ? '' : opts.replace);
+      for (r = 0; r < t.rows.length; r++){
+        for (c = 0; c < t.rows[r].length; c++){
+          var cell = String(t.rows[r][c] == null ? '' : t.rows[r][c]);
+          if (cell.indexOf(find) !== -1){
+            stats.replacedCount += cell.split(find).length - 1;
+            t.rows[r][c] = cell.split(find).join(rep);
+          }
+        }
+      }
+    }
+    stats.rowsAfter = t.rows.length;
+    stats.colsAfter = t.headers.length;
+    return {table: t, stats: stats};
+  }
+  function aoaToTable(aoa){
+    aoa = aoa || [];
+    if (!aoa.length) return {headers: [], rows: []};
+    var headers = aoa[0].map(function(h){ return h == null ? '' : String(h); });
+    var rows = aoa.slice(1).map(function(r){
+      return headers.map(function(_, i){ var v = r[i]; return v == null ? '' : String(v); });
+    });
+    return {headers: headers, rows: rows};
+  }
+  function tableToAOA(table){
+    var aoa = [table.headers.slice()];
+    table.rows.forEach(function(r){ aoa.push(r.slice()); });
+    return aoa;
+  }
+  function sampleCSV(){
+    return 'Nama,Kota,Pesanan,Harga,Catatan\n'
+      + '"  Budi  Santoso ",Bandung,Kopi,15000,\n'
+      + 'Ani,Jakarta,Teh,10000,\n'
+      + 'Budi Santoso,Bandung,Kopi,15000,\n'
+      + ',,,,\n'
+      + 'Sinta,Surabaya,Gula,12000,\n'
+      + 'Dedi,,Roti,8000,\n'
+      + 'Maya,Bandung,Kopi,15000,\n'
+      + '"  Rina  ",Jakarta,"  Teh Manis ",9000,\n'
+      + 'Joko,Medan,Kopi,15000,\n'
+      + 'Ani,Jakarta,Teh,10000,\n'
+      + 'Agus,Semarang,Susu,11000,\n'
+      + 'Dewi,Bogor,Teh,10000,';
+  }
+  /* ---- Wiring DOM (di bawah ini butuh document) ---- */
+  function $(id){ return document.getElementById(id); }
+  function escHtml(s){
+    return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+  var currentTable = null;
+  var cleanedTable = null;
+  function readOpts(){
+    var keySel = $('xcKeyCol');
+    var keyCol = keySel ? parseInt(keySel.value, 10) : -1;
+    if (isNaN(keyCol)) keyCol = -1;
+    return {
+      dedup: $('xcOpDup').checked,
+      keyCol: keyCol,
+      emptyRows: $('xcOpEmptyRows').checked,
+      emptyCols: $('xcOpEmptyCols').checked,
+      trim: $('xcOpTrim').checked,
+      find: $('xcFind').value,
+      replace: $('xcReplace').value
+    };
+  }
+  function populateKeyCol(table){
+    var sel = $('xcKeyCol');
+    var prev = sel.value;
+    sel.innerHTML = '<option value="-1">Semua kolom</option>';
+    table.headers.forEach(function(h, i){
+      var opt = document.createElement('option');
+      opt.value = String(i);
+      opt.textContent = h === '' ? ('Kolom ' + (i + 1)) : h;
+      sel.appendChild(opt);
+    });
+    sel.value = prev;
+    if (sel.selectedIndex < 0) sel.value = '-1';
+  }
+  function setLoaded(table, label){
+    currentTable = table;
+    cleanedTable = null;
+    populateKeyCol(table);
+    $('xcFileInfo').textContent = label + ' sudah dimuat.';
+    renderEmpty();
+  }
+  function renderEmpty(){
+    $('xcBig').textContent = '—';
+    $('xcBigSub').textContent = currentTable ? 'Data sudah dimuat — tekan "Bersihkan Data"' : 'Belum ada data — muat contoh, tempel teks, atau unggah file dulu.';
+    $('xcStatsList').style.display = 'none';
+    $('xcTableWrap').style.display = 'none';
+    $('xcPreviewNote').style.display = 'none';
+    $('xcUnduhCsv').disabled = true;
+    $('xcUnduhXlsx').disabled = true;
+  }
+  function renderResult(res){
+    var s = res.stats;
+    cleanedTable = res.table;
+    $('xcBig').innerHTML = s.rowsAfter + ' <small>/ ' + s.rowsBefore + ' baris</small>';
+    $('xcBigSub').textContent = 'Data bersih — ' + s.colsAfter + ' kolom (dari ' + s.colsBefore + ')';
+    $('xcStatsList').style.display = '';
+    $('xcStBefore').textContent = s.rowsBefore;
+    $('xcStAfter').textContent = s.rowsAfter;
+    $('xcStDup').textContent = s.dupRemoved;
+    $('xcStEmptyRows').textContent = s.emptyRowsRemoved;
+    $('xcStEmptyCols').textContent = s.emptyColsRemoved;
+    $('xcStReplaced').textContent = s.replacedCount;
+    var maxShow = 50;
+    var html = '<thead><tr>' + res.table.headers.map(function(h){ return '<th>' + escHtml(h === '' ? '—' : h) + '</th>'; }).join('') + '</tr></thead><tbody>';
+    res.table.rows.slice(0, maxShow).forEach(function(r){
+      html += '<tr>' + res.table.headers.map(function(_, i){ return '<td>' + escHtml(r[i] == null ? '' : r[i]) + '</td>'; }).join('') + '</tr>';
+    });
+    html += '</tbody>';
+    $('xcPreview').innerHTML = html;
+    $('xcTableWrap').style.display = '';
+    var note = $('xcPreviewNote');
+    if (res.table.rows.length > maxShow){
+      note.textContent = 'Menampilkan ' + maxShow + ' dari ' + res.table.rows.length + ' baris — unduh untuk melihat semua.';
+      note.style.display = '';
+    } else {
+      note.textContent = 'Menampilkan seluruh ' + res.table.rows.length + ' baris.';
+      note.style.display = '';
+    }
+    $('xcUnduhCsv').disabled = false;
+    $('xcUnduhXlsx').disabled = false;
+  }
+  function loadFromText(text, label){
+    var table = parseCSV(text);
+    if (!table.headers.length && !table.rows.length){
+      $('xcFileInfo').textContent = 'Teks kosong — tidak ada data yang bisa dibaca.';
+      return;
+    }
+    setLoaded(table, label);
+  }
+  function loadFromFile(file){
+    var name = file.name || 'file';
+    var lower = name.toLowerCase();
+    if (/\.(xlsx|xls)$/.test(lower)){
+      if (typeof XLSX === 'undefined'){
+        $('xcFileInfo').textContent = 'Pembaca Excel belum termuat — coba muat ulang halaman.';
+        return;
+      }
+      var reader = new FileReader();
+      reader.onload = function(e){
+        try {
+          var wb = XLSX.read(e.target.result, {type: 'array'});
+          var ws = wb.Sheets[wb.SheetNames[0]];
+          var aoa = XLSX.utils.sheet_to_json(ws, {header: 1, raw: false, defval: ''});
+          setLoaded(aoaToTable(aoa), 'File "' + name + '"');
+        } catch (err){
+          $('xcFileInfo').textContent = 'File Excel tidak bisa dibaca — pastikan formatnya .xlsx/.xls yang valid.';
+        }
+      };
+      reader.readAsArrayBuffer(file);
+    } else {
+      var tr = new FileReader();
+      tr.onload = function(e){ loadFromText(String(e.target.result || ''), 'File "' + name + '"'); };
+      tr.readAsText(file);
+    }
+  }
+  $('xcFile').addEventListener('change', function(){
+    var f = this.files && this.files[0];
+    if (f) loadFromFile(f);
+  });
+  $('xcPakaiTeks').addEventListener('click', function(){
+    loadFromText($('xcPaste').value, 'Teks yang ditempel');
+  });
+  $('xcContoh').addEventListener('click', function(){
+    var csv = sampleCSV();
+    $('xcPaste').value = csv;
+    var table = parseCSV(csv);
+    setLoaded(table, 'Data contoh');
+    runClean();
+  });
+  function runClean(){
+    if (!currentTable){ renderEmpty(); return; }
+    renderResult(cleanData(currentTable, readOpts()));
+  }
+  $('xcBersihkan').addEventListener('click', runClean);
+  $('xcReset').addEventListener('click', function(){
+    currentTable = null;
+    cleanedTable = null;
+    $('xcFile').value = '';
+    $('xcPaste').value = '';
+    $('xcFind').value = '';
+    $('xcReplace').value = '';
+    $('xcFileInfo').textContent = 'Belum ada file dipilih.';
+    populateKeyCol({headers: []});
+    renderEmpty();
+  });
+  function downloadBlob(blob, filename){
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 100);
+  }
+  $('xcUnduhCsv').addEventListener('click', function(){
+    if (!cleanedTable) return;
+    var blob = new Blob(['\uFEFF' + serializeCSV(cleanedTable)], {type: 'text/csv;charset=utf-8'});
+    downloadBlob(blob, 'data-bersih.csv');
+  });
+  $('xcUnduhXlsx').addEventListener('click', function(){
+    if (!cleanedTable) return;
+    if (typeof XLSX === 'undefined'){
+      $('xcFileInfo').textContent = 'Pembaca Excel belum termuat — coba muat ulang halaman.';
+      return;
+    }
+    var ws = XLSX.utils.aoa_to_sheet(tableToAOA(cleanedTable));
+    var wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Data Bersih');
+    var out = XLSX.write(wb, {bookType: 'xlsx', type: 'array'});
+    downloadBlob(new Blob([out], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}), 'data-bersih.xlsx');
+  });
+  renderEmpty();
+})();
+</script>
+</main>
+<section class="static-cta">
+  <div class="static-wrap">
+    <div class="kick" style="margin-bottom:28px"><b>( 05 )</b> Mulai Proyek</div>
+    <h2>Punya ide?<br><span class="out">Ayo kita bangun.</span></h2>
+    <p>Ceritakan ke mana bisnismu ingin melangkah. Kami akan menganalisis, mengidentifikasi, dan meracik pengalaman digital yang membawamu ke sana.</p>
+    <a class="btn acc" href="https://tamatech.id/contact">Rasakan Pengalaman Digital Terbaik <span class="arr">&rarr;</span></a>
+  </div>
+</section>
+<footer class="static-foot">
+  <div class="static-wrap">
+    <span>&copy; 2026 Tama Technology (Tamatech) &mdash; Tools Bisnis Gratis.</span>
+    <span><a href="https://tamatech.id/tools">Semua tools</a> &middot; <a href="https://tamatech.id">tamatech.id</a></span>
+  </div>
+</footer>
+</body>
+</html>

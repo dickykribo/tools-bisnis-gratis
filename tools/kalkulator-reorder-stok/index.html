@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalkulator Reorder Stok: Kapan Harus Pesan Lagi?</title>
+<meta name="description" content="Hitung titik pesan ulang (reorder point) dari penjualan harian, lead time, dan stok pengaman — biar tidak kehabisan stok. Gratis, tanpa daftar.">
+<meta property="og:title" content="Kalkulator Reorder Stok: Kapan Harus Pesan Lagi?">
+<meta property="og:description" content="Hitung titik pesan ulang (reorder point) dari penjualan harian, lead time, dan stok pengaman — biar tidak kehabisan stok. Gratis, tanpa daftar.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://tamatech.id/tools/kalkulator-reorder-stok">
+<link rel="stylesheet" href="../../assets/tools.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Apa itu reorder point?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Titik stok terendah sebelum kamu harus pesan lagi. Dihitung dari penjualan harian dikali lead time, ditambah stok pengaman. Kalau stokmu menyentuh angka ini, pesan sekarang — jangan tunggu habis."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Stok pengaman itu perlu berapa?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Secukupnya buat menutup keterlambatan pemasok atau lonjakan penjualan mendadak. Patokan awal yang umum: 10–20% dari permintaan selama lead time — atau isi angka yang biasa kamu pakai."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Kenapa lead time penting?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Karena barang tidak datang hari itu juga. Kalau pemasokmu butuh 7 hari dan kamu jual 10 unit sehari, kamu butuh 70 unit di tangan saat pesan — kalau pesan pas stok tinggal 10, kamu kehabisan 6 hari sebelum barang datang."
+      }
+    }
+  ]
+}
+</script>
+<style>
+.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin:40px 0}
+@media(max-width:820px){.calc-grid{grid-template-columns:1fr}}
+.calc-card{border:1px solid var(--line);border-radius:20px;padding:28px;background:var(--gray);min-width:0}
+.calc-card h3{font-size:20px;margin:0 0 6px}
+.calc-card p.hint{color:var(--mut);font-size:14px;margin:0 0 20px}
+.calc-card label{display:block;font-weight:600;font-size:14px;margin:0 0 6px}
+.calc-card input,.calc-card select{width:100%;min-width:0;border:1px solid var(--line);border-radius:12px;padding:13px 15px;font-family:var(--body);font-size:15.5px;color:#0B2A4A;background:#fff;margin-bottom:14px;box-sizing:border-box}
+.calc-card input:focus,.calc-card select:focus{outline:2px solid var(--acc);outline-offset:1px}
+.calc-result{border:1px solid var(--line);border-radius:20px;padding:32px;background:var(--navy);color:#fff;min-width:0}
+.calc-result .lbl{font-size:12px;letter-spacing:.2em;text-transform:uppercase;opacity:.7}
+.calc-result .range{font-family:var(--disp);font-size:clamp(34px,4vw,52px);font-weight:600;line-height:1.05;margin:10px 0 6px}
+.calc-result .note{opacity:.85;font-size:15px}
+.calc-result .src{opacity:.6;font-size:13px;margin-top:18px}
+.calc-table{width:100%;border-collapse:collapse;margin:8px 0 0}
+.calc-table th,.calc-table td{border-bottom:1px solid var(--line);padding:12px 8px;text-align:left;font-size:15px}
+.calc-table th{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.calc-table td:last-child,.calc-table th:last-child{text-align:right;white-space:nowrap}
+.calc-table tr.tot td{font-weight:700}
+.calc-faq{margin:8px 0 0}
+.calc-faq details{border-bottom:1px solid var(--line);padding:16px 0}
+.calc-faq summary{cursor:pointer;font-weight:600;font-size:17px}
+.calc-faq p{color:var(--mut);margin:10px 0 0}
+</style>
+</head>
+<body>
+<header class="static-head">
+  <div class="static-wrap">
+    <a class="static-logo" href="https://tamatech.id">tama<i>tech</i><sup>&reg;</sup></a>
+    <nav>
+      <a href="https://tamatech.id/">Beranda</a>
+      <a href="https://tamatech.id/tools">Tools Gratis</a>
+      <a href="https://tamatech.id/portfolio">Portofolio</a>
+      <a href="https://tamatech.id/insights">Insights</a>
+      <a href="https://tamatech.id/contact">Kontak</a>
+    </nav>
+  </div>
+</header>
+<main class="static-wrap">
+<!-- PAGE HERO -->
+<section class="p-hero">
+  <div class="wrap">
+    <div class="kick" style="margin-top:22px"><b>( &#10022; )</b> Tools Tamatech</div>
+    <h1>Kalkulator Reorder Stok</h1>
+    <div class="orb"><svg viewBox="0 0 100 100"><defs><path id="cir" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0"/></defs><text><textPath href="#cir" textLength="236">DESIGN &bull; CODE &bull; DEVELOP &bull; MAINTAIN &bull;</textPath></text></svg><span class="orb-c"><i>&darr;</i></span></div>
+    <p class="intro">Hitung titik pesan ulang (reorder point) dari penjualan harian, lead time, dan stok pengaman — biar tidak kehabisan stok.</p>
+  </div>
+</section>
+
+<!-- CALCULATOR -->
+<section class="sec" style="padding-top:64px">
+  <div class="wrap">
+    <div class="calc-grid">
+      <div class="calc-card">
+        <h3>Stokmu</h3>
+        <p class="hint">Isi angka rata-rata dari tokomu — kalau belum punya data, pakai contoh di bawah ini dulu.</p>
+        <label for="sSales">Penjualan rata-rata per hari (unit)</label>
+        <input type="number" id="sSales" value="10" min="0" max="1000000" step="1">
+        <label for="sLead">Lead time pemasok (hari)</label>
+        <input type="number" id="sLead" value="7" min="0" max="365" step="1">
+        <label for="sSafety">Stok pengaman (unit)</label>
+        <input type="number" id="sSafety" value="10" min="0" max="1000000" step="1">
+        <label for="sCurrent">Stok saat ini (unit)</label>
+        <input type="number" id="sCurrent" value="100" min="0" max="1000000" step="1">
+      </div>
+      <div>
+        <div class="calc-result" id="calcResult">
+          <div class="lbl">Titik pesan ulang (ROP)</div>
+          <div class="range" id="ropVal">80 unit</div>
+          <div class="note" id="ropNote">Masih aman — sekitar 2 hari lagi sebelum harus pesan.</div>
+          <div class="src" id="ropStatus">Stokmu masih di atas titik pesan ulang.</div>
+        </div>
+        <div style="margin-top:28px">
+          <h3 style="font-size:20px;margin:0 0 6px">Rinciannya</h3>
+          <table class="calc-table">
+            <tr><th>Pos</th><th>Jumlah</th></tr>
+            <tr><td>Permintaan selama lead time</td><td id="sDemand">70 unit</td></tr>
+            <tr><td>Stok pengaman</td><td id="sSafetyVal">10 unit</td></tr>
+            <tr class="tot"><td>Titik pesan ulang (ROP)</td><td id="sRop">80 unit</td></tr>
+            <tr><td>Stok saat ini</td><td id="sCurrentVal">100 unit</td></tr>
+            <tr><td>Jumlah yang disarankan dipesan</td><td id="sOrder">0 unit</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-head" style="margin-top:20px">
+      <h2>Pesan saat menyentuh angka, bukan saat habis</h2>
+      <p>Stok habis di saat ramai itu bukan sial — biasanya karena pesannya telat. Reorder point memberi tahu kamu kapan harus pesan: saat stok menyentuh angka itu, pesan langsung, karena barang butuh waktu lead time untuk sampai. Stok pengaman menutup keterlambatan pemasok dan lonjakan penjualan yang tidak terduga.</p>
+    </div>
+
+    <div class="sec-head" style="margin-top:60px">
+      <h2>Pertanyaan yang sering ditanya</h2>
+    </div>
+    <div class="calc-faq">
+      <details><summary>Apa itu reorder point?</summary><p>Titik stok terendah sebelum kamu harus pesan lagi. Dihitung dari penjualan harian dikali lead time, ditambah stok pengaman. Kalau stokmu menyentuh angka ini, pesan sekarang — jangan tunggu habis.</p></details>
+      <details><summary>Stok pengaman itu perlu berapa?</summary><p>Secukupnya buat menutup keterlambatan pemasok atau lonjakan penjualan mendadak. Patokan awal yang umum: 10–20% dari permintaan selama lead time — atau isi angka yang biasa kamu pakai.</p></details>
+      <details><summary>Kenapa lead time penting?</summary><p>Karena barang tidak datang hari itu juga. Kalau pemasokmu butuh 7 hari dan kamu jual 10 unit sehari, kamu butuh 70 unit di tangan saat pesan — kalau pesan pas stok tinggal 10, kamu kehabisan 6 hari sebelum barang datang.</p></details>
+    </div>
+
+    <p style="color:var(--mut);margin-top:40px">Kalkulator ini menghitung dari angka yang kamu isi sendiri, semuanya di browser — tidak ada data yang dikirim ke mana pun.</p>
+  </div>
+</section>
+
+
+
+<script>
+(function(){
+  function toNum(s){
+    s = String(s == null ? '' : s).trim();
+    var neg = s.charAt(0) === '-';
+    var d = s.replace(/[^\d]/g, '');
+    if (d === '') return 0;
+    var n = parseInt(d, 10);
+    return neg ? -n : n;
+  }
+  function fmtNum(n){ return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
+  function fmtDays(x){ return String(Math.round(x * 10) / 10).replace('.', ',') + ' hari'; }
+  function calcReorder(sales, lead, safety, current){
+    sales = Math.max(0, sales);
+    lead = Math.max(0, lead);
+    safety = Math.max(0, safety);
+    current = Math.max(0, current);
+    var demandLT = sales * lead;
+    var rop = demandLT + safety;
+    var daysLeft = sales > 0 ? (current - rop) / sales : 0;
+    var orderQty = Math.max(0, rop - current);
+    return {demandLT: demandLT, rop: rop, daysLeft: daysLeft, orderQty: orderQty};
+  }
+  /* ---- Wiring DOM (di bawah ini butuh document) ---- */
+  function $(id){ return document.getElementById(id); }
+  function update(){
+    var sales = Math.max(0, parseInt($('sSales').value, 10) || 0);
+    var lead = Math.max(0, parseInt($('sLead').value, 10) || 0);
+    var safety = Math.max(0, parseInt($('sSafety').value, 10) || 0);
+    var current = Math.max(0, parseInt($('sCurrent').value, 10) || 0);
+    var r = calcReorder(sales, lead, safety, current);
+    $('ropVal').textContent = sales > 0 ? fmtNum(r.rop) + ' unit' : '—';
+    if (sales <= 0) {
+      $('ropNote').textContent = 'Isi penjualan per hari dulu untuk menghitung.';
+      $('ropStatus').textContent = 'Titik pesan ulang dihitung dari penjualan harianmu.';
+    } else if (current <= r.rop) {
+      $('ropNote').textContent = 'Saatnya pesan lagi — stokmu sudah menyentuh titik pesan ulang.';
+      $('ropStatus').textContent = 'Pesan ' + fmtNum(r.orderQty) + ' unit biar stok kembali ke titik aman.';
+    } else {
+      $('ropNote').textContent = 'Masih aman — sekitar ' + fmtDays(r.daysLeft) + ' lagi sebelum harus pesan.';
+      $('ropStatus').textContent = 'Stokmu masih di atas titik pesan ulang.';
+    }
+    $('sDemand').textContent = fmtNum(r.demandLT) + ' unit';
+    $('sSafetyVal').textContent = fmtNum(safety) + ' unit';
+    $('sRop').textContent = sales > 0 ? fmtNum(r.rop) + ' unit' : '—';
+    $('sCurrentVal').textContent = fmtNum(current) + ' unit';
+    $('sOrder').textContent = fmtNum(r.orderQty) + ' unit';
+  }
+  ['sSales','sLead','sSafety','sCurrent'].forEach(function(id){
+    $(id).addEventListener('input', update);
+    $(id).addEventListener('change', update);
+  });
+  update();
+})();
+</script>
+</main>
+<section class="static-cta">
+  <div class="static-wrap">
+    <div class="kick" style="margin-bottom:28px"><b>( 05 )</b> Mulai Proyek</div>
+    <h2>Punya ide?<br><span class="out">Ayo kita bangun.</span></h2>
+    <p>Ceritakan ke mana bisnismu ingin melangkah. Kami akan menganalisis, mengidentifikasi, dan meracik pengalaman digital yang membawamu ke sana.</p>
+    <a class="btn acc" href="https://tamatech.id/contact">Rasakan Pengalaman Digital Terbaik <span class="arr">&rarr;</span></a>
+  </div>
+</section>
+<footer class="static-foot">
+  <div class="static-wrap">
+    <span>&copy; 2026 Tama Technology (Tamatech) &mdash; Tools Bisnis Gratis.</span>
+    <span><a href="https://tamatech.id/tools">Semua tools</a> &middot; <a href="https://tamatech.id">tamatech.id</a></span>
+  </div>
+</footer>
+</body>
+</html>
