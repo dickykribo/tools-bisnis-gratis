@@ -12,7 +12,7 @@ Buka file `tools/<nama-tool>/index.html` di browser. Tidak butuh server, tidak b
 instalasi apa pun. Versi live (dengan tampilan situs Tamatech) ada di
 [https://tamatech.id/tools](https://tamatech.id/tools).
 
-## Daftar tool (25)
+## Daftar tool (26)
 
 | # | Tool | Keterangan | Demo live | Kode |
 |---|------|-----------|-----------|------|
@@ -41,6 +41,7 @@ instalasi apa pun. Versi live (dengan tampilan situs Tamatech) ada di
 | 23 | Konverter JSON ⇄ CSV | Ubah JSON ke CSV/Excel dan CSV ke JSON, plus rapikan dan validasi JSON | [tamatech.id/tools/konverter-json-csv](https://tamatech.id/tools/konverter-json-csv) | [tools/konverter-json-csv](tools/konverter-json-csv) |
 | 24 | Barcode Generator | Buat barcode CODE128, EAN-13, UPC-A, dan CODE39 | [tamatech.id/tools/barcode-generator](https://tamatech.id/tools/barcode-generator) | [tools/barcode-generator](tools/barcode-generator) |
 | 25 | Resize Gambar | Resize dan kompres gambar di browser untuk IG, marketplace, dan website | [tamatech.id/tools/resize-gambar](https://tamatech.id/tools/resize-gambar) | [tools/resize-gambar](tools/resize-gambar) |
+| 26 | Kompres Gambar Massal | Kompres banyak gambar sekaligus di browser untuk website dan marketplace | [tamatech.id/tools/kompres-gambar-massal](https://tamatech.id/tools/kompres-gambar-massal) | [tools/kompres-gambar-massal](tools/kompres-gambar-massal) |
 
 ## Struktur repo
 

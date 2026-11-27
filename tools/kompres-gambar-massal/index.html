@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kompres Gambar Massal Gratis: Kecilkan Banyak Foto</title>
+<meta name="description" content="Resize dan kompres gambar online gratis — ubah ukuran foto untuk IG, marketplace, dan website. Semua proses di browser, tanpa upload.">
+<meta property="og:title" content="Kompres Gambar Massal Gratis: Kecilkan Banyak Foto">
+<meta property="og:description" content="Resize dan kompres gambar online gratis — ubah ukuran foto untuk IG, marketplace, dan website. Semua proses di browser, tanpa upload.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://tamatech.id/tools/kompres-gambar-massal">
+<link rel="stylesheet" href="../../assets/tools.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Apakah gambarku diunggah ke server?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tidak. Semua proses, dari membaca file sampai menyimpan hasil, jalan di browser kamu sendiri memakai canvas bawaan browser. Gambar tidak pernah dikirim ke server Tamatech atau ke mana pun, dan hilang begitu halaman ditutup."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Format mana yang hasilnya paling kecil?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "WebP hampir selalu paling kecil, dengan kualitas yang setara JPEG. Pilih JPEG kalau hasilmu harus dibuka di aplikasi lama yang belum kenal WebP, dan PNG kalau gambarmu butuh latar transparan."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah kualitas gambarku turun saat dikompres?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "JPEG dan WebP memakai kompresi lossy, jadi sebagian detail memang dibuang supaya filenya kecil. Di kualitas 80 sampai 90 persen, perbedaannya biasanya tidak terlihat mata. PNG tidak membuang detail sama sekali, tapi filenya cenderung lebih besar."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Berapa banyak gambar yang bisa dikompres sekaligus?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Maksimal 20 gambar dalam sekali proses, tiap file maksimal 20 MB. Kalau filenya lebih banyak, bagi jadi beberapa batch — hasilnya sama saja."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Bagaimana cara mengunduh semua hasil sekaligus?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Klik tombol Unduh semua — hasil diunduh satu per satu dari browsermu. Kalau browser bertanya, izinkan beberapa unduhan dari situs ini. Kamu juga bisa mengunduh tiap gambar lewat tombol Unduh di barisnya."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Kenapa hasil PNG kadang lebih besar dari aslinya?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "PNG menyimpan setiap piksel apa adanya tanpa kompresi lossy, sementara JPEG aslinya sudah dibuang sebagian detailnya. Jadi foto yang tadinya JPEG kecil bisa jadi PNG yang jauh lebih besar. Kalau tujuannya memperkecil file, pilih WebP atau JPEG."
+      }
+    }
+  ]
+}
+</script>
+<style>
+.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin:40px 0}
+@media(max-width:820px){.calc-grid{grid-template-columns:1fr}}
+.calc-card{border:1px solid var(--line);border-radius:20px;padding:28px;background:var(--gray);min-width:0}
+.calc-card h3{font-size:20px;margin:0 0 6px}
+.calc-card p.hint{color:var(--mut);font-size:14px;margin:0 0 20px}
+.calc-card label{display:block;font-weight:600;font-size:14px;margin:0 0 6px}
+.calc-card input,.calc-card select,.calc-card textarea{width:100%;min-width:0;border:1px solid var(--line);border-radius:12px;padding:13px 15px;font-family:var(--body);font-size:15.5px;color:#0B2A4A;background:#fff;margin-bottom:14px;box-sizing:border-box}
+.calc-card input:focus,.calc-card select:focus,.calc-card textarea:focus{outline:2px solid var(--acc);outline-offset:1px}
+.calc-card .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:560px){.calc-card .row2{grid-template-columns:1fr}}
+.calc-result{border:1px solid var(--line);border-radius:20px;padding:32px;background:var(--navy);color:#fff;min-width:0}
+.calc-result .lbl{font-size:12px;letter-spacing:.2em;text-transform:uppercase;opacity:.7}
+.calc-result .note{opacity:.85;font-size:15px}
+.calc-result .src{opacity:.6;font-size:13px;margin-top:18px}
+.calc-table{width:100%;border-collapse:collapse;margin:8px 0 0}
+.calc-table th,.calc-table td{border-bottom:1px solid var(--line);padding:12px 8px;text-align:left;font-size:15px;color:var(--ink)}
+.calc-table th{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.calc-table td:last-child,.calc-table th:last-child{text-align:right;white-space:nowrap}
+.calc-table tr.tot td{font-weight:700}
+.calc-faq{margin:8px 0 0}
+.calc-faq details{border-bottom:1px solid var(--line);padding:16px 0}
+.calc-faq summary{cursor:pointer;font-weight:600;font-size:17px}
+.calc-faq p{color:var(--mut);margin:10px 0 0}
+.bic-drop{display:block;border:2px dashed var(--acc);border-radius:16px;padding:28px 18px;text-align:center;cursor:pointer;color:var(--acc);font-weight:600;font-size:15px;margin-bottom:8px;background:var(--bg)}
+.bic-drop:hover{background:var(--acc-soft)}
+.bic-drop.bic-over{background:var(--acc-soft);border-style:solid}
+.bic-drop input{display:none}
+.bic-fileinfo{color:var(--mut);font-size:13.5px;margin:0 0 14px;min-height:18px}
+.bic-range-row{display:flex;align-items:center;gap:12px;margin-bottom:4px}
+.bic-range-row input[type="range"]{flex:1;min-width:0;accent-color:var(--acc);padding:0;margin:0}
+.bic-range-row output{font-weight:700;font-size:15px;min-width:52px;text-align:right}
+.bic-pngnote{color:var(--mut);font-size:13.5px;margin:0 0 14px}
+.bic-clear{width:100%;border:1px solid var(--line);border-radius:12px;padding:12px 16px;font-family:var(--body);font-size:14px;font-weight:600;background:var(--bg);color:var(--ink);cursor:pointer;margin-top:4px}
+.bic-clear:hover{border-color:var(--acc)}
+.bic-big{font-size:44px;font-weight:800;line-height:1.1;letter-spacing:-.5px}
+.bic-big small{font-size:20px;font-weight:600;color:#9db8e8}
+.bic-empty{border:2px dashed rgba(255,255,255,.4);border-radius:16px;padding:48px 20px;text-align:center;font-size:18px;margin:16px 0 8px}
+.bic-list{margin:16px 0 8px}
+.bic-item{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:12px;align-items:center;border:1px solid rgba(255,255,255,.25);border-radius:14px;padding:10px 12px;margin-bottom:10px;background:rgba(255,255,255,.06)}
+.bic-thumb{width:64px;height:64px;border-radius:10px;overflow:hidden;background:#fff;flex:none}
+.bic-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.bic-meta{min-width:0}
+.bic-name{font-weight:700;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bic-dims{font-size:13.5px;opacity:.85;margin-top:2px}
+.bic-status{font-size:13px;opacity:.7;margin-top:2px}
+.bic-dl{border:1px solid rgba(255,255,255,.5);border-radius:10px;padding:9px 14px;font-family:var(--body);font-size:13.5px;font-weight:700;background:#fff;color:#0B2A4A;cursor:pointer;white-space:nowrap}
+.bic-dl:disabled{opacity:.45;cursor:not-allowed}
+.bic-dlall{width:100%;border:1px solid rgba(255,255,255,.5);border-radius:12px;padding:14px 20px;font-family:var(--body);font-size:15px;font-weight:700;background:#fff;color:#0B2A4A;cursor:pointer;margin-top:12px}
+.bic-dlall:disabled{opacity:.45;cursor:not-allowed}
+.bic-err{color:#ffcf99}
+@media(max-width:560px){
+  .calc-card{padding:22px 18px}
+  .calc-result{padding:24px 18px}
+  .bic-big{font-size:36px}
+  .bic-item{grid-template-columns:48px minmax(0,1fr)}
+  .bic-thumb{width:48px;height:48px}
+  .bic-dl{grid-column:2;justify-self:start}
+}
+</style>
+</head>
+<body>
+<header class="static-head">
+  <div class="static-wrap">
+    <a class="static-logo" href="https://tamatech.id">tama<i>tech</i><sup>&reg;</sup></a>
+    <nav>
+      <a href="https://tamatech.id/">Beranda</a>
+      <a href="https://tamatech.id/tools">Tools Gratis</a>
+      <a href="https://tamatech.id/portfolio">Portofolio</a>
+      <a href="https://tamatech.id/insights">Insights</a>
+      <a href="https://tamatech.id/contact">Kontak</a>
+    </nav>
+  </div>
+</header>
+<main class="static-wrap">
+<!-- PAGE HERO -->
+<section class="p-hero">
+  <div class="wrap">
+    <div class="kick" style="margin-top:22px"><b>( &#10022; )</b> Tools Tamatech</div>
+    <h1>Kompres Gambar Massal</h1>
+    <div class="orb"><svg viewBox="0 0 100 100"><defs><path id="cir" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0"/></defs><text><textPath href="#cir" textLength="236">DESIGN &bull; CODE &bull; DEVELOP &bull; MAINTAIN &bull;</textPath></text></svg><span class="orb-c"><i>&darr;</i></span></div>
+    <p class="intro">Kompres banyak gambar sekaligus gratis — kecilkan ukuran foto untuk website dan marketplace. Semua proses jalan di browser, gambarmu tidak pernah diunggah.</p>
+  </div>
+</section>
+
+<!-- TOOL -->
+<section class="sec" style="padding-top:64px">
+  <div class="wrap">
+    <div class="calc-grid">
+      <div class="calc-card">
+        <h3>Gambar dan pengaturan</h3>
+        <p class="hint">Pilih banyak gambar sekaligus, atur lebar maks, format, dan kualitas — semuanya diproses otomatis di browsermu.</p>
+        <label class="bic-drop" id="bicDrop" for="bicFile">Seret gambar ke sini, atau klik untuk memilih file
+          <input type="file" id="bicFile" accept="image/*" multiple>
+        </label>
+        <p class="bic-fileinfo" id="bicFileInfo">Belum ada gambar dipilih. JPEG, PNG, WebP, GIF, atau BMP — maksimal 20 gambar, tiap file maksimal 20 MB.</p>
+        <label for="bicMaxW">Lebar maks (px)</label>
+        <select id="bicMaxW">
+          <option value="0" selected>Ukuran asli (tanpa resize)</option>
+          <option value="1920">1920 px</option>
+          <option value="1280">1280 px</option>
+          <option value="800">800 px</option>
+        </select>
+        <label for="bicFormat">Format hasil</label>
+        <select id="bicFormat">
+          <option value="jpeg" selected>JPEG, kecil dan cocok untuk foto</option>
+          <option value="webp">WebP, paling kecil dengan kualitas setara</option>
+          <option value="png">PNG, tanpa kompresi lossy (mendukung transparan)</option>
+        </select>
+        <label for="bicQuality">Kualitas</label>
+        <div class="bic-range-row">
+          <input id="bicQuality" type="range" min="10" max="100" step="1" value="80">
+          <output id="bicQualityVal" for="bicQuality">80%</output>
+        </div>
+        <p class="bic-pngnote" id="bicPngNote" style="display:none">PNG tanpa kompresi lossy, jadi slider kualitas tidak berpengaruh pada hasilnya.</p>
+        <button type="button" class="bic-clear" id="bicClear">Hapus semua gambar</button>
+      </div>
+      <div>
+        <div class="calc-result" id="bicResult">
+          <div class="lbl">Hasil kompres</div>
+          <div class="bic-big" id="bicBig">—</div>
+          <div class="bic-empty" id="bicEmpty">Belum ada gambar.<br>Pilih gambar dulu, hasilnya muncul di sini.</div>
+          <div class="bic-list" id="bicList"></div>
+          <button type="button" class="bic-dlall" id="bicDlAll" disabled>Unduh semua</button>
+          <p class="note" id="bicNote" style="margin-top:14px">Pilih gambar dulu, lalu atur lebar maks, format, dan kualitasnya.</p>
+          <p class="note" style="margin-top:6px">Hasil diunduh satu per satu dari browser — bila browser bertanya, izinkan beberapa unduhan dari situs ini.</p>
+          <p class="src">Semua proses jalan di browser memakai canvas, tidak ada gambar yang diunggah ke mana pun.</p>
+        </div>
+        <div style="margin-top:28px">
+          <h3 style="font-size:20px;margin:0 0 6px">Total sebelum dan sesudah</h3>
+          <table class="calc-table">
+            <tr><th>Keterangan</th><th>Nilai</th></tr>
+            <tr><td>Jumlah gambar</td><td id="bicTblCount">—</td></tr>
+            <tr><td>Ukuran asli total</td><td id="bicTblOrigSize">—</td></tr>
+            <tr><td>Ukuran hasil total</td><td id="bicTblNewSize">—</td></tr>
+            <tr class="tot"><td>Total hemat</td><td id="bicTblSaved">—</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-head" style="margin-top:20px">
+      <h2>Cara pakainya</h2>
+      <p>Pilih banyak gambar sekaligus dengan klik atau seret ke kotak di atas — maksimal 20 gambar, tiap file maksimal 20 MB. Atur lebar maks, format, dan kualitas, lalu semua gambar diproses otomatis satu per satu. Periksa daftar hasil di sebelah kanan: tiap baris menunjukkan ukuran asli dan hasil beserta hematnya. Unduh semuanya sekaligus dengan tombol "Unduh semua", atau unduh per gambar lewat tombol di barisnya. Gambar GIF animasi hanya diambil frame pertamanya, karena hasil kompres berupa satu gambar diam.</p>
+    </div>
+
+    <div class="sec-head" style="margin-top:60px">
+      <h2>Pertanyaan yang sering ditanya</h2>
+    </div>
+    <div class="calc-faq">
+      <details><summary>Apakah gambarku diunggah ke server?</summary><p>Tidak. Semua proses, dari membaca file sampai menyimpan hasil, jalan di browser kamu sendiri memakai canvas bawaan browser. Gambar tidak pernah dikirim ke server Tamatech atau ke mana pun, dan hilang begitu halaman ditutup.</p></details>
+      <details><summary>Format mana yang hasilnya paling kecil?</summary><p>WebP hampir selalu paling kecil, dengan kualitas yang setara JPEG. Pilih JPEG kalau hasilmu harus dibuka di aplikasi lama yang belum kenal WebP, dan PNG kalau gambarmu butuh latar transparan.</p></details>
+      <details><summary>Apakah kualitas gambarku turun saat dikompres?</summary><p>JPEG dan WebP memakai kompresi lossy, jadi sebagian detail memang dibuang supaya filenya kecil. Di kualitas 80 sampai 90 persen, perbedaannya biasanya tidak terlihat mata. PNG tidak membuang detail sama sekali, tapi filenya cenderung lebih besar.</p></details>
+      <details><summary>Berapa banyak gambar yang bisa dikompres sekaligus?</summary><p>Maksimal 20 gambar dalam sekali proses, tiap file maksimal 20 MB. Kalau filenya lebih banyak, bagi jadi beberapa batch — hasilnya sama saja.</p></details>
+      <details><summary>Bagaimana cara mengunduh semua hasil sekaligus?</summary><p>Klik tombol "Unduh semua" — hasil diunduh satu per satu dari browsermu. Kalau browser bertanya, izinkan beberapa unduhan dari situs ini. Kamu juga bisa mengunduh tiap gambar lewat tombol "Unduh" di barisnya.</p></details>
+      <details><summary>Kenapa hasil PNG kadang lebih besar dari aslinya?</summary><p>PNG menyimpan setiap piksel apa adanya tanpa kompresi lossy, sementara JPEG aslinya sudah dibuang sebagian detailnya. Jadi foto yang tadinya JPEG kecil bisa jadi PNG yang jauh lebih besar. Kalau tujuannya memperkecil file, pilih WebP atau JPEG.</p></details>
+    </div>
+
+    <p style="color:var(--mut);margin-top:40px">Tool ini memproses gambar langsung di browser memakai canvas bawaan browser, tanpa library eksternal dan tanpa upload. Butuh foto produk yang konsisten ukurannya untuk katalog atau marketplace? <a href="https://tamatech.id/services/custom-it-solutions">Lihat layanan Custom IT &rarr;</a></p>
+  </div>
+</section>
+
+
+
+<script>
+(function(){
+  var MAX_FILES = 20;
+  var MAX_FILE_BYTES = 20 * 1024 * 1024;
+  var MAX_SIDE = 4096;
+  var SUPPORTED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/bmp'];
+  var MIME_BY_FORMAT = {jpeg: 'image/jpeg', png: 'image/png', webp: 'image/webp'};
+  var EXT_BY_FORMAT = {jpeg: 'jpg', png: 'png', webp: 'webp'};
+  function clampDims(w, h, max){
+    max = max || MAX_SIDE;
+    w = Math.max(1, Math.round(w));
+    h = Math.max(1, Math.round(h));
+    var m = Math.max(w, h);
+    if (m <= max) return {w: w, h: h};
+    var s = max / m;
+    return {w: Math.max(1, Math.round(w * s)), h: Math.max(1, Math.round(h * s))};
+  }
+  function computeTargetDims(origW, origH, maxW){
+    var w = Math.max(1, Math.round(origW));
+    var h = Math.max(1, Math.round(origH));
+    if (maxW && maxW > 0 && w > maxW){
+      var s = maxW / w;
+      w = maxW;
+      h = Math.max(1, Math.round(origH * s));
+    }
+    return clampDims(w, h, MAX_SIDE);
+  }
+  function fmtBytes(bytes){
+    bytes = Math.max(0, Math.round(Number(bytes) || 0));
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024){
+      var kb = Math.round(bytes / 1024);
+      return String(kb).replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' KB';
+    }
+    var mb = bytes / (1024 * 1024);
+    return (Math.round(mb * 10) / 10).toFixed(1).replace('.', ',') + ' MB';
+  }
+  function pctSaved(origBytes, newBytes){
+    origBytes = Number(origBytes) || 0;
+    newBytes = Number(newBytes) || 0;
+    if (origBytes <= 0) return 0;
+    return Math.round((origBytes - newBytes) / origBytes * 1000) / 10;
+  }
+  function isSupportedType(mime){
+    return SUPPORTED_TYPES.indexOf(String(mime || '').toLowerCase()) >= 0;
+  }
+  function validateImageFile(f){
+    if (!f || f.size == null || f.type == null) return {error: 'empty'};
+    if (f.size === 0) return {error: 'empty'};
+    if (!isSupportedType(f.type)) return {error: 'type'};
+    if (f.size > MAX_FILE_BYTES) return {error: 'size'};
+    return {ok: true};
+  }
+  function clampQuality(q){
+    q = Number(q);
+    if (isNaN(q)) return 0.8;
+    if (q < 0.1) return 0.1;
+    if (q > 1) return 1;
+    return q;
+  }
+  function outFileName(name, format){
+    var ext = EXT_BY_FORMAT[format] || 'jpg';
+    var base = String(name == null ? '' : name);
+    var dot = base.lastIndexOf('.');
+    if (dot > 0) base = base.slice(0, dot);
+    if (base === '') base = 'gambar';
+    return base + '-compressed.' + ext;
+  }
+  function validateBatch(files){
+    var ok = [], rejected = [];
+    var list = files || [];
+    for (var i = 0; i < list.length; i++){
+      var v = validateImageFile(list[i]);
+      if (v.ok) ok.push(i); else rejected.push({i: i, error: v.error});
+    }
+    return {ok: ok, rejected: rejected};
+  }
+  function batchTake(total, maxFiles){
+    total = Math.max(0, total | 0);
+    maxFiles = Math.max(0, maxFiles | 0);
+    var take = Math.min(total, maxFiles);
+    return {take: take, skipped: total - take};
+  }
+  function totalsSummary(items){
+    var out = {count: 0, done: 0, origTotal: 0, resTotal: 0, savedPct: 0};
+    var list = items || [];
+    for (var i = 0; i < list.length; i++){
+      var it = list[i] || {};
+      out.count++;
+      out.origTotal += Number(it.orig) || 0;
+      if (it.res != null){ out.done++; out.resTotal += Number(it.res) || 0; }
+    }
+    if (out.done === 0) out.savedPct = 0;
+    else out.savedPct = pctSaved(out.origTotal, out.resTotal);
+    return out;
+  }
+  /* ---- Wiring DOM (di bawah ini butuh document) ---- */
+  function $(id){ return document.getElementById(id); }
+  var items = [];
+  var runId = 0;
+  var running = false;
+  var rerun = false;
+  var qualityTimer = null;
+  function setNote(msg, isErr){
+    var el = $('bicNote');
+    el.textContent = msg;
+    if (isErr) el.classList.add('bic-err'); else el.classList.remove('bic-err');
+  }
+  function fmtSaved(saved){
+    if (saved >= 0) return 'Hemat ' + String(saved).replace('.', ',') + '%';
+    return 'Lebih besar ' + String(Math.abs(saved)).replace('.', ',') + '%';
+  }
+  function renderTotals(){
+    var sum = totalsSummary(items.map(function(it){
+      return {orig: it.origBytes, res: it.resultBlob ? it.resultBlob.size : null};
+    }));
+    if (sum.count === 0){
+      $('bicBig').textContent = '—';
+      $('bicTblCount').textContent = '—';
+      $('bicTblOrigSize').textContent = '—';
+      $('bicTblNewSize').textContent = '—';
+      $('bicTblSaved').textContent = '—';
+    } else {
+      if (sum.done === 0){
+        $('bicBig').textContent = 'Memproses…';
+      } else {
+        $('bicBig').textContent = fmtSaved(sum.savedPct);
+      }
+      $('bicTblCount').textContent = sum.done + ' dari ' + sum.count + ' gambar';
+      $('bicTblOrigSize').textContent = fmtBytes(sum.origTotal);
+      $('bicTblNewSize').textContent = sum.done === 0 ? '—' : fmtBytes(sum.resTotal);
+      $('bicTblSaved').textContent = sum.done === 0 ? '—' : fmtSaved(sum.savedPct);
+    }
+    $('bicDlAll').disabled = (sum.done === 0);
+    $('bicEmpty').style.display = sum.count === 0 ? '' : 'none';
+  }
+  function updateRow(item){
+    var els = item.els;
+    if (!els) return;
+    var origTxt = item.origW > 0 ? item.origW + ' \u00d7 ' + item.origH + ' px \u00b7 ' + fmtBytes(item.origBytes) : fmtBytes(item.origBytes);
+    if (item.status === 'done' && item.resultBlob && item.resultDims){
+      var saved = pctSaved(item.origBytes, item.resultBlob.size);
+      els.dims.textContent = origTxt + ' \u2192 ' + item.resultDims.w + ' \u00d7 ' + item.resultDims.h + ' px \u00b7 ' + fmtBytes(item.resultBlob.size) + ' \u00b7 ' + fmtSaved(saved);
+      els.status.textContent = 'Siap';
+      els.dl.disabled = false;
+    } else if (item.status === 'error'){
+      els.dims.textContent = origTxt;
+      els.status.textContent = item.error || 'Gagal diproses';
+      els.dl.disabled = true;
+    } else {
+      els.dims.textContent = origTxt;
+      els.status.textContent = item.status === 'loading' ? 'Membaca gambar…' : 'Memproses…';
+      els.dl.disabled = true;
+    }
+  }
+  function makeRow(item){
+    var row = document.createElement('div');
+    row.className = 'bic-item';
+    var thumb = document.createElement('div');
+    thumb.className = 'bic-thumb';
+    var img = document.createElement('img');
+    img.alt = 'Pratinjau ' + item.name;
+    thumb.appendChild(img);
+    var meta = document.createElement('div');
+    meta.className = 'bic-meta';
+    var name = document.createElement('div');
+    name.className = 'bic-name';
+    name.textContent = item.name;
+    var dims = document.createElement('div');
+    dims.className = 'bic-dims';
+    var status = document.createElement('div');
+    status.className = 'bic-status';
+    meta.appendChild(name);
+    meta.appendChild(dims);
+    meta.appendChild(status);
+    var dl = document.createElement('button');
+    dl.type = 'button';
+    dl.className = 'bic-dl';
+    dl.textContent = 'Unduh';
+    dl.disabled = true;
+    dl.addEventListener('click', function(){ downloadItem(item); });
+    row.appendChild(thumb);
+    row.appendChild(meta);
+    row.appendChild(dl);
+    item.els = {img: img, dims: dims, status: status, dl: dl};
+    return row;
+  }
+  function downloadItem(item){
+    if (!item.resultBlob || !item.resultUrl) return;
+    var a = document.createElement('a');
+    a.href = item.resultUrl;
+    a.download = outFileName(item.name, $('bicFormat').value);
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function(){ a.remove(); }, 100);
+  }
+  function loadImage(file){
+    if (typeof createImageBitmap === 'function'){
+      return createImageBitmap(file).then(function(bmp){
+        return {src: bmp, w: bmp.width, h: bmp.height};
+      });
+    }
+    return new Promise(function(resolve, reject){
+      var url = URL.createObjectURL(file);
+      var img = new Image();
+      img.onload = function(){ resolve({src: img, w: img.naturalWidth, h: img.naturalHeight, url: url}); };
+      img.onerror = function(){ URL.revokeObjectURL(url); reject(new Error('load')); };
+      img.src = url;
+    });
+  }
+  function readSettings(){
+    var maxW = parseInt($('bicMaxW').value, 10);
+    if (isNaN(maxW) || maxW < 0) maxW = 0;
+    var format = $('bicFormat').value;
+    if (!MIME_BY_FORMAT[format]) format = 'jpeg';
+    var quality = clampQuality(parseInt($('bicQuality').value, 10) / 100);
+    return {maxW: maxW, format: format, quality: quality};
+  }
+  function processItem(item, stamp){
+    return new Promise(function(resolve){
+      if (!item.src){ resolve(); return; }
+      var s = readSettings();
+      var target = computeTargetDims(item.origW, item.origH, s.maxW);
+      var canvas = document.createElement('canvas');
+      canvas.width = target.w;
+      canvas.height = target.h;
+      var ctx = canvas.getContext('2d');
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
+      /* JPEG tidak kenal transparan: isi latar putih supaya PNG transparan
+         tidak jadi berlatar hitam. */
+      if (s.format === 'jpeg'){
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, target.w, target.h);
+      }
+      ctx.drawImage(item.src, 0, 0, target.w, target.h);
+      var mime = MIME_BY_FORMAT[s.format];
+      canvas.toBlob(function(blob){
+        if (stamp !== runId){ resolve(); return; }
+        if (!blob){
+          item.status = 'error';
+          item.error = 'Gagal memproses gambar ini.';
+          updateRow(item);
+          resolve();
+          return;
+        }
+        if (item.resultUrl) URL.revokeObjectURL(item.resultUrl);
+        item.resultBlob = blob;
+        item.resultUrl = URL.createObjectURL(blob);
+        item.resultDims = target;
+        item.status = 'done';
+        updateRow(item);
+        renderTotals();
+        resolve();
+      }, mime, s.format === 'png' ? undefined : s.quality);
+    });
+  }
+  function processAll(){
+    if (running){ rerun = true; return; }
+    running = true;
+    runId++;
+    var stamp = runId;
+    var chain = Promise.resolve();
+    items.forEach(function(item){
+      chain = chain.then(function(){
+        if (stamp !== runId) return;
+        if (!item.src || item.status === 'loading') return;
+        item.status = 'processing';
+        updateRow(item);
+        return processItem(item, stamp);
+      });
+    });
+    chain.then(function(){
+      running = false;
+      renderTotals();
+      if (rerun){ rerun = false; processAll(); }
+    });
+  }
+  function addFiles(fileList){
+    var incoming = Array.prototype.slice.call(fileList || []);
+    if (incoming.length === 0) return;
+    var v = validateBatch(incoming);
+    var free = MAX_FILES - items.length;
+    var take = batchTake(v.ok.length, free);
+    var added = 0;
+    var msgs = [];
+    v.ok.slice(0, take.take).forEach(function(idx){
+      var file = incoming[idx];
+      var item = {
+        file: file,
+        name: file.name || 'gambar',
+        origBytes: file.size,
+        origW: 0, origH: 0,
+        src: null, status: 'loading', error: '',
+        resultBlob: null, resultUrl: null, resultDims: null,
+        thumbUrl: URL.createObjectURL(file),
+        els: null
+      };
+      items.push(item);
+      var row = makeRow(item);
+      item.els.img.src = item.thumbUrl;
+      $('bicList').appendChild(row);
+      updateRow(item);
+      added++;
+      loadImage(file).then(function(loaded){
+        if (item.src && item.src.close) { try { item.src.close(); } catch (e){} }
+        item.src = loaded.src;
+        item.origW = loaded.w;
+        item.origH = loaded.h;
+        item.status = 'processing';
+        updateRow(item);
+        processAll();
+      }).catch(function(){
+        item.status = 'error';
+        item.error = 'Gambar tidak bisa dibaca.';
+        updateRow(item);
+        renderTotals();
+      });
+    });
+    if (take.skipped > 0) msgs.push('Maksimal 20 gambar: ' + take.skipped + ' gambar tidak ditambahkan.');
+    v.rejected.forEach(function(r){
+      var f = incoming[r.i];
+      var why = r.error === 'type' ? 'tipe file tidak didukung' : r.error === 'size' ? 'lebih dari 20 MB' : 'file kosong atau tidak terbaca';
+      msgs.push('"' + (f && f.name ? f.name : 'gambar') + '" ditolak: ' + why + '.');
+    });
+    if (added > 0){
+      $('bicFileInfo').textContent = added + ' gambar ditambahkan (' + items.length + ' dari maks 20).';
+      setNote(added + ' gambar ditambahkan, sedang diproses satu per satu.', false);
+    } else if (msgs.length > 0){
+      setNote(msgs.join(' '), true);
+    }
+    if (msgs.length > 0 && added > 0) setNote(msgs.join(' '), true);
+    renderTotals();
+  }
+  function clearAll(){
+    items.forEach(function(item){
+      if (item.thumbUrl) URL.revokeObjectURL(item.thumbUrl);
+      if (item.resultUrl) URL.revokeObjectURL(item.resultUrl);
+      if (item.src && item.src.close) { try { item.src.close(); } catch (e){} }
+    });
+    items = [];
+    runId++;
+    $('bicList').innerHTML = '';
+    $('bicFile').value = '';
+    $('bicFileInfo').textContent = 'Belum ada gambar dipilih. JPEG, PNG, WebP, GIF, atau BMP — maksimal 20 gambar, tiap file maksimal 20 MB.';
+    setNote('Semua gambar dihapus. Pilih gambar dulu.', false);
+    renderTotals();
+  }
+  $('bicFile').addEventListener('change', function(){
+    addFiles(this.files);
+    this.value = '';
+  });
+  var drop = $('bicDrop');
+  ['dragenter', 'dragover'].forEach(function(ev){
+    drop.addEventListener(ev, function(e){ e.preventDefault(); drop.classList.add('bic-over'); });
+  });
+  ['dragleave', 'drop'].forEach(function(ev){
+    drop.addEventListener(ev, function(e){ e.preventDefault(); drop.classList.remove('bic-over'); });
+  });
+  drop.addEventListener('drop', function(e){
+    var f = e.dataTransfer && e.dataTransfer.files;
+    if (f && f.length) addFiles(f);
+  });
+  $('bicMaxW').addEventListener('change', function(){ processAll(); });
+  $('bicFormat').addEventListener('change', function(){
+    $('bicPngNote').style.display = this.value === 'png' ? '' : 'none';
+    processAll();
+  });
+  $('bicQuality').addEventListener('input', function(){
+    $('bicQualityVal').textContent = this.value + '%';
+    if (qualityTimer) clearTimeout(qualityTimer);
+    qualityTimer = setTimeout(processAll, 250);
+  });
+  $('bicClear').addEventListener('click', function(){ clearAll(); });
+  $('bicDlAll').addEventListener('click', function(){
+    var done = items.filter(function(it){ return it.status === 'done' && it.resultBlob; });
+    if (done.length === 0) return;
+    /* Tanpa library ZIP: unduh satu per satu berurutan (tanpa CDN). */
+    done.forEach(function(item, i){
+      setTimeout(function(){ downloadItem(item); }, i * 200);
+    });
+    setNote(done.length + ' gambar diunduh satu per satu.', false);
+  });
+  renderTotals();
+})();
+</script>
+</main>
+<section class="static-cta">
+  <div class="static-wrap">
+    <div class="kick" style="margin-bottom:28px"><b>( 05 )</b> Mulai Proyek</div>
+    <h2>Punya ide?<br><span class="out">Ayo kita bangun.</span></h2>
+    <p>Ceritakan ke mana bisnismu ingin melangkah. Kami akan menganalisis, mengidentifikasi, dan meracik pengalaman digital yang membawamu ke sana.</p>
+    <a class="btn acc" href="https://tamatech.id/contact">Rasakan Pengalaman Digital Terbaik <span class="arr">&rarr;</span></a>
+  </div>
+</section>
+<footer class="static-foot">
+  <div class="static-wrap">
+    <span>&copy; 2026 Tama Technology (Tamatech) &mdash; Tools Bisnis Gratis.</span>
+    <span><a href="https://tamatech.id/tools">Semua tools</a> &middot; <a href="https://tamatech.id">tamatech.id</a></span>
+  </div>
+</footer>
+</body>
+</html>
