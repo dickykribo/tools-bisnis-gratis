@@ -12,7 +12,7 @@ Buka file `tools/<nama-tool>/index.html` di browser. Tidak butuh server, tidak b
 instalasi apa pun. Versi live (dengan tampilan situs Tamatech) ada di
 [https://tamatech.id/tools](https://tamatech.id/tools).
 
-## Daftar tool (24)
+## Daftar tool (25)
 
 | # | Tool | Keterangan | Demo live | Kode |
 |---|------|-----------|-----------|------|
@@ -40,6 +40,7 @@ instalasi apa pun. Versi live (dengan tampilan situs Tamatech) ada di
 | 22 | Excel/CSV Cleaner | Bersihkan data Excel/CSV: hapus duplikat, baris kosong, kolom kosong — semua di browser | [tamatech.id/tools/pembersih-data-excel-csv](https://tamatech.id/tools/pembersih-data-excel-csv) | [tools/pembersih-data-excel-csv](tools/pembersih-data-excel-csv) |
 | 23 | Konverter JSON ⇄ CSV | Ubah JSON ke CSV/Excel dan CSV ke JSON, plus rapikan dan validasi JSON | [tamatech.id/tools/konverter-json-csv](https://tamatech.id/tools/konverter-json-csv) | [tools/konverter-json-csv](tools/konverter-json-csv) |
 | 24 | Barcode Generator | Buat barcode CODE128, EAN-13, UPC-A, dan CODE39 | [tamatech.id/tools/barcode-generator](https://tamatech.id/tools/barcode-generator) | [tools/barcode-generator](tools/barcode-generator) |
+| 25 | Resize Gambar | Resize dan kompres gambar di browser untuk IG, marketplace, dan website | [tamatech.id/tools/resize-gambar](https://tamatech.id/tools/resize-gambar) | [tools/resize-gambar](tools/resize-gambar) |
 
 ## Struktur repo
 
