@@ -210,7 +210,7 @@ html[data-theme="dark"] .ir-preset.ir-on{background:#e9effc;color:#071a3e;border
 
     <div class="sec-head" style="margin-top:20px">
       <h2>Cara pakainya</h2>
-      <p>Pilih gambar dengan klik atau seret ke kotak di atas, lalu pilih preset ukuran atau isi lebar dan tinggi sendiri. Kalau rasio aspek dikunci, mengubah satu sisi otomatis menyesuaikan sisi lainnya supaya gambar tidak gepeng. Atur format dan kualitas, hasilnya langsung muncul beserta perbandingan ukuran sebelum dan sesudah, lalu unduh dengan nama file yang sama ditambah akhiran -resized. Gambar GIF animasi hanya diambil frame pertamanya, karena hasil resize berupa satu gambar diam.</p>
+      <p>Pilih gambar dengan klik atau seret ke kotak di atas, lalu pilih preset ukuran atau isi lebar dan tinggi sendiri. Kalau rasio aspek dikunci, mengubah satu sisi otomatis menyesuaikan sisi lainnya supaya gambar tidak gepeng. Memilih preset membuka kunci rasio supaya hasilnya persis ukuran preset. Atur format dan kualitas, hasilnya langsung muncul beserta perbandingan ukuran sebelum dan sesudah, lalu unduh dengan nama file yang sama ditambah akhiran -resized. Gambar GIF animasi hanya diambil frame pertamanya, karena hasil resize berupa satu gambar diam.</p>
     </div>
 
     <div class="sec-head" style="margin-top:60px">
@@ -472,6 +472,8 @@ html[data-theme="dark"] .ir-preset.ir-on{background:#e9effc;color:#071a3e;border
       if (!origSrc) setNote('Pilih gambar dulu sebelum memakai preset.', true);
       return;
     }
+    /* Preset membuka kunci rasio supaya hasilnya persis ukuran preset. */
+    $('irLock').checked = false;
     var pw = parseInt(btn.getAttribute('data-ir-w'), 10);
     var ph = parseInt(btn.getAttribute('data-ir-h'), 10);
     if (pw === 0 && ph === 0){
